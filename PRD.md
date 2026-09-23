@@ -1109,28 +1109,28 @@ Critérios de aceite:
 
 ### Sprint 1 — Setup e fundação
 
-- [ ] **1.1 Preparar ambiente de desenvolvimento**
+- [x] **1.1 Preparar ambiente de desenvolvimento**
   - [x] 1.1.1 Criar o diretório `finanpy` e inicializar o repositório Git (`git init`).
   - [x] 1.1.2 Criar o ambiente virtual: `python -m venv .venv` e ativá-lo.
   - [x] 1.1.3 Instalar Django: `pip install django`.
-  - [ ] 1.1.4 Instalar flake8 para checagem de PEP 8: `pip install flake8`.
+  - [x] 1.1.4 Instalar flake8 para checagem de PEP 8: `pip install flake8`.
   - [x] 1.1.5 Gerar `requirements.txt` com `pip freeze > requirements.txt`.
   - [x] 1.1.6 Criar `.gitignore` contendo: `.venv/`, `__pycache__/`, `*.pyc`, `db.sqlite`, `static/css/output.css`, `bin/`, `.env`, `staticfiles/`.
-  - [ ] 1.1.7 Criar `.flake8` com `max-line-length = 79` e `exclude = .venv,migrations`.
+  - [x] 1.1.7 Criar `.flake8` com `max-line-length = 79` e `exclude = .venv,migrations`.
 
-- [ ] **1.2 Criar o projeto Django**
+- [x] **1.2 Criar o projeto Django**
   - [x] 1.2.1 Executar `django-admin startproject core .` (projeto `core` na raiz, com `manage.py`).
   - [x] 1.2.2 Conferir que `core/` contém `__init__.py`, `asgi.py`, `settings.py`, `urls.py` e `wsgi.py`.
-  - [ ] 1.2.3 Converter aspas duplas geradas pelo Django para aspas simples em `core/*.py` e `manage.py`.
+  - [x] 1.2.3 Converter aspas duplas geradas pelo Django para aspas simples em `core/*.py` e `manage.py`.
 
-- [ ] **1.3 Criar as apps de domínio**
+- [x] **1.3 Criar as apps de domínio**
   - [x] 1.3.1 `python manage.py startapp users` — usuários.
   - [x] 1.3.2 `python manage.py startapp profiles` — perfis.
   - [x] 1.3.3 `python manage.py startapp accounts` — contas bancárias.
   - [x] 1.3.4 `python manage.py startapp categories` — categorias.
   - [x] 1.3.5 `python manage.py startapp transactions` — transações.
-  - [ ] 1.3.6 Converter aspas para simples nos arquivos gerados (`apps.py`, `admin.py`, `models.py`, `views.py`, `tests.py`).
-  - [ ] 1.3.7 Em cada `apps.py`, definir `verbose_name` em português (ex.: `verbose_name = 'Contas'`).
+  - [x] 1.3.6 Converter aspas para simples nos arquivos gerados (`apps.py`, `admin.py`, `models.py`, `views.py`, `tests.py`).
+  - [x] 1.3.7 Em cada `apps.py`, definir `verbose_name` em português (ex.: `verbose_name = 'Contas'`).
 
 - [ ] **1.4 Configurar `core/settings.py`**
   - [x] 1.4.1 Adicionar as apps em `INSTALLED_APPS` na ordem: apps do Django, depois `users`, `profiles`, `accounts`, `categories`, `transactions`.
