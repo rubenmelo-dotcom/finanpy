@@ -1,0 +1,13 @@
+{% comment %}
+  Mensagens do framework messages do Django.
+  Uso: {% include 'components/_messages.html' %}
+{% endcomment %}
+{% if messages %}
+  <div class="space-y-3 mb-6" role="status" aria-live="polite">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.level_tag|default:'info' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

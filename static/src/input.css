@@ -2,3 +2,196 @@
 
 @source '../../templates';
 @source '../../**/forms.py';
+
+/* Tokens do design system (PRD 9.1 e 9.2) */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-accent-500: #6366f1;
+
+  /* "base" não usa --color-base: no Tailwind 4 esse token faria text-base
+     virar cor em vez de font-size. Tokens por utilitário (mesmo valor)
+     geram bg-base, ring-offset-base e from/via/to-base sem afetar text-*. */
+  --background-color-base: #0b0f1a;
+  --ring-offset-color-base: #0b0f1a;
+  --color-surface: #111827;
+  --color-surface-2: #1a2234;
+  --color-line: #263048;
+
+  --color-ink: #f1f5f9;
+  --color-ink-muted: #94a3b8;
+  --color-ink-faint: #8391a7;
+
+  --color-income: #10b981;
+  --color-expense: #f43f5e;
+}
+
+/* Controles nativos (calendário, listas de select/date) em tema escuro. */
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/*
+ * Classes de componentes (PRD 9.4 a 9.11).
+ *
+ * No Tailwind 4 o @apply só aceita utilitários, não classes declaradas em
+ * @layer components; por isso cada variante repete as classes base (nota
+ * da seção 9.4) e funciona sozinha. Ficam em @layer components (e não em
+ * @utility) para serem sempre geradas, inclusive quando o nome é montado
+ * dinamicamente no template (ex.: alert-{{ message.tags }}).
+ *
+ * Equivalências v3 -> v4 aplicadas: bg-gradient-to-* -> bg-linear-to-*,
+ * outline-none -> outline-hidden, rounded -> rounded-sm.
+ */
+@layer components {
+  /* Botões (9.4) */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4
+      py-2.5 text-sm font-semibold transition focus:outline-hidden
+      focus-visible:ring-2 focus-visible:ring-brand-500
+      focus-visible:ring-offset-2 focus-visible:ring-offset-base
+      disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4
+      py-2.5 text-sm font-semibold transition focus:outline-hidden
+      focus-visible:ring-2 focus-visible:ring-brand-500
+      focus-visible:ring-offset-2 focus-visible:ring-offset-base
+      disabled:opacity-50;
+    @apply bg-linear-to-r from-brand-600 via-indigo-600 to-cyan-700
+      text-white shadow-lg shadow-brand-500/25 hover:brightness-110;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4
+      py-2.5 text-sm font-semibold transition focus:outline-hidden
+      focus-visible:ring-2 focus-visible:ring-brand-500
+      focus-visible:ring-offset-2 focus-visible:ring-offset-base
+      disabled:opacity-50;
+    @apply border border-line bg-surface-2 text-ink hover:bg-line;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4
+      py-2.5 text-sm font-semibold transition focus:outline-hidden
+      focus-visible:ring-2 focus-visible:ring-brand-500
+      focus-visible:ring-offset-2 focus-visible:ring-offset-base
+      disabled:opacity-50;
+    @apply text-ink-muted hover:bg-surface-2 hover:text-ink;
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4
+      py-2.5 text-sm font-semibold transition focus:outline-hidden
+      focus-visible:ring-2 focus-visible:ring-brand-500
+      focus-visible:ring-offset-2 focus-visible:ring-offset-base
+      disabled:opacity-50;
+    @apply bg-expense/90 text-white hover:bg-expense;
+  }
+  /* Declarada depois das variantes para sobrescrever padding e raio. */
+  .btn-sm {
+    @apply rounded-lg px-3 py-1.5 text-xs;
+  }
+
+  /* Formulários (9.5) */
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface-2 px-4 py-2.5
+      text-sm text-ink transition placeholder:text-ink-faint
+      focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30
+      focus:outline-hidden;
+  }
+  .input-error {
+    @apply border-expense focus:border-expense focus:ring-expense/30;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink-muted;
+  }
+  .help-text {
+    @apply mt-1 text-xs text-ink-faint;
+  }
+  .error-text {
+    @apply mt-1 text-xs text-expense;
+  }
+  /* accent-brand-500: sem o plugin de forms, text-* não pinta o checkbox
+     nativo; accent-color dá o mesmo resultado visual. */
+  .checkbox {
+    @apply h-4 w-4 rounded-sm border-line bg-surface-2 text-brand-500
+      accent-brand-500 focus-visible:outline-2
+      focus-visible:outline-offset-2 focus-visible:outline-brand-500;
+  }
+
+  /* Cards (9.6) */
+  .card {
+    @apply rounded-2xl border border-line bg-surface p-5 shadow-xl
+      shadow-black/20 md:p-6;
+  }
+  .card-highlight {
+    @apply rounded-2xl border border-line bg-surface p-5 shadow-xl
+      shadow-black/20 md:p-6;
+    @apply border-brand-500/30 bg-linear-to-br from-brand-600/30
+      via-accent-500/20 to-cyan-400/10;
+  }
+
+  /* Badges (9.8) */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
+      text-xs font-medium;
+  }
+  .badge-income {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
+      text-xs font-medium;
+    @apply bg-income/15 text-income;
+  }
+  .badge-expense {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
+      text-xs font-medium;
+    @apply bg-expense/15 text-expense;
+  }
+  .badge-neutral {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
+      text-xs font-medium;
+    @apply border border-line bg-surface-2 text-ink-muted;
+  }
+
+  /* Alertas (9.9) - variantes independentes de .alert */
+  .alert {
+    @apply rounded-xl border px-4 py-3 text-sm;
+  }
+  .alert-success {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    @apply border-income/30 bg-income/10 text-income;
+  }
+  .alert-error {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    @apply border-expense/30 bg-expense/10 text-expense;
+  }
+  .alert-warning {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    @apply border-amber-500/30 bg-amber-500/10 text-amber-400;
+  }
+  .alert-info {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    @apply border-sky-400/30 bg-sky-400/10 text-sky-300;
+  }
+
+  /* Navegação (9.11) */
+  .nav-link {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm
+      font-medium text-ink-muted transition hover:bg-surface-2
+      hover:text-ink;
+  }
+  .nav-link-active {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm
+      font-medium transition hover:bg-surface-2;
+    @apply border-l-2 border-brand-500 bg-linear-to-r from-brand-500/20
+      to-transparent text-ink;
+  }
+
+  /* Texto em gradiente "Texto marca" (9.1) */
+  .text-gradient {
+    @apply bg-linear-to-r from-brand-400 to-cyan-400 bg-clip-text
+      text-transparent;
+  }
+}

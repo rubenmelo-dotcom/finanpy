@@ -1,0 +1,23 @@
+{% comment %}
+  Confirmação de exclusão (PRD 9.12). O form faz POST para a URL atual
+  (a DeleteView).
+  Uso: {% include 'components/_confirm_delete.html' with object_name=object.name cancel_url=url %}
+{% endcomment %}
+<div class="card mx-auto w-full max-w-lg text-center">
+  <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-expense/15 text-expense">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+    </svg>
+  </div>
+  <h2 class="mt-4 text-lg font-semibold text-ink">Confirmar exclusão</h2>
+  <p class="mt-2 text-sm text-ink-muted">
+    Tem certeza de que deseja excluir
+    <strong class="font-semibold text-ink">{{ object_name }}</strong>?
+    Esta ação não pode ser desfeita.
+  </p>
+  <form method="post" class="mt-6 flex flex-col-reverse sm:flex-row sm:justify-center gap-3">
+    {% csrf_token %}
+    <a href="{{ cancel_url }}" class="btn-secondary">Cancelar</a>
+    <button type="submit" class="btn-danger">Excluir</button>
+  </form>
+</div>

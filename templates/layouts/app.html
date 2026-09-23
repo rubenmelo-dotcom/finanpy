@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] btn-primary">Pular para o conteúdo</a>
+
+  {% include 'components/_sidebar.html' %}
+
+  <div id="drawer-overlay" class="fixed inset-0 z-40 bg-black/60 hidden lg:hidden" aria-hidden="true"></div>
+
+  <div class="min-h-screen bg-base text-ink lg:pl-64">
+    {% include 'components/_topbar.html' %}
+
+    <main id="main" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-8" tabindex="-1">
+      {% include 'components/_messages.html' %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var sidebar = document.getElementById('app-sidebar');
+      var overlay = document.getElementById('drawer-overlay');
+      var toggle = document.getElementById('drawer-toggle');
+      if (!sidebar || !overlay || !toggle) return;
+
+      function setOpen(open) {
+        sidebar.classList.toggle('-translate-x-full', !open);
+        sidebar.classList.toggle('translate-x-0', open);
+        sidebar.classList.toggle('invisible', !open);
+        sidebar.classList.toggle('visible', open);
+        overlay.classList.toggle('hidden', !open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        if (open) {
+          var first = sidebar.querySelector('a, button');
+          if (first) first.focus();
+        } else {
+          toggle.focus();
+        }
+      }
+
+      function isOpen() {
+        return toggle.getAttribute('aria-expanded') === 'true';
+      }
+
+      toggle.addEventListener('click', function () { setOpen(!isOpen()); });
+      overlay.addEventListener('click', function () { setOpen(false); });
+      sidebar.querySelectorAll('[data-drawer-close]').forEach(function (btn) {
+        btn.addEventListener('click', function () { setOpen(false); });
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && isOpen()) setOpen(false);
+      });
+    })();
+  </script>
+{% endblock %}

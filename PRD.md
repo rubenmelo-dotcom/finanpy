@@ -611,7 +611,7 @@ O design system do Finanpy é definido **uma única vez** em `static/src/input.c
 
 | Token | Hex | Classe Tailwind | Uso |
 |---|---|---|---|
-| `base` | `#0B0F1A` | `bg-base` | Fundo da página |
+| `base` | `#0B0F1A` | `bg-base` | Fundo da página (tokens `--background-color-base` e `--ring-offset-color-base`; ver 9.2) |
 | `surface` | `#111827` | `bg-surface` | Cards, sidebar |
 | `surface-2` | `#1A2234` | `bg-surface-2` | Inputs, hover de linhas |
 | `line` | `#263048` | `border-line` | Bordas e divisores |
@@ -622,7 +622,7 @@ O design system do Finanpy é definido **uma única vez** em `static/src/input.c
 |---|---|---|---|
 | `ink` | `#F1F5F9` | `text-ink` | Texto principal, títulos |
 | `ink-muted` | `#94A3B8` | `text-ink-muted` | Texto secundário, labels |
-| `ink-faint` | `#64748B` | `text-ink-faint` | Placeholders, legendas |
+| `ink-faint` | `#8391A7` | `text-ink-faint` | Placeholders, legendas (≥ 4.5:1 sobre `surface-2`) |
 
 #### Semânticas
 
@@ -637,12 +637,13 @@ O design system do Finanpy é definido **uma única vez** em `static/src/input.c
 
 | Nome | Classes | Uso |
 |---|---|---|
-| Marca | `bg-gradient-to-r from-brand-500 via-accent-500 to-cyan-400` | Botão primário, logo, destaques |
-| Texto marca | `bg-gradient-to-r from-brand-400 to-cyan-400 bg-clip-text text-transparent` | Títulos do hero, logo |
+| Marca | `bg-linear-to-r from-brand-500 via-accent-500 to-cyan-400` | Logo, destaques |
+| Botão primário | `bg-linear-to-r from-brand-600 via-indigo-600 to-cyan-700` | `.btn-primary` (tons mais escuros para contraste AA com texto branco) |
+| Texto marca | `bg-linear-to-r from-brand-400 to-cyan-400 bg-clip-text text-transparent` | Títulos do hero, logo |
 | Fundo glow | `bg-[radial-gradient(ellipse_at_top,_rgba(139,92,246,0.18),_transparent_60%)]` | Fundo do site público e telas de auth |
-| Card saldo | `bg-gradient-to-br from-brand-600/30 via-accent-500/20 to-cyan-400/10` | Card de saldo total no dashboard |
-| Entrada | `bg-gradient-to-br from-emerald-500/20 to-emerald-500/5` | Card de entradas |
-| Saída | `bg-gradient-to-br from-rose-500/20 to-rose-500/5` | Card de saídas |
+| Card saldo | `bg-linear-to-br from-brand-600/30 via-accent-500/20 to-cyan-400/10` | Card de saldo total no dashboard |
+| Entrada | `bg-linear-to-br from-emerald-500/20 to-emerald-500/5` | Card de entradas |
+| Saída | `bg-linear-to-br from-rose-500/20 to-rose-500/5` | Card de saídas |
 
 #### Cores sugeridas para categorias
 
@@ -664,14 +665,17 @@ O design system do Finanpy é definido **uma única vez** em `static/src/input.c
   --color-brand-600: #7c3aed;
   --color-accent-500: #6366f1;
 
-  --color-base: #0b0f1a;
+  /* 'base' não usa --color-base: no Tailwind 4 isso faria text-base virar
+     cor em vez de tamanho de fonte. */
+  --background-color-base: #0b0f1a;
+  --ring-offset-color-base: #0b0f1a;
   --color-surface: #111827;
   --color-surface-2: #1a2234;
   --color-line: #263048;
 
   --color-ink: #f1f5f9;
   --color-ink-muted: #94a3b8;
-  --color-ink-faint: #64748b;
+  --color-ink-faint: #8391a7;
 
   --color-income: #10b981;
   --color-expense: #f43f5e;
@@ -701,7 +705,7 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
 
 | Variante | Classe | Estilo adicional | Uso |
 |---|---|---|---|
-| Primário | `.btn-primary` | `bg-gradient-to-r from-brand-500 via-accent-500 to-cyan-400 text-white shadow-lg shadow-brand-500/25 hover:brightness-110` | Ação principal (Salvar, Entrar, Nova transação) |
+| Primário | `.btn-primary` | `bg-linear-to-r from-brand-600 via-indigo-600 to-cyan-700 text-white shadow-lg shadow-brand-500/25 hover:brightness-110` | Ação principal (Salvar, Entrar, Nova transação) |
 | Secundário | `.btn-secondary` | `bg-surface-2 text-ink border border-line hover:bg-line` | Ações alternativas (Cancelar, Voltar) |
 | Fantasma | `.btn-ghost` | `text-ink-muted hover:text-ink hover:bg-surface-2` | Ações discretas em tabelas |
 | Perigo | `.btn-danger` | `bg-expense/90 text-white hover:bg-expense` | Confirmar exclusão |
@@ -717,7 +721,7 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
       disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-gradient-to-r from-brand-500 via-accent-500 to-cyan-400
+    @apply btn bg-linear-to-r from-brand-600 via-indigo-600 to-cyan-700
       text-white shadow-lg shadow-brand-500/25 hover:brightness-110;
   }
   .btn-secondary {
@@ -821,7 +825,7 @@ Componente `components/_messages.html`, renderizando `messages` do Django por `m
 - `fixed inset-y-0 left-0 w-64 bg-surface border-r border-line flex flex-col`.
 - Topo: logo "Finanpy" com texto em gradiente de marca.
 - Itens: `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 transition`.
-- Item ativo: `bg-gradient-to-r from-brand-500/20 to-transparent text-ink border-l-2 border-brand-500`.
+- Item ativo: `bg-linear-to-r from-brand-500/20 to-transparent text-ink border-l-2 border-brand-500`.
 - Rodapé: nome e e-mail do usuário + botão **Sair** (form POST).
 - Ícones: SVG inline (Heroicons outline, 20px), sem dependências.
 
@@ -1173,72 +1177,72 @@ Critérios de aceite:
 
 ### Sprint 2 — Design system e layouts
 
-- [ ] **2.1 Definir tokens do design system**
-  - [ ] 2.1.1 Adicionar em `input.css` o bloco `@theme` com a fonte Inter (`--font-sans`).
-  - [ ] 2.1.2 Adicionar as cores de marca: `brand-400`, `brand-500`, `brand-600`, `accent-500`.
-  - [ ] 2.1.3 Adicionar as cores de fundo: `base`, `surface`, `surface-2`, `line`.
-  - [ ] 2.1.4 Adicionar as cores de texto: `ink`, `ink-muted`, `ink-faint`.
-  - [ ] 2.1.5 Adicionar as cores semânticas: `income`, `expense`.
-  - [ ] 2.1.6 Recompilar o CSS e verificar que classes como `bg-base` e `text-ink` são geradas.
+- [x] **2.1 Definir tokens do design system**
+  - [x] 2.1.1 Adicionar em `input.css` o bloco `@theme` com a fonte Inter (`--font-sans`).
+  - [x] 2.1.2 Adicionar as cores de marca: `brand-400`, `brand-500`, `brand-600`, `accent-500`.
+  - [x] 2.1.3 Adicionar as cores de fundo: `base`, `surface`, `surface-2`, `line`.
+  - [x] 2.1.4 Adicionar as cores de texto: `ink`, `ink-muted`, `ink-faint`.
+  - [x] 2.1.5 Adicionar as cores semânticas: `income`, `expense`.
+  - [x] 2.1.6 Recompilar o CSS e verificar que classes como `bg-base` e `text-ink` são geradas.
 
-- [ ] **2.2 Criar classes de componentes em `@layer components`**
-  - [ ] 2.2.1 Botões: `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-ghost`, `.btn-danger`, `.btn-sm` (seção 9.4).
-  - [ ] 2.2.2 Formulários: `.input`, `.input-error`, `.label`, `.help-text`, `.error-text`, `.checkbox` (seção 9.5).
-  - [ ] 2.2.3 Cards: `.card`, `.card-highlight` (seção 9.6).
-  - [ ] 2.2.4 Badges: `.badge`, `.badge-income`, `.badge-expense`, `.badge-neutral` (seção 9.8).
-  - [ ] 2.2.5 Alertas: `.alert`, `.alert-success`, `.alert-error`, `.alert-warning`, `.alert-info` (seção 9.9).
-  - [ ] 2.2.6 Navegação: `.nav-link` e `.nav-link-active` (seção 9.11).
-  - [ ] 2.2.7 Utilitário de texto em gradiente: `.text-gradient`.
+- [x] **2.2 Criar classes de componentes em `@layer components`**
+  - [x] 2.2.1 Botões: `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-ghost`, `.btn-danger`, `.btn-sm` (seção 9.4).
+  - [x] 2.2.2 Formulários: `.input`, `.input-error`, `.label`, `.help-text`, `.error-text`, `.checkbox` (seção 9.5).
+  - [x] 2.2.3 Cards: `.card`, `.card-highlight` (seção 9.6).
+  - [x] 2.2.4 Badges: `.badge`, `.badge-income`, `.badge-expense`, `.badge-neutral` (seção 9.8).
+  - [x] 2.2.5 Alertas: `.alert`, `.alert-success`, `.alert-error`, `.alert-warning`, `.alert-info` (seção 9.9).
+  - [x] 2.2.6 Navegação: `.nav-link` e `.nav-link-active` (seção 9.11).
+  - [x] 2.2.7 Utilitário de texto em gradiente: `.text-gradient`.
 
-- [ ] **2.3 Criar `templates/base.html`**
-  - [ ] 2.3.1 Estrutura HTML5 com `lang="pt-br"`, `meta charset` e `meta viewport`.
-  - [ ] 2.3.2 `{% load static %}` e link para `css/output.css`.
-  - [ ] 2.3.3 Preconnect e link da fonte Inter (Google Fonts, pesos 400–700).
-  - [ ] 2.3.4 `<title>{% block title %}Finanpy{% endblock %}</title>`.
-  - [ ] 2.3.5 `<body class="min-h-screen bg-base text-ink font-sans antialiased">`.
-  - [ ] 2.3.6 Blocos `{% block body %}` e `{% block extra_js %}`.
+- [x] **2.3 Criar `templates/base.html`**
+  - [x] 2.3.1 Estrutura HTML5 com `lang="pt-br"`, `meta charset` e `meta viewport`.
+  - [x] 2.3.2 `{% load static %}` e link para `css/output.css`.
+  - [x] 2.3.3 Preconnect e link da fonte Inter (Google Fonts, pesos 400–700).
+  - [x] 2.3.4 `<title>{% block title %}Finanpy{% endblock %}</title>`.
+  - [x] 2.3.5 `<body class="min-h-screen bg-base text-ink font-sans antialiased">`.
+  - [x] 2.3.6 Blocos `{% block body %}` e `{% block extra_js %}`.
 
-- [ ] **2.4 Criar componentes parciais (`templates/components/`)**
-  - [ ] 2.4.1 `_messages.html`: loop em `messages` aplicando `.alert-{{ message.tags }}`.
-  - [ ] 2.4.2 `_form_field.html`: label, campo, help text e erros (seção 9.5).
-  - [ ] 2.4.3 `_page_header.html`: recebe `title`, `subtitle`, `action_url` e `action_label` via `{% include ... with %}`.
-  - [ ] 2.4.4 `_stat_card.html`: recebe `title`, `value`, `caption` e `variant` (`income`, `expense`, `neutral`, `highlight`).
-  - [ ] 2.4.5 `_empty_state.html`: recebe `title`, `text`, `action_url` e `action_label`.
-  - [ ] 2.4.6 `_pagination.html`: usa `page_obj` e preserva `request.GET` (exceto `page`).
-  - [ ] 2.4.7 `_confirm_delete.html`: recebe `object_name` e `cancel_url`; form POST com `{% csrf_token %}`.
+- [x] **2.4 Criar componentes parciais (`templates/components/`)**
+  - [x] 2.4.1 `_messages.html`: loop em `messages` aplicando `.alert-{{ message.tags }}`.
+  - [x] 2.4.2 `_form_field.html`: label, campo, help text e erros (seção 9.5).
+  - [x] 2.4.3 `_page_header.html`: recebe `title`, `subtitle`, `action_url` e `action_label` via `{% include ... with %}`.
+  - [x] 2.4.4 `_stat_card.html`: recebe `title`, `value`, `caption` e `variant` (`income`, `expense`, `neutral`, `highlight`).
+  - [x] 2.4.5 `_empty_state.html`: recebe `title`, `text`, `action_url` e `action_label`.
+  - [x] 2.4.6 `_pagination.html`: usa `page_obj` e preserva `request.GET` (exceto `page`).
+  - [x] 2.4.7 `_confirm_delete.html`: recebe `object_name` e `cancel_url`; form POST com `{% csrf_token %}`.
 
-- [ ] **2.5 Criar layout público (`layouts/public.html`)**
-  - [ ] 2.5.1 Estender `base.html`.
-  - [ ] 2.5.2 Fundo com glow radial em gradiente (seção 9.1 — "Fundo glow").
-  - [ ] 2.5.3 Header sticky com logo em `.text-gradient`.
-  - [ ] 2.5.4 Botões **Entrar** (`.btn-ghost`) e **Cadastre-se** (`.btn-primary`), trocados por **Ir para o dashboard** se `user.is_authenticated`.
-  - [ ] 2.5.5 Bloco `{% block content %}`.
-  - [ ] 2.5.6 Rodapé simples: "© {% now 'Y' %} Finanpy".
+- [x] **2.5 Criar layout público (`layouts/public.html`)**
+  - [x] 2.5.1 Estender `base.html`.
+  - [x] 2.5.2 Fundo com glow radial em gradiente (seção 9.1 — "Fundo glow").
+  - [x] 2.5.3 Header sticky com logo em `.text-gradient`.
+  - [x] 2.5.4 Botões **Entrar** (`.btn-ghost`) e **Cadastre-se** (`.btn-primary`), trocados por **Ir para o dashboard** se `user.is_authenticated`.
+  - [x] 2.5.5 Bloco `{% block content %}`.
+  - [x] 2.5.6 Rodapé simples: "© {% now 'Y' %} Finanpy".
 
-- [ ] **2.6 Criar layout de autenticação (`layouts/auth.html`)**
-  - [ ] 2.6.1 Estender `base.html` com o mesmo fundo glow.
-  - [ ] 2.6.2 Card central (`max-w-md w-full`) com logo acima.
-  - [ ] 2.6.3 Incluir `_messages.html`.
-  - [ ] 2.6.4 Blocos `auth_title`, `auth_subtitle`, `content` e `auth_footer` (links "Já tem conta?" / "Não tem conta?").
+- [x] **2.6 Criar layout de autenticação (`layouts/auth.html`)**
+  - [x] 2.6.1 Estender `base.html` com o mesmo fundo glow.
+  - [x] 2.6.2 Card central (`max-w-md w-full`) com logo acima.
+  - [x] 2.6.3 Incluir `_messages.html`.
+  - [x] 2.6.4 Blocos `auth_title`, `auth_subtitle`, `content` e `auth_footer` (links "Já tem conta?" / "Não tem conta?").
 
-- [ ] **2.7 Criar layout autenticado (`layouts/app.html`)**
-  - [ ] 2.7.1 Estender `base.html`.
-  - [ ] 2.7.2 Criar `components/_sidebar.html` com logo, itens de menu (Dashboard, Transações, Contas, Categorias, Perfil) e ícones SVG inline.
-  - [ ] 2.7.3 Destacar item ativo comparando `request.resolver_match.url_name` / `app_name`.
-  - [ ] 2.7.4 Rodapé da sidebar com nome, e-mail e botão **Sair** (form POST para `logout`).
-  - [ ] 2.7.5 Criar `components/_topbar.html` (visível abaixo de `lg`) com logo e botão hambúrguer.
-  - [ ] 2.7.6 Implementar drawer mobile com JS inline mínimo (alternar classes `-translate-x-full` e overlay).
-  - [ ] 2.7.7 Área de conteúdo `lg:pl-64` com container `max-w-7xl`, `_messages.html` e `{% block content %}`.
+- [x] **2.7 Criar layout autenticado (`layouts/app.html`)**
+  - [x] 2.7.1 Estender `base.html`.
+  - [x] 2.7.2 Criar `components/_sidebar.html` com logo, itens de menu (Dashboard, Transações, Contas, Categorias, Perfil) e ícones SVG inline.
+  - [x] 2.7.3 Destacar item ativo comparando `request.resolver_match.url_name` / `app_name`.
+  - [x] 2.7.4 Rodapé da sidebar com nome, e-mail e botão **Sair** (form POST para `logout`).
+  - [x] 2.7.5 Criar `components/_topbar.html` (visível abaixo de `lg`) com logo e botão hambúrguer.
+  - [x] 2.7.6 Implementar drawer mobile com JS inline mínimo (alternar classes `-translate-x-full` e overlay).
+  - [x] 2.7.7 Área de conteúdo `lg:pl-64` com container `max-w-7xl`, `_messages.html` e `{% block content %}`.
 
-- [ ] **2.8 Criar página de referência visual (temporária)**
-  - [ ] 2.8.1 Criar um template temporário estendendo `base.html` (sem `{% url %}` de rotas ainda inexistentes) exibindo todos os componentes (botões, inputs, cards, badges, alertas), servido por uma `TemplateView` temporária.
-  - [ ] 2.8.2 Validar contraste e responsividade em 360px, 768px e 1280px.
-  - [ ] 2.8.3 Remover o template temporário ao final da sprint.
+- [x] **2.8 Criar página de referência visual (temporária)**
+  - [x] 2.8.1 Criar um template temporário estendendo `base.html` (sem `{% url %}` de rotas ainda inexistentes) exibindo todos os componentes (botões, inputs, cards, badges, alertas), servido por uma `TemplateView` temporária.
+  - [x] 2.8.2 Validar contraste e responsividade em 360px, 768px e 1280px.
+  - [x] 2.8.3 Remover o template temporário ao final da sprint.
 
 - [ ] **2.9 Validação da sprint 2**
-  - [ ] 2.9.1 CSS compilado contém todas as classes de componentes.
-  - [ ] 2.9.2 Página de referência renderiza sem erros (os layouts `public`, `auth` e `app` são validados na sprint 3, quando as rotas existirem).
-  - [ ] 2.9.3 Commit: `feat: design system and base layouts`.
+  - [x] 2.9.1 CSS compilado contém todas as classes de componentes.
+  - [x] 2.9.2 Página de referência renderiza sem erros (os layouts `public`, `auth` e `app` são validados na sprint 3, quando as rotas existirem).
+  - [x] 2.9.3 Commit: `feat: design system and base layouts`.
 
 ---
 

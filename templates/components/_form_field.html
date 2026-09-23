@@ -1,0 +1,32 @@
+{% comment %}
+  Campo de formulário: label, widget, texto de ajuda e erros (PRD 9.5).
+  Uso: {% include 'components/_form_field.html' with field=form.name %}
+  Opcional: wrapper_class (ex.: 'md:col-span-2').
+  O widget recebe as classes (.input, .input-error, .checkbox) no forms.py;
+  o Django já adiciona aria-describedby (ajuda/erros) e aria-invalid.
+{% endcomment %}
+{% if field.widget_type == 'checkbox' %}
+  <div class="{{ wrapper_class|default:'' }}">
+    <div class="flex items-center gap-3">
+      {{ field }}
+      <label for="{{ field.id_for_label }}" class="text-sm font-medium text-ink-muted">{{ field.label }}</label>
+    </div>
+    {% if field.help_text %}<div class="help-text" id="{{ field.auto_id }}_helptext">{{ field.help_text|safe }}</div>{% endif %}
+    {% if field.errors %}
+      <div id="{{ field.auto_id }}_error">
+        {% for error in field.errors %}<p class="error-text">{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="{{ wrapper_class|default:'' }}">
+    <label for="{{ field.id_for_label }}" class="label">{{ field.label }}</label>
+    {{ field }}
+    {% if field.help_text %}<div class="help-text" id="{{ field.auto_id }}_helptext">{{ field.help_text|safe }}</div>{% endif %}
+    {% if field.errors %}
+      <div id="{{ field.auto_id }}_error">
+        {% for error in field.errors %}<p class="error-text">{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
