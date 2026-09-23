@@ -1,0 +1,121 @@
+Estou desenvolvendo um novo projeto com Python e Django, que será um sistema
+de gestão de finanças pessoais chamado Finanpy.
+O projeto não deve ser over engineering.
+Deve usar Django full stack, com frontend no próprio Django Template Language,
+usando tailwindcss.
+O design deve ser moderno e responsivo, com gradient de cores e paletas
+harmônicas e fundo escuro.
+Crie um padrão visual para o sistema todo. Todas as telas devem ter o mesmo
+design e os mesmos componentes, seguindo uma identididade visual e um design
+system.
+O sistema de autenticação será o sistema nativo de usuários e autenticação
+do Django.
+O login de usuários deve ser feito através do email ao invés do username.
+As entidades/domains do sistema devem ser separadas em apps do Django,
+para isolar as responsabilidades.
+O código deve ser simples, sempre usar aspas simples e seguir os padrões
+da PEP08.
+O código do projeto deve ser em inglês.
+O código deve usar aspas simples sempre que possível.
+Toda a informação mostrada na interface do usuário deve ser em português
+brasileiro.
+Usar apenas banco de dados sqlite padrão do Django.
+Toda tabela/model deve ter os campos created_at e updated_at.
+Não implementar docker inicialmente (colocar para sprints finais).
+Não implementar testes inicialmente (colocar para sprints finais).
+Sempre que possível, o projeto deve usar Class Based Views, classes, funções
+e recursos nativos do Django.
+Caso use signals no projeto, eles devem ficar em um arquivo signals.py dentro
+da app correspondente do signal.
+O sistema deve ter um site principal de apresentação que será público e terá
+as opções de cadastre-se e login.
+Após logar, o usuário é direcionado para o dashboard principal do sistema.
+Não adicione nada além do que eu solicitar, o projeto deve ser simples e enxuto.
+
+Arquitetura de diretórios inicial do projeto:
+finanpy
+├── accounts # contas bancárias
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── categories # categorias de lançamentos/transações
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── core # configurações globais do projeto
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── db.sqlite
+├── manage.py
+├── profiles # perfis de usuários
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── transactions # transações - entradas e saídas
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+└── users # usuários - herdando de User padrão do Django
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── migrations
+    │   └── __init__.py
+    ├── models.py
+    ├── tests.py
+    └── views.py
+
+Gere para mim o PRD desse projeto (Product Requirement Document), em formato
+de arquivo markdown, com a seguinte estrutura enumerada:
+- Visão geral
+- Sobre o produto
+- Propósito
+- Público alvo
+- Objetivos
+- Requisitos funcionais
+    - Flowchart mermaid com os fluxos de UX
+- Requisitos não-funcionais
+- Arquitetura técnica
+    - Stack
+    - Estrutura de dados com schemas em formato mermaid
+- Design system
+    - cores primárias, de fundo, padrão de botões, inputs, forms, grids,
+    menus, fontes. Tudo feito com TailwindCSS dentro do Django Template Language
+- User stories
+    - Épico
+    - Critérios de aceite
+- Métricas de sucesso
+    - KPIs de produto, usuário e etc
+- Risco e mitigações
+- Lista de tarefas
+    - Em sprints
+    - Tarefas e subtarefas enumeradas e com descrições e detalhamento de escopo
+    e implementação
+    - Em formato de checklist com espaço para marcar com "X" conforme o
+    andamento e conclusão de cada subtarefa e tarefa
+    - Quebre as tarefas e subtarefas em pequenas implementações, bem específicas
+    e detalhadas, resultando em maior quantidade de tarefas e subtarefas, mas
+    com um nível maior de granularidade
