@@ -1107,7 +1107,7 @@ Critérios de aceite:
 
 ---
 
-### Sprint 1 — Setup e fundação
+### [x] Sprint 1 — Setup e fundação
 
 - [x] **1.1 Preparar ambiente de desenvolvimento**
   - [x] 1.1.1 Criar o diretório `finanpy` e inicializar o repositório Git (`git init`).
@@ -1132,40 +1132,40 @@ Critérios de aceite:
   - [x] 1.3.6 Converter aspas para simples nos arquivos gerados (`apps.py`, `admin.py`, `models.py`, `views.py`, `tests.py`).
   - [x] 1.3.7 Em cada `apps.py`, definir `verbose_name` em português (ex.: `verbose_name = 'Contas'`).
 
-- [ ] **1.4 Configurar `core/settings.py`**
+- [x] **1.4 Configurar `core/settings.py`**
   - [x] 1.4.1 Adicionar as apps em `INSTALLED_APPS` na ordem: apps do Django, depois `users`, `profiles`, `accounts`, `categories`, `transactions`.
   - [x] 1.4.2 Configurar `DATABASES` com SQLite apontando para `BASE_DIR / 'db.sqlite'`.
-  - [ ] 1.4.3 Definir `LANGUAGE_CODE = 'pt-br'`.
-  - [ ] 1.4.4 Definir `TIME_ZONE = 'America/Sao_Paulo'`, `USE_I18N = True`, `USE_TZ = True`.
-  - [ ] 1.4.5 Definir `USE_THOUSAND_SEPARATOR = True`.
-  - [ ] 1.4.6 Configurar `TEMPLATES['DIRS'] = [BASE_DIR / 'templates']`.
-  - [ ] 1.4.7 Configurar `STATIC_URL = 'static/'`, `STATICFILES_DIRS = [BASE_DIR / 'static']` e `STATIC_ROOT = BASE_DIR / 'staticfiles'`.
-  - [ ] 1.4.8 **Não** executar `migrate` nesta sprint: `AUTH_USER_MODEL` será definido na sprint 3, junto com a model `User` e antes do primeiro migrate (ver risco R1).
-  - [ ] 1.4.9 Definir `LOGIN_URL = 'login'`, `LOGIN_REDIRECT_URL = 'dashboard'`, `LOGOUT_REDIRECT_URL = 'home'`.
-  - [ ] 1.4.10 Configurar `MESSAGE_TAGS` mapeando `messages.ERROR` para `'error'`.
-  - [ ] 1.4.11 Confirmar `DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'`.
+  - [x] 1.4.3 Definir `LANGUAGE_CODE = 'pt-br'`.
+  - [x] 1.4.4 Definir `TIME_ZONE = 'America/Sao_Paulo'`, `USE_I18N = True`, `USE_TZ = True`.
+  - [x] 1.4.5 Definir `USE_THOUSAND_SEPARATOR = True`.
+  - [x] 1.4.6 Configurar `TEMPLATES['DIRS'] = [BASE_DIR / 'templates']`.
+  - [x] 1.4.7 Configurar `STATIC_URL = 'static/'`, `STATICFILES_DIRS = [BASE_DIR / 'static']` e `STATIC_ROOT = BASE_DIR / 'staticfiles'`.
+  - [x] 1.4.8 **Não** executar `migrate` nesta sprint: `AUTH_USER_MODEL` será definido na sprint 3, junto com a model `User` e antes do primeiro migrate (ver risco R1).
+  - [x] 1.4.9 Definir `LOGIN_URL = 'login'`, `LOGIN_REDIRECT_URL = 'dashboard'`, `LOGOUT_REDIRECT_URL = 'home'`.
+  - [x] 1.4.10 Configurar `MESSAGE_TAGS` mapeando `messages.ERROR` para `'error'`.
+  - [x] 1.4.11 Confirmar `DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'`.
 
-- [ ] **1.5 Criar estrutura de templates e estáticos**
-  - [ ] 1.5.1 Criar `templates/` com subpastas `layouts/`, `components/`, `users/`, `profiles/`, `accounts/`, `categories/`, `transactions/`.
-  - [ ] 1.5.2 Criar `static/src/` e `static/css/`.
-  - [ ] 1.5.3 Criar `static/src/input.css` com `@import 'tailwindcss';` e diretivas `@source` para `templates` e `**/forms.py`.
+- [x] **1.5 Criar estrutura de templates e estáticos**
+  - [x] 1.5.1 Criar `templates/` com subpastas `layouts/`, `components/`, `users/`, `profiles/`, `accounts/`, `categories/`, `transactions/`.
+  - [x] 1.5.2 Criar `static/src/` e `static/css/`.
+  - [x] 1.5.3 Criar `static/src/input.css` com `@import 'tailwindcss';` e diretivas `@source` para `templates` e `**/forms.py`.
 
-- [ ] **1.6 Configurar TailwindCSS (CLI standalone)**
-  - [ ] 1.6.1 Baixar o binário standalone do Tailwind CLI v4 compatível com o sistema operacional para `bin/tailwindcss` e dar permissão de execução.
-  - [ ] 1.6.2 Testar a compilação: `./bin/tailwindcss -i static/src/input.css -o static/css/output.css`.
-  - [ ] 1.6.3 Documentar o modo de desenvolvimento: `./bin/tailwindcss -i static/src/input.css -o static/css/output.css --watch`.
-  - [ ] 1.6.4 Documentar o build final: mesmo comando com `--minify`.
+- [x] **1.6 Configurar TailwindCSS (CLI standalone)**
+  - [x] 1.6.1 Baixar o binário standalone do Tailwind CLI v4 compatível com o sistema operacional para `bin/tailwindcss` e dar permissão de execução.
+  - [x] 1.6.2 Testar a compilação: `./bin/tailwindcss -i static/src/input.css -o static/css/output.css`.
+  - [x] 1.6.3 Documentar o modo de desenvolvimento: `./bin/tailwindcss -i static/src/input.css -o static/css/output.css --watch`.
+  - [x] 1.6.4 Documentar o build final: mesmo comando com `--minify`.
 
-- [ ] **1.7 Criar README inicial**
-  - [ ] 1.7.1 Descrever o projeto em uma frase.
-  - [ ] 1.7.2 Listar os passos de instalação (venv, requirements, Tailwind, migrate, runserver).
-  - [ ] 1.7.3 Listar os comandos de desenvolvimento (Tailwind watch e `runserver` em terminais separados).
+- [x] **1.7 Criar README inicial**
+  - [x] 1.7.1 Descrever o projeto em uma frase.
+  - [x] 1.7.2 Listar os passos de instalação (venv, requirements, Tailwind, migrate, runserver).
+  - [x] 1.7.3 Listar os comandos de desenvolvimento (Tailwind watch e `runserver` em terminais separados).
 
-- [ ] **1.8 Validação da sprint 1**
-  - [ ] 1.8.1 `python manage.py check` sem erros.
-  - [ ] 1.8.2 `flake8` sem avisos.
-  - [ ] 1.8.3 `static/css/output.css` gerado com sucesso.
-  - [ ] 1.8.4 Commit: `chore: initial project setup`.
+- [x] **1.8 Validação da sprint 1**
+  - [x] 1.8.1 `python manage.py check` sem erros.
+  - [x] 1.8.2 `flake8` sem avisos.
+  - [x] 1.8.3 `static/css/output.css` gerado com sucesso.
+  - [x] 1.8.4 Commit: `chore: initial project setup`.
 
 > Nota: o `migrate` inicial é executado somente na sprint 3, depois da criação da model `users.User`.
 

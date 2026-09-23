@@ -138,3 +138,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Tailwind CLI standalone / estaticos gerados #
+bin/
+static/css/output.css
+staticfiles/
