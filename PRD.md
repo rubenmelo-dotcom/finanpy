@@ -1284,12 +1284,12 @@ Critérios de aceite:
   - [X] 3.5.4 Criar `LoginForm(AuthenticationForm)` com label "E-mail" no campo `username` e `class='input'`.
   - [X] 3.5.5 Sobrescrever `error_messages['invalid_login']` com "E-mail ou senha inválidos."
 
-- [ ] **3.6 Views de autenticação (`users/views.py`)**
-  - [ ] 3.6.1 `SignUpView(CreateView)` com `form_class = SignUpForm` e `template_name = 'users/signup.html'`.
-  - [ ] 3.6.2 Em `form_valid`, salvar, executar `login(self.request, user)` e adicionar mensagem "Bem-vindo(a) ao Finanpy!".
-  - [ ] 3.6.3 Redirecionar para `dashboard` após cadastro.
-  - [ ] 3.6.4 Redirecionar usuário já autenticado que acessar o cadastro (`dispatch`).
-  - [ ] 3.6.5 `UserLoginView(LoginView)` com `form_class = LoginForm`, `template_name = 'users/login.html'` e `redirect_authenticated_user = True`.
+- [X] **3.6 Views de autenticação (`users/views.py`)**
+  - [X] 3.6.1 `SignUpView(CreateView)` com `form_class = SignUpForm` e `template_name = 'users/signup.html'`.
+  - [X] 3.6.2 Em `form_valid`, salvar, executar `login(self.request, user)` e adicionar mensagem "Bem-vindo(a) ao Finanpy!".
+  - [X] 3.6.3 Redirecionar para `dashboard` após cadastro.
+  - [X] 3.6.4 Redirecionar usuário já autenticado que acessar o cadastro (`dispatch`).
+  - [X] 3.6.5 `UserLoginView(LoginView)` com `form_class = LoginForm`, `template_name = 'users/login.html'` e `redirect_authenticated_user = True`.
 
 - [ ] **3.7 URLs de autenticação**
   - [ ] 3.7.1 Criar `users/urls.py` com `cadastro/` (`signup`), `entrar/` (`login`) e `sair/` (`LogoutView.as_view()`, `logout`).
