@@ -1248,11 +1248,11 @@ Critérios de aceite:
 
 ### Sprint 3 — Usuários, autenticação e site público
 
-- [ ] **3.1 Criar o `UserManager` (`users/managers.py`)**
-  - [ ] 3.1.1 Criar classe `UserManager(BaseUserManager)`.
-  - [ ] 3.1.2 Implementar `_create_user(email, password, **extra_fields)`: exigir e-mail, normalizar com `normalize_email`, `set_password` e `save`.
-  - [ ] 3.1.3 Implementar `create_user` com `is_staff=False` e `is_superuser=False` por padrão.
-  - [ ] 3.1.4 Implementar `create_superuser` com `is_staff=True` e `is_superuser=True`, validando ambos.
+- [x] **3.1 Criar o `UserManager` (`users/managers.py`)**
+  - [x] 3.1.1 Criar classe `UserManager(BaseUserManager)`.
+  - [x] 3.1.2 Implementar `_create_user(email, password, **extra_fields)`: exigir e-mail, normalizar com `normalize_email`, `set_password` e `save`.
+  - [x] 3.1.3 Implementar `create_user` com `is_staff=False` e `is_superuser=False` por padrão.
+  - [x] 3.1.4 Implementar `create_superuser` com `is_staff=True` e `is_superuser=True`, validando ambos.
 
 - [ ] **3.2 Criar a model `User` (`users/models.py`)**
   - [ ] 3.2.1 Herdar de `AbstractUser`.
