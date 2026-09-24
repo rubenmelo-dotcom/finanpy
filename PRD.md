@@ -1295,12 +1295,12 @@ Critérios de aceite:
   - [X] 3.7.1 Criar `users/urls.py` com `cadastro/` (`signup`), `entrar/` (`login`) e `sair/` (`LogoutView.as_view()`, `logout`).
   - [X] 3.7.2 Incluir `users.urls` em `core/urls.py`.
 
-- [ ] **3.8 Templates de autenticação**
-  - [ ] 3.8.1 `users/signup.html` estendendo `layouts/auth.html`, com grid nome/sobrenome lado a lado e demais campos em coluna.
-  - [ ] 3.8.2 Botão **Criar conta** (`.btn-primary w-full`) e link "Já tem conta? Entrar".
-  - [ ] 3.8.3 `users/login.html` estendendo `layouts/auth.html`, com campos E-mail e Senha.
-  - [ ] 3.8.4 Botão **Entrar** (`.btn-primary w-full`) e link "Não tem conta? Cadastre-se".
-  - [ ] 3.8.5 Exibir `form.non_field_errors` como `.alert-error`.
+- [X] **3.8 Templates de autenticação**
+  - [X] 3.8.1 `users/signup.html` estendendo `layouts/auth.html`, com grid nome/sobrenome lado a lado e demais campos em coluna.
+  - [X] 3.8.2 Botão **Criar conta** (`.btn-primary w-full`) e link "Já tem conta? Entrar".
+  - [X] 3.8.3 `users/login.html` estendendo `layouts/auth.html`, com campos E-mail e Senha.
+  - [X] 3.8.4 Botão **Entrar** (`.btn-primary w-full`) e link "Não tem conta? Cadastre-se".
+  - [X] 3.8.5 Exibir `form.non_field_errors` como `.alert-error`.
 
 - [ ] **3.9 Site público**
   - [ ] 3.9.1 Criar `core/views.py` com `HomeView(TemplateView)` e `template_name = 'home.html'`.

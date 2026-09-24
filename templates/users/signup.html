@@ -1,0 +1,33 @@
+{% extends 'layouts/auth.html' %}
+
+{% block title %}Criar conta · Finanpy{% endblock %}
+
+{% block auth_title %}Crie sua conta{% endblock %}
+{% block auth_subtitle %}Comece a organizar suas finanças em poucos minutos.{% endblock %}
+
+{% block content %}
+  <form method="post" action="{% url 'signup' %}" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error mb-5" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {% include 'components/_form_field.html' with field=form.first_name %}
+      {% include 'components/_form_field.html' with field=form.last_name %}
+      {% include 'components/_form_field.html' with field=form.email wrapper_class='md:col-span-2' %}
+      {% include 'components/_form_field.html' with field=form.password1 wrapper_class='md:col-span-2' %}
+      {% include 'components/_form_field.html' with field=form.password2 wrapper_class='md:col-span-2' %}
+    </div>
+
+    <button type="submit" class="btn-primary w-full mt-6">Criar conta</button>
+  </form>
+{% endblock %}
+
+{% block auth_footer %}
+  Já tem conta?
+  <a href="{% url 'login' %}" class="font-medium text-brand-400 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Entrar</a>
+{% endblock %}

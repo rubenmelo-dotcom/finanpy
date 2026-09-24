@@ -1,0 +1,32 @@
+{% extends 'layouts/auth.html' %}
+
+{% block title %}Entrar · Finanpy{% endblock %}
+
+{% block auth_title %}Bem-vindo(a) de volta{% endblock %}
+{% block auth_subtitle %}Entre com seu e-mail e senha para acessar suas finanças.{% endblock %}
+
+{% block content %}
+  <form method="post" action="{% url 'login' %}" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error mb-5" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 gap-5">
+      {% include 'components/_form_field.html' with field=form.username %}
+      {% include 'components/_form_field.html' with field=form.password %}
+    </div>
+
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+    <button type="submit" class="btn-primary w-full mt-6">Entrar</button>
+  </form>
+{% endblock %}
+
+{% block auth_footer %}
+  Não tem conta?
+  <a href="{% url 'signup' %}" class="font-medium text-brand-400 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Cadastre-se</a>
+{% endblock %}
