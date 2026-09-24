@@ -8,9 +8,10 @@ Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
 **Estado atual (Sprint 3 em andamento):** sprints 1 (setup) e 2 (design
-system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.4 estão feitas
-(`UserManager`, model `User` com `AUTH_USER_MODEL`, migrations iniciais e
-`UserAdmin` customizado).
+system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.5 estão feitas
+(`UserManager`, model `User` com `AUTH_USER_MODEL`, migrations iniciais,
+`UserAdmin` customizado e `SignUpForm`/`LoginForm` em
+`users/forms.py`).
 Ainda não há views, forms nem URLs de domínio — a única rota é `/admin/`. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,
 `templates/components/_*.html` e o design system em `static/src/input.css`.

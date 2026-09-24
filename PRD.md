@@ -1277,12 +1277,12 @@ Critérios de aceite:
   - [X] 3.4.3 Redefinir `fieldsets` e `add_fieldsets` sem `username`.
   - [X] 3.4.4 Validar login no `/admin/` com o superusuário.
 
-- [ ] **3.5 Forms de autenticação (`users/forms.py`)**
-  - [ ] 3.5.1 Criar `SignUpForm(UserCreationForm)` com `Meta.model = User` e `fields = ('first_name', 'last_name', 'email')`.
-  - [ ] 3.5.2 Tornar `first_name` e `last_name` obrigatórios e definir labels em pt-BR ("Nome", "Sobrenome", "E-mail").
-  - [ ] 3.5.3 Aplicar `class='input'` e placeholders em todos os widgets (inclusive `password1` e `password2`).
-  - [ ] 3.5.4 Criar `LoginForm(AuthenticationForm)` com label "E-mail" no campo `username` e `class='input'`.
-  - [ ] 3.5.5 Sobrescrever `error_messages['invalid_login']` com "E-mail ou senha inválidos."
+- [X] **3.5 Forms de autenticação (`users/forms.py`)**
+  - [X] 3.5.1 Criar `SignUpForm(UserCreationForm)` com `Meta.model = User` e `fields = ('first_name', 'last_name', 'email')`.
+  - [X] 3.5.2 Tornar `first_name` e `last_name` obrigatórios e definir labels em pt-BR ("Nome", "Sobrenome", "E-mail").
+  - [X] 3.5.3 Aplicar `class='input'` e placeholders em todos os widgets (inclusive `password1` e `password2`).
+  - [X] 3.5.4 Criar `LoginForm(AuthenticationForm)` com label "E-mail" no campo `username` e `class='input'`.
+  - [X] 3.5.5 Sobrescrever `error_messages['invalid_login']` com "E-mail ou senha inválidos."
 
 - [ ] **3.6 Views de autenticação (`users/views.py`)**
   - [ ] 3.6.1 `SignUpView(CreateView)` com `form_class = SignUpForm` e `template_name = 'users/signup.html'`.
