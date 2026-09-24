@@ -1271,11 +1271,11 @@ Critérios de aceite:
   - [X] 3.3.2 `python manage.py migrate` (cria `db.sqlite`).
   - [X] 3.3.3 `python manage.py createsuperuser` (deve pedir e-mail, não username).
 
-- [ ] **3.4 Admin de usuários (`users/admin.py`)**
-  - [ ] 3.4.1 Registrar `User` com `UserAdmin` customizado.
-  - [ ] 3.4.2 Ajustar `ordering = ('email',)`, `list_display = ('email', 'first_name', 'last_name', 'is_staff')`, `search_fields = ('email', 'first_name', 'last_name')`.
-  - [ ] 3.4.3 Redefinir `fieldsets` e `add_fieldsets` sem `username`.
-  - [ ] 3.4.4 Validar login no `/admin/` com o superusuário.
+- [X] **3.4 Admin de usuários (`users/admin.py`)**
+  - [X] 3.4.1 Registrar `User` com `UserAdmin` customizado.
+  - [X] 3.4.2 Ajustar `ordering = ('email',)`, `list_display = ('email', 'first_name', 'last_name', 'is_staff')`, `search_fields = ('email', 'first_name', 'last_name')`.
+  - [X] 3.4.3 Redefinir `fieldsets` e `add_fieldsets` sem `username`.
+  - [X] 3.4.4 Validar login no `/admin/` com o superusuário.
 
 - [ ] **3.5 Forms de autenticação (`users/forms.py`)**
   - [ ] 3.5.1 Criar `SignUpForm(UserCreationForm)` com `Meta.model = User` e `fields = ('first_name', 'last_name', 'email')`.
