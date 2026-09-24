@@ -1175,7 +1175,7 @@ Critérios de aceite:
 
 ---
 
-### Sprint 2 — Design system e layouts
+### [x] Sprint 2 — Design system e layouts
 
 - [x] **2.1 Definir tokens do design system**
   - [x] 2.1.1 Adicionar em `input.css` o bloco `@theme` com a fonte Inter (`--font-sans`).
@@ -1239,7 +1239,7 @@ Critérios de aceite:
   - [x] 2.8.2 Validar contraste e responsividade em 360px, 768px e 1280px.
   - [x] 2.8.3 Remover o template temporário ao final da sprint.
 
-- [ ] **2.9 Validação da sprint 2**
+- [x] **2.9 Validação da sprint 2**
   - [x] 2.9.1 CSS compilado contém todas as classes de componentes.
   - [x] 2.9.2 Página de referência renderiza sem erros (os layouts `public`, `auth` e `app` são validados na sprint 3, quando as rotas existirem).
   - [x] 2.9.3 Commit: `feat: design system and base layouts`.
@@ -1254,17 +1254,17 @@ Critérios de aceite:
   - [x] 3.1.3 Implementar `create_user` com `is_staff=False` e `is_superuser=False` por padrão.
   - [x] 3.1.4 Implementar `create_superuser` com `is_staff=True` e `is_superuser=True`, validando ambos.
 
-- [ ] **3.2 Criar a model `User` (`users/models.py`)**
-  - [ ] 3.2.1 Herdar de `AbstractUser`.
-  - [ ] 3.2.2 Remover o username: `username = None`.
-  - [ ] 3.2.3 Definir `email = models.EmailField('e-mail', unique=True)`.
-  - [ ] 3.2.4 Adicionar `created_at = models.DateTimeField('criado em', auto_now_add=True)`.
-  - [ ] 3.2.5 Adicionar `updated_at = models.DateTimeField('atualizado em', auto_now=True)`.
-  - [ ] 3.2.6 Definir `USERNAME_FIELD = 'email'` e `REQUIRED_FIELDS = []`.
-  - [ ] 3.2.7 Definir `objects = UserManager()`.
-  - [ ] 3.2.8 `Meta`: `verbose_name = 'usuário'`, `verbose_name_plural = 'usuários'`.
-  - [ ] 3.2.9 `__str__` retornando o e-mail.
-  - [ ] 3.2.10 Definir `AUTH_USER_MODEL = 'users.User'` em `core/settings.py` **antes do primeiro migrate**.
+- [X] **3.2 Criar a model `User` (`users/models.py`)**
+  - [X] 3.2.1 Herdar de `AbstractUser`.
+  - [X] 3.2.2 Remover o username: `username = None`.
+  - [X] 3.2.3 Definir `email = models.EmailField('e-mail', unique=True)`.
+  - [X] 3.2.4 Adicionar `created_at = models.DateTimeField('criado em', auto_now_add=True)`.
+  - [X] 3.2.5 Adicionar `updated_at = models.DateTimeField('atualizado em', auto_now=True)`.
+  - [X] 3.2.6 Definir `USERNAME_FIELD = 'email'` e `REQUIRED_FIELDS = []`.
+  - [X] 3.2.7 Definir `objects = UserManager()`.
+  - [X] 3.2.8 `Meta`: `verbose_name = 'usuário'`, `verbose_name_plural = 'usuários'`.
+  - [X] 3.2.9 `__str__` retornando o e-mail.
+  - [X] 3.2.10 Definir `AUTH_USER_MODEL = 'users.User'` em `core/settings.py` **antes do primeiro migrate**.
 
 - [ ] **3.3 Migrations iniciais**
   - [ ] 3.3.1 `python manage.py makemigrations users`.

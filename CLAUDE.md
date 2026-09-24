@@ -5,9 +5,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Visão geral
 
 Finanpy é um monolito Django full stack de gestão de finanças pessoais
-(contas bancárias, categorias, transações e dashboard). O projeto está no
-início da Sprint 1: apps criadas e registradas, mas sem models, views, URLs,
-templates ou estáticos — a única rota é `/admin/`.
+(contas bancárias, categorias, transações e dashboard).
+
+**Estado atual (Sprint 3 em andamento):** sprints 1 (setup) e 2 (design
+system e layouts) concluídas; na sprint 3, só a tarefa 3.1 (`UserManager` em
+`users/managers.py`) está feita. Ainda não há models (`users/models.py`
+vazio), views, forms nem URLs de domínio — a única rota é `/admin/`. Já
+existem `templates/base.html`, `layouts/{public,auth,app}.html`,
+`templates/components/_*.html` e o design system em `static/src/input.css`.
+A seção 13 do PRD é a referência para o progresso.
 
 - **`PRD.md` é a fonte da verdade** para requisitos, rotas (seção 8.4), models
   (8.5), design system (9) e a lista de tarefas por sprint (13). Consulte a
@@ -24,13 +30,14 @@ pip install -r requirements.txt
 python manage.py check               # validação obrigatória antes de concluir
 python manage.py runserver
 python manage.py makemigrations && python manage.py migrate
+flake8                               # PEP 8; .flake8 com max-line-length = 79
+./bin/tailwindcss -i static/src/input.css -o static/css/output.css --watch
+./bin/tailwindcss -i static/src/input.css -o static/css/output.css --minify
 ```
 
 Previstos no PRD, ainda não configurados:
 
 ```bash
-flake8                               # PEP 8; .flake8 com max-line-length = 79
-./bin/tailwindcss -i static/src/input.css -o static/css/output.css --watch
 python manage.py test                # sprint 10 (django.test.TestCase)
 python manage.py test accounts.tests.AccountTests.test_name  # teste único
 coverage run manage.py test && coverage report
@@ -38,6 +45,14 @@ coverage run manage.py test && coverage report
 
 Tailwind usa o **CLI standalone** (binário em `bin/`, não versionado) — sem
 Node.js. Rode o `--watch` e o `runserver` em terminais separados.
+`bin/` e `static/css/output.css` estão no `.gitignore`.
+
+## Subagentes
+
+`.claude/agents` é um symlink para `agents/` (ver `agents/README.md`):
+`django-backend`, `django-templates`, `tailwindcss`, `qa-playwright` (só
+reporta, não altera código), `django-tests` (sprint 10) e `devops-docker`
+(sprint 11).
 
 ## Armadilha crítica: model de usuário customizada (risco R1)
 
@@ -46,10 +61,11 @@ Node.js. Rode o `--watch` e o `runserver` em terminais separados.
 `users/managers.py`; `AUTH_USER_MODEL = 'users.User'` precisa estar definido
 **antes da primeira migration de qualquer app do projeto**.
 
-O `db.sqlite3` atual **já teve as migrations nativas aplicadas** (`auth`,
-`admin`, `sessions`) com o `User` padrão. Ao introduzir `AUTH_USER_MODEL`, o
-banco precisa ser apagado e recriado, senão o histórico de migrations fica
-inconsistente. Não gere migrations de domínio antes disso.
+Hoje não existe `db.sqlite3` e nenhum `migrate` foi executado: a model
+`User` e o `AUTH_USER_MODEL` (tarefa 3.2) vêm **antes** do primeiro
+`makemigrations`/`migrate` (tarefa 3.3). Se um banco for criado antes disso
+(ex.: `migrate` ou `runserver` com migrations nativas), apague-o antes de
+aplicar as migrations com o `User` customizado.
 
 ## Arquitetura
 
@@ -109,7 +125,6 @@ inconsistente. Não gere migrations de domínio antes disso.
 | Django 5.x | Django 6.1.1 (`requirements.txt`) |
 | `db.sqlite` | `db.sqlite3` |
 | `.venv/` | `venv/` |
-| `LANGUAGE_CODE = 'pt-br'`, `America/Sao_Paulo` | ainda `en-us` / `UTC` |
 
 O repositório Git tem raiz em `/home/ruben/pycodebr` (diretório pai), não em
-`finanpy/`; ainda não existem `.gitignore`, `.flake8` nem `README.md` aqui.
+`finanpy/`. `.gitignore`, `.flake8` e `README.md` ficam em `finanpy/`.
