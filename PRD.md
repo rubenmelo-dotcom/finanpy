@@ -1291,9 +1291,9 @@ Critérios de aceite:
   - [X] 3.6.4 Redirecionar usuário já autenticado que acessar o cadastro (`dispatch`).
   - [X] 3.6.5 `UserLoginView(LoginView)` com `form_class = LoginForm`, `template_name = 'users/login.html'` e `redirect_authenticated_user = True`.
 
-- [ ] **3.7 URLs de autenticação**
-  - [ ] 3.7.1 Criar `users/urls.py` com `cadastro/` (`signup`), `entrar/` (`login`) e `sair/` (`LogoutView.as_view()`, `logout`).
-  - [ ] 3.7.2 Incluir `users.urls` em `core/urls.py`.
+- [X] **3.7 URLs de autenticação**
+  - [X] 3.7.1 Criar `users/urls.py` com `cadastro/` (`signup`), `entrar/` (`login`) e `sair/` (`LogoutView.as_view()`, `logout`).
+  - [X] 3.7.2 Incluir `users.urls` em `core/urls.py`.
 
 - [ ] **3.8 Templates de autenticação**
   - [ ] 3.8.1 `users/signup.html` estendendo `layouts/auth.html`, com grid nome/sobrenome lado a lado e demais campos em coluna.
