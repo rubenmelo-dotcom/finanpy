@@ -8,13 +8,15 @@ Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
 **Estado atual (Sprint 3 em andamento):** sprints 1 (setup) e 2 (design
-system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.8 estão feitas
+system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.9 estão feitas
 (`UserManager`, model `User` com `AUTH_USER_MODEL`, migrations iniciais,
 `UserAdmin` customizado, `SignUpForm`/`LoginForm` em `users/forms.py`,
-`SignUpView`/`UserLoginView` em `users/views.py`, rotas em `users/urls.py`
-e templates `templates/users/{signup,login}.html`). As rotas `home` e
-`dashboard` ainda não existem, então `/cadastro/` e `/entrar/` falham com
-`NoReverseMatch` (o `layouts/auth.html` usa `{% url 'home' %}`). Já
+`SignUpView`/`UserLoginView` em `users/views.py`, rotas em `users/urls.py`,
+templates `templates/users/{signup,login}.html`, `HomeView` em
+`core/views.py` com rota `home` e `templates/home.html`). A rota
+`dashboard` (tarefa 3.10) ainda não existe, então qualquer página para
+usuário autenticado e o redirect pós-login/cadastro falham com
+`NoReverseMatch`; para visitantes anônimos tudo funciona. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,
 `templates/components/_*.html` e o design system em `static/src/input.css`.
 A seção 13 do PRD é a referência para o progresso.

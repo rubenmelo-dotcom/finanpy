@@ -1302,13 +1302,13 @@ Critérios de aceite:
   - [X] 3.8.4 Botão **Entrar** (`.btn-primary w-full`) e link "Não tem conta? Cadastre-se".
   - [X] 3.8.5 Exibir `form.non_field_errors` como `.alert-error`.
 
-- [ ] **3.9 Site público**
-  - [ ] 3.9.1 Criar `core/views.py` com `HomeView(TemplateView)` e `template_name = 'home.html'`.
-  - [ ] 3.9.2 Registrar rota `''` com nome `home` em `core/urls.py`.
-  - [ ] 3.9.3 `home.html` — seção hero: título com `.text-gradient` ("Suas finanças, simples e sob controle"), subtítulo e botões **Cadastre-se** e **Entrar**.
-  - [ ] 3.9.4 `home.html` — seção de funcionalidades: 3 cards (Contas, Categorias, Dashboard) com ícone, título e descrição.
-  - [ ] 3.9.5 `home.html` — seção de chamada final (CTA) com botão **Comece agora — é grátis**.
-  - [ ] 3.9.6 Validar responsividade do site público em 360px, 768px e 1280px.
+- [X] **3.9 Site público**
+  - [X] 3.9.1 Criar `core/views.py` com `HomeView(TemplateView)` e `template_name = 'home.html'`.
+  - [X] 3.9.2 Registrar rota `''` com nome `home` em `core/urls.py`.
+  - [X] 3.9.3 `home.html` — seção hero: título com `.text-gradient` ("Suas finanças, simples e sob controle"), subtítulo e botões **Cadastre-se** e **Entrar**.
+  - [X] 3.9.4 `home.html` — seção de funcionalidades: 3 cards (Contas, Categorias, Dashboard) com ícone, título e descrição.
+  - [X] 3.9.5 `home.html` — seção de chamada final (CTA) com botão **Comece agora — é grátis**.
+  - [X] 3.9.6 Validar responsividade do site público em 360px, 768px e 1280px.
 
 - [ ] **3.10 Dashboard provisório**
   - [ ] 3.10.1 Criar `DashboardView(LoginRequiredMixin, TemplateView)` em `core/views.py` com `template_name = 'dashboard.html'`.
