@@ -8,9 +8,9 @@ Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
 **Estado atual (Sprint 3 em andamento):** sprints 1 (setup) e 2 (design
-system e layouts) concluídas; na sprint 3, só a tarefa 3.1 (`UserManager` em
-`users/managers.py`) está feita. Ainda não há models (`users/models.py`
-vazio), views, forms nem URLs de domínio — a única rota é `/admin/`. Já
+system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.3 estão feitas
+(`UserManager`, model `User` com `AUTH_USER_MODEL` e migrations iniciais).
+Ainda não há views, forms nem URLs de domínio — a única rota é `/admin/`. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,
 `templates/components/_*.html` e o design system em `static/src/input.css`.
 A seção 13 do PRD é a referência para o progresso.
@@ -61,11 +61,11 @@ reporta, não altera código), `django-tests` (sprint 10) e `devops-docker`
 `users/managers.py`; `AUTH_USER_MODEL = 'users.User'` precisa estar definido
 **antes da primeira migration de qualquer app do projeto**.
 
-Hoje não existe `db.sqlite3` e nenhum `migrate` foi executado: a model
-`User` e o `AUTH_USER_MODEL` (tarefa 3.2) vêm **antes** do primeiro
-`makemigrations`/`migrate` (tarefa 3.3). Se um banco for criado antes disso
-(ex.: `migrate` ou `runserver` com migrations nativas), apague-o antes de
-aplicar as migrations com o `User` customizado.
+Isso já foi feito: o `db.sqlite3` existe e o `migrate` já foi executado
+(tarefa 3.3), com `users/migrations/0001_initial.py` aplicada antes das
+migrations nativas que dependem do usuário (ex.: `admin`). Não altere
+`AUTH_USER_MODEL` nem recrie a migration inicial de `users`; se o banco
+precisar ser recriado, apague `db.sqlite3` e rode `migrate` de novo.
 
 ## Arquitetura
 

@@ -1266,10 +1266,10 @@ Critérios de aceite:
   - [X] 3.2.9 `__str__` retornando o e-mail.
   - [X] 3.2.10 Definir `AUTH_USER_MODEL = 'users.User'` em `core/settings.py` **antes do primeiro migrate**.
 
-- [ ] **3.3 Migrations iniciais**
-  - [ ] 3.3.1 `python manage.py makemigrations users`.
-  - [ ] 3.3.2 `python manage.py migrate` (cria `db.sqlite`).
-  - [ ] 3.3.3 `python manage.py createsuperuser` (deve pedir e-mail, não username).
+- [X] **3.3 Migrations iniciais**
+  - [X] 3.3.1 `python manage.py makemigrations users`.
+  - [X] 3.3.2 `python manage.py migrate` (cria `db.sqlite`).
+  - [X] 3.3.3 `python manage.py createsuperuser` (deve pedir e-mail, não username).
 
 - [ ] **3.4 Admin de usuários (`users/admin.py`)**
   - [ ] 3.4.1 Registrar `User` com `UserAdmin` customizado.
