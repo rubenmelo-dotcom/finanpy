@@ -1,0 +1,58 @@
+from django import forms
+
+from categories.models import Category
+
+COLOR_CHOICES = (
+    ('#8B5CF6', 'Violeta'),
+    ('#6366F1', 'Índigo'),
+    ('#22D3EE', 'Ciano'),
+    ('#10B981', 'Verde'),
+    ('#F59E0B', 'Âmbar'),
+    ('#F43F5E', 'Rosa'),
+    ('#EC4899', 'Pink'),
+    ('#84CC16', 'Lima'),
+)
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name', 'category_type', 'color')
+        labels = {
+            'name': 'Nome',
+            'category_type': 'Tipo',
+            'color': 'Cor',
+        }
+        widgets = {
+            'name': forms.TextInput(
+                attrs={'class': 'input', 'placeholder': 'Ex.: Alimentação'}
+            ),
+            'category_type': forms.Select(attrs={'class': 'input'}),
+            'color': forms.RadioSelect(choices=COLOR_CHOICES),
+        }
+
+    def __init__(self, *args, user=None, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        category_type = cleaned_data.get('category_type')
+        if self.user is None or not name or not category_type:
+            return cleaned_data
+
+        # name__iexact is ASCII-only on SQLite ('SAÚDE' != 'Saúde'), so
+        # the case-insensitive comparison is done with casefold().
+        existing_names = Category.objects.filter(
+            user=self.user, category_type=category_type
+        )
+        if self.instance.pk:
+            existing_names = existing_names.exclude(pk=self.instance.pk)
+        normalized = name.strip().casefold()
+        existing_names = existing_names.values_list('name', flat=True)
+        if any(n.strip().casefold() == normalized for n in existing_names):
+            raise forms.ValidationError(
+                'Já existe uma categoria com este nome para este tipo.'
+            )
+        return cleaned_data

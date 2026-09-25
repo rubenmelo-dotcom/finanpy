@@ -1436,34 +1436,34 @@ Critérios de aceite:
   - [X] 5.9.1 Criar, editar e excluir contas com mensagens corretas.
   - [X] 5.9.2 Usuário B não acessa `/contas/<pk>/editar/` do usuário A (404).
   - [X] 5.9.3 Valores exibidos como `R$ 1.234,56`.
-  - [ ] 5.9.4 Commit: `feat: bank accounts`.
+  - [X] 5.9.4 Commit: `feat: bank accounts`.
 
 ---
 
 ### Sprint 6 — Categorias
 
-- [ ] **6.1 Model `Category` (`categories/models.py`)**
-  - [ ] 6.1.1 Criar `CategoryType(models.TextChoices)`: `INCOME = 'income', 'Entrada'`, `EXPENSE = 'expense', 'Saída'`.
-  - [ ] 6.1.2 `user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='categories', verbose_name='usuário')`.
-  - [ ] 6.1.3 `name = models.CharField('nome', max_length=50)`.
-  - [ ] 6.1.4 `category_type = models.CharField('tipo', max_length=10, choices=CategoryType.choices)`.
-  - [ ] 6.1.5 `color = models.CharField('cor', max_length=7, default='#8B5CF6')`.
-  - [ ] 6.1.6 Campos `created_at` e `updated_at`.
-  - [ ] 6.1.7 `Meta`: `ordering = ['name']`, `verbose_name = 'categoria'`, `verbose_name_plural = 'categorias'`.
-  - [ ] 6.1.8 `Meta.constraints`: `UniqueConstraint(fields=['user', 'name', 'category_type'], name='unique_category_per_user')`.
-  - [ ] 6.1.9 `__str__` retornando o nome.
-  - [ ] 6.1.10 `makemigrations categories` e `migrate`.
+- [X] **6.1 Model `Category` (`categories/models.py`)**
+  - [X] 6.1.1 Criar `CategoryType(models.TextChoices)`: `INCOME = 'income', 'Entrada'`, `EXPENSE = 'expense', 'Saída'`.
+  - [X] 6.1.2 `user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='categories', verbose_name='usuário')`.
+  - [X] 6.1.3 `name = models.CharField('nome', max_length=50)`.
+  - [X] 6.1.4 `category_type = models.CharField('tipo', max_length=10, choices=CategoryType.choices)`.
+  - [X] 6.1.5 `color = models.CharField('cor', max_length=7, default='#8B5CF6')`.
+  - [X] 6.1.6 Campos `created_at` e `updated_at`.
+  - [X] 6.1.7 `Meta`: `ordering = ['name']`, `verbose_name = 'categoria'`, `verbose_name_plural = 'categorias'`.
+  - [X] 6.1.8 `Meta.constraints`: `UniqueConstraint(fields=['user', 'name', 'category_type'], name='unique_category_per_user')`.
+  - [X] 6.1.9 `__str__` retornando o nome.
+  - [X] 6.1.10 `makemigrations categories` e `migrate`.
 
-- [ ] **6.2 Admin de categorias**
-  - [ ] 6.2.1 Registrar `Category` com `list_display = ('name', 'category_type', 'color', 'user', 'created_at')`.
-  - [ ] 6.2.2 `list_filter = ('category_type',)` e `search_fields = ('name', 'user__email')`.
+- [X] **6.2 Admin de categorias**
+  - [X] 6.2.1 Registrar `Category` com `list_display = ('name', 'category_type', 'color', 'user', 'created_at')`.
+  - [X] 6.2.2 `list_filter = ('category_type',)` e `search_fields = ('name', 'user__email')`.
 
-- [ ] **6.3 Form de categoria (`categories/forms.py`)**
-  - [ ] 6.3.1 Definir constante `COLOR_CHOICES` com as 8 cores da paleta (seção 9.1) e nomes em pt-BR (Violeta, Índigo, Ciano, Verde, Âmbar, Rosa, Pink, Lima).
-  - [ ] 6.3.2 `CategoryForm(ModelForm)` com `fields = ('name', 'category_type', 'color')`; `color` como `RadioSelect(choices=COLOR_CHOICES)`.
-  - [ ] 6.3.3 Receber `user` no `__init__` (kwarg) para validar unicidade.
-  - [ ] 6.3.4 `clean()`: se existir outra categoria do usuário com mesmo nome (case-insensitive, `name__iexact`) e tipo, lançar "Já existe uma categoria com este nome para este tipo.".
-  - [ ] 6.3.5 Aplicar `class='input'` em `name` e `category_type`.
+- [X] **6.3 Form de categoria (`categories/forms.py`)**
+  - [X] 6.3.1 Definir constante `COLOR_CHOICES` com as 8 cores da paleta (seção 9.1) e nomes em pt-BR (Violeta, Índigo, Ciano, Verde, Âmbar, Rosa, Pink, Lima).
+  - [X] 6.3.2 `CategoryForm(ModelForm)` com `fields = ('name', 'category_type', 'color')`; `color` como `RadioSelect(choices=COLOR_CHOICES)`.
+  - [X] 6.3.3 Receber `user` no `__init__` (kwarg) para validar unicidade.
+  - [X] 6.3.4 `clean()`: se existir outra categoria do usuário com mesmo nome (case-insensitive, `name__iexact`) e tipo, lançar "Já existe uma categoria com este nome para este tipo.".
+  - [X] 6.3.5 Aplicar `class='input'` em `name` e `category_type`.
 
 - [ ] **6.4 Views de categorias (`categories/views.py`)**
   - [ ] 6.4.1 `CategoryListView(LoginRequiredMixin, ListView)` filtrando por usuário; em `get_context_data`, separar `income_categories` e `expense_categories`.
