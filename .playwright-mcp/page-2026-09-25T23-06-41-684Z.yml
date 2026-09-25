@@ -1,0 +1,81 @@
+- generic [active] [ref=f5e1]:
+  - link "Pular para o conteúdo" [ref=f5e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f5e3]:
+    - link "Finanpy" [ref=f5e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f5e6]:
+      - link "Dashboard" [ref=f5e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - generic:
+        - text: Transações
+        - generic: (em breve)
+      - link "Contas" [ref=f5e10] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f5e13] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f5e17] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f5e20]:
+      - generic [ref=f5e21]:
+        - generic [aria-hidden] [ref=f5e22]: Q
+        - paragraph [ref=f5e24]: qa-sprint7@example.com
+      - button "Sair" [ref=f5e26]
+  - main [ref=f5e30]:
+    - status [ref=f5e31]:
+      - generic [ref=f5e32]: Esta conta possui transações e não pode ser excluída. Você pode desativá-la.
+    - generic [ref=f5e33]:
+      - generic [ref=f5e34]:
+        - heading "Contas" [level=1] [ref=f5e35]
+        - paragraph [ref=f5e36]: Gerencie suas contas bancárias
+      - link "Nova conta" [ref=f5e37] [cursor=pointer]:
+        - /url: /contas/nova/
+    - list [ref=f5e40]:
+      - listitem [ref=f5e41]:
+        - generic [ref=f5e42]:
+          - generic [ref=f5e43]:
+            - heading "Conta A" [level=2] [ref=f5e44]
+            - paragraph
+          - generic [ref=f5e45]: Conta corrente
+        - generic [ref=f5e47]:
+          - paragraph [ref=f5e48]: Saldo atual
+          - paragraph [ref=f5e49]: R$ 810,15
+        - generic [ref=f5e50]:
+          - link "Editar conta Conta A" [ref=f5e51] [cursor=pointer]:
+            - /url: /contas/20/editar/
+            - text: Editar
+          - link "Excluir conta Conta A" [ref=f5e54] [cursor=pointer]:
+            - /url: /contas/20/excluir/
+            - text: Excluir
+      - listitem [ref=f5e57]:
+        - generic [ref=f5e58]:
+          - generic [ref=f5e59]:
+            - heading "Conta B" [level=2] [ref=f5e60]
+            - paragraph
+          - generic [ref=f5e61]: Conta corrente
+        - generic [ref=f5e63]:
+          - paragraph [ref=f5e64]: Saldo atual
+          - paragraph [ref=f5e65]: R$ 50,50
+        - generic [ref=f5e66]:
+          - link "Editar conta Conta B" [ref=f5e67] [cursor=pointer]:
+            - /url: /contas/21/editar/
+            - text: Editar
+          - link "Excluir conta Conta B" [ref=f5e70] [cursor=pointer]:
+            - /url: /contas/21/excluir/
+            - text: Excluir
+      - listitem [ref=f5e73]:
+        - generic [ref=f5e74]:
+          - generic [ref=f5e75]:
+            - heading "Conta C" [level=2] [ref=f5e76]
+            - paragraph
+          - generic [ref=f5e77]: Conta corrente
+        - generic [ref=f5e79]:
+          - paragraph [ref=f5e80]: Saldo atual
+          - paragraph [ref=f5e81]: R$ -25,00
+        - generic [ref=f5e82]:
+          - link "Editar conta Conta C" [ref=f5e83] [cursor=pointer]:
+            - /url: /contas/22/editar/
+            - text: Editar
+          - link "Excluir conta Conta C" [ref=f5e86] [cursor=pointer]:
+            - /url: /contas/22/excluir/
+            - text: Excluir

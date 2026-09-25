@@ -1487,36 +1487,36 @@ Critérios de aceite:
 - [ ] **6.7 Validação da sprint 6**
   - [X] 6.7.1 Criar categorias de entrada e saída; duplicada é bloqueada.
   - [X] 6.7.2 Isolamento entre usuários (404 em categoria alheia).
-  - [ ] 6.7.3 Commit: `feat: categories`.
+  - [X] 6.7.3 Commit: `feat: categories`.
 
 ---
 
 ### Sprint 7 — Transações
 
-- [ ] **7.1 Model `Transaction` (`transactions/models.py`)**
-  - [ ] 7.1.1 Criar `TransactionType(models.TextChoices)`: `INCOME = 'income', 'Entrada'`, `EXPENSE = 'expense', 'Saída'`.
-  - [ ] 7.1.2 `user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='transactions', verbose_name='usuário')`.
-  - [ ] 7.1.3 `account = models.ForeignKey('accounts.Account', on_delete=models.PROTECT, related_name='transactions', verbose_name='conta')`.
-  - [ ] 7.1.4 `category = models.ForeignKey('categories.Category', on_delete=models.PROTECT, related_name='transactions', verbose_name='categoria')`.
-  - [ ] 7.1.5 `transaction_type = models.CharField('tipo', max_length=10, choices=TransactionType.choices)`.
-  - [ ] 7.1.6 `description = models.CharField('descrição', max_length=255)`.
-  - [ ] 7.1.7 `amount = models.DecimalField('valor', max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])`.
-  - [ ] 7.1.8 `date = models.DateField('data', default=timezone.localdate)`.
-  - [ ] 7.1.9 Campos `created_at` e `updated_at`.
-  - [ ] 7.1.10 `Meta`: `ordering = ['-date', '-created_at']`, `indexes = [models.Index(fields=['user', 'date'])]`, `verbose_name = 'transação'`, `verbose_name_plural = 'transações'`.
-  - [ ] 7.1.11 `__str__` retornando `f'{self.description} - {self.amount}'`.
-  - [ ] 7.1.12 Propriedade `signed_amount` (positivo para entrada, negativo para saída) para uso nos templates.
-  - [ ] 7.1.13 `makemigrations transactions` e `migrate`.
+- [X] **7.1 Model `Transaction` (`transactions/models.py`)**
+  - [X] 7.1.1 Criar `TransactionType(models.TextChoices)`: `INCOME = 'income', 'Entrada'`, `EXPENSE = 'expense', 'Saída'`.
+  - [X] 7.1.2 `user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='transactions', verbose_name='usuário')`.
+  - [X] 7.1.3 `account = models.ForeignKey('accounts.Account', on_delete=models.PROTECT, related_name='transactions', verbose_name='conta')`.
+  - [X] 7.1.4 `category = models.ForeignKey('categories.Category', on_delete=models.PROTECT, related_name='transactions', verbose_name='categoria')`.
+  - [X] 7.1.5 `transaction_type = models.CharField('tipo', max_length=10, choices=TransactionType.choices)`.
+  - [X] 7.1.6 `description = models.CharField('descrição', max_length=255)`.
+  - [X] 7.1.7 `amount = models.DecimalField('valor', max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])`.
+  - [X] 7.1.8 `date = models.DateField('data', default=timezone.localdate)`.
+  - [X] 7.1.9 Campos `created_at` e `updated_at`.
+  - [X] 7.1.10 `Meta`: `ordering = ['-date', '-created_at']`, `indexes = [models.Index(fields=['user', 'date'])]`, `verbose_name = 'transação'`, `verbose_name_plural = 'transações'`.
+  - [X] 7.1.11 `__str__` retornando `f'{self.description} - {self.amount}'`.
+  - [X] 7.1.12 Propriedade `signed_amount` (positivo para entrada, negativo para saída) para uso nos templates.
+  - [X] 7.1.13 `makemigrations transactions` e `migrate`.
 
-- [ ] **7.2 Admin de transações**
-  - [ ] 7.2.1 Registrar `Transaction` com `list_display = ('description', 'transaction_type', 'amount', 'date', 'account', 'category', 'user')`.
-  - [ ] 7.2.2 `list_filter = ('transaction_type', 'date')`, `search_fields = ('description', 'user__email')`, `date_hierarchy = 'date'`.
-  - [ ] 7.2.3 `list_select_related = ('account', 'category', 'user')`.
+- [X] **7.2 Admin de transações**
+  - [X] 7.2.1 Registrar `Transaction` com `list_display = ('description', 'transaction_type', 'amount', 'date', 'account', 'category', 'user')`.
+  - [X] 7.2.2 `list_filter = ('transaction_type', 'date')`, `search_fields = ('description', 'user__email')`, `date_hierarchy = 'date'`.
+  - [X] 7.2.3 `list_select_related = ('account', 'category', 'user')`.
 
-- [ ] **7.3 Finalizar saldo das contas**
-  - [ ] 7.3.1 Atualizar `Account.current_balance()` para somar entradas e subtrair saídas de `self.transactions`.
-  - [ ] 7.3.2 Atualizar a anotação `with_balance(user)` com `Sum('transactions__amount', filter=Q(transactions__transaction_type='income'))` e equivalente para `expense`, usando `Coalesce(..., Decimal('0'))`.
-  - [ ] 7.3.3 Conferir na listagem de contas que o saldo reflete as transações.
+- [X] **7.3 Finalizar saldo das contas**
+  - [X] 7.3.1 Atualizar `Account.current_balance()` para somar entradas e subtrair saídas de `self.transactions`.
+  - [X] 7.3.2 Atualizar a anotação `with_balance(user)` com `Sum('transactions__amount', filter=Q(transactions__transaction_type='income'))` e equivalente para `expense`, usando `Coalesce(..., Decimal('0'))`.
+  - [X] 7.3.3 Conferir na listagem de contas que o saldo reflete as transações.
 
 - [ ] **7.4 Form de transação (`transactions/forms.py`)**
   - [ ] 7.4.1 `TransactionForm(ModelForm)` com `fields = ('transaction_type', 'description', 'amount', 'date', 'account', 'category')`.

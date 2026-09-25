@@ -2,15 +2,44 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
+from django.db.models import (
+    DecimalField,
+    ExpressionWrapper,
+    F,
+    Q,
+    Sum,
+    Value,
+)
+from django.db.models.functions import Coalesce
+
+from transactions.models import Transaction
+
+INCOME = Transaction.TransactionType.INCOME
+EXPENSE = Transaction.TransactionType.EXPENSE
+MONEY = DecimalField(max_digits=12, decimal_places=2)
+ZERO = Value(Decimal('0'), output_field=MONEY)
+
+
+def _sum_by_type(lookup, transaction_type):
+    return Coalesce(
+        Sum(
+            f'{lookup}amount',
+            filter=Q(**{f'{lookup}transaction_type': transaction_type}),
+        ),
+        ZERO,
+        output_field=MONEY,
+    )
 
 
 class AccountQuerySet(models.QuerySet):
     def with_balance(self, user):
-        # Sprint 7 (task 7.3): annotate initial_balance + Sum('amount',
-        # filter=income) - Sum('amount', filter=expense) over
-        # 'transactions', using Coalesce for empty sums.
         return self.filter(user=user).annotate(
-            balance=models.F('initial_balance')
+            balance=ExpressionWrapper(
+                F('initial_balance')
+                + _sum_by_type('transactions__', INCOME)
+                - _sum_by_type('transactions__', EXPENSE),
+                output_field=MONEY,
+            )
         )
 
 
@@ -59,7 +88,10 @@ class Account(models.Model):
         return self.name
 
     def current_balance(self):
-        # Sprint 7 (task 7.3): aggregate Sum('amount') of income and
-        # expense over self.transactions with Coalesce and return
-        # initial_balance + income - expense.
-        return self.initial_balance
+        totals = self.transactions.aggregate(
+            income=_sum_by_type('', INCOME),
+            expense=_sum_by_type('', EXPENSE),
+        )
+        return (
+            self.initial_balance + totals['income'] - totals['expense']
+        )

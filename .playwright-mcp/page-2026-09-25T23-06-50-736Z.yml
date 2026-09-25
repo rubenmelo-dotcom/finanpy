@@ -1,0 +1,64 @@
+- generic [active] [ref=f6e1]:
+  - link "Pular para o conteúdo" [ref=f6e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f6e3]:
+    - banner [ref=f6e4]:
+      - link "Finanpy" [ref=f6e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f6e6]
+    - main [ref=f6e9]:
+      - generic [ref=f6e10]:
+        - generic [ref=f6e11]:
+          - heading "Contas" [level=1] [ref=f6e12]
+          - paragraph [ref=f6e13]: Gerencie suas contas bancárias
+        - link "Nova conta" [ref=f6e14] [cursor=pointer]:
+          - /url: /contas/nova/
+      - list [ref=f6e17]:
+        - listitem [ref=f6e18]:
+          - generic [ref=f6e19]:
+            - generic [ref=f6e20]:
+              - heading "Conta A" [level=2] [ref=f6e21]
+              - paragraph
+            - generic [ref=f6e22]: Conta corrente
+          - generic [ref=f6e24]:
+            - paragraph [ref=f6e25]: Saldo atual
+            - paragraph [ref=f6e26]: R$ 810,15
+          - generic [ref=f6e27]:
+            - link "Editar conta Conta A" [ref=f6e28] [cursor=pointer]:
+              - /url: /contas/20/editar/
+              - text: Editar
+            - link "Excluir conta Conta A" [ref=f6e31] [cursor=pointer]:
+              - /url: /contas/20/excluir/
+              - text: Excluir
+        - listitem [ref=f6e34]:
+          - generic [ref=f6e35]:
+            - generic [ref=f6e36]:
+              - heading "Conta B" [level=2] [ref=f6e37]
+              - paragraph
+            - generic [ref=f6e38]: Conta corrente
+          - generic [ref=f6e40]:
+            - paragraph [ref=f6e41]: Saldo atual
+            - paragraph [ref=f6e42]: R$ 1.250,50
+          - generic [ref=f6e43]:
+            - link "Editar conta Conta B" [ref=f6e44] [cursor=pointer]:
+              - /url: /contas/21/editar/
+              - text: Editar
+            - link "Excluir conta Conta B" [ref=f6e47] [cursor=pointer]:
+              - /url: /contas/21/excluir/
+              - text: Excluir
+        - listitem [ref=f6e50]:
+          - generic [ref=f6e51]:
+            - generic [ref=f6e52]:
+              - heading "Conta C" [level=2] [ref=f6e53]
+              - paragraph
+            - generic [ref=f6e54]: Conta corrente
+          - generic [ref=f6e56]:
+            - paragraph [ref=f6e57]: Saldo atual
+            - paragraph [ref=f6e58]: R$ -25,00
+          - generic [ref=f6e59]:
+            - link "Editar conta Conta C" [ref=f6e60] [cursor=pointer]:
+              - /url: /contas/22/editar/
+              - text: Editar
+            - link "Excluir conta Conta C" [ref=f6e63] [cursor=pointer]:
+              - /url: /contas/22/excluir/
+              - text: Excluir

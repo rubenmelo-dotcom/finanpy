@@ -1,0 +1,22 @@
+- generic [ref=e2]:
+  - link "Finanpy" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Bem-vindo(a) de volta" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Entre com seu e-mail e senha para acessar suas finanças.
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: E-mail
+          - textbox "E-mail" [active] [ref=e12]:
+            - /placeholder: voce@exemplo.com
+        - generic [ref=e13]:
+          - generic [ref=e14]: Senha
+          - textbox "Senha" [ref=e15]:
+            - /placeholder: Sua senha
+      - button "Entrar" [ref=e16]
+  - generic [ref=e17]:
+    - text: Não tem conta?
+    - link "Cadastre-se" [ref=e18] [cursor=pointer]:
+      - /url: /cadastro/
