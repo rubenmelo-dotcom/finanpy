@@ -1310,10 +1310,10 @@ Critérios de aceite:
   - [X] 3.9.5 `home.html` — seção de chamada final (CTA) com botão **Comece agora — é grátis**.
   - [X] 3.9.6 Validar responsividade do site público em 360px, 768px e 1280px.
 
-- [ ] **3.10 Dashboard provisório**
-  - [ ] 3.10.1 Criar `DashboardView(LoginRequiredMixin, TemplateView)` em `core/views.py` com `template_name = 'dashboard.html'`.
-  - [ ] 3.10.2 Registrar rota `dashboard/` com nome `dashboard`.
-  - [ ] 3.10.3 Criar `dashboard.html` estendendo `layouts/app.html` com saudação "Olá, {{ user.first_name }}".
+- [X] **3.10 Dashboard provisório**
+  - [X] 3.10.1 Criar `DashboardView(LoginRequiredMixin, TemplateView)` em `core/views.py` com `template_name = 'dashboard.html'`.
+  - [X] 3.10.2 Registrar rota `dashboard/` com nome `dashboard`.
+  - [X] 3.10.3 Criar `dashboard.html` estendendo `layouts/app.html` com saudação "Olá, {{ user.first_name }}".
 
 - [ ] **3.11 Validação da sprint 3**
   - [ ] 3.11.1 Cadastrar novo usuário → login automático → dashboard.

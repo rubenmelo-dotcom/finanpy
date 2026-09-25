@@ -1,0 +1,17 @@
+{% extends 'layouts/app.html' %}
+
+{% comment %}
+  Dashboard provisório (PRD 3.10). O painel completo chega na sprint 8.
+{% endcomment %}
+
+{% block title %}Dashboard · Finanpy{% endblock %}
+
+{% block content %}
+  {% with greeting_name=user.first_name|default:user.email %}
+    {% include 'components/_page_header.html' with title='Olá, '|add:greeting_name subtitle='Bem-vindo(a) ao Finanpy. Aqui você acompanhará suas finanças.' only %}
+  {% endwith %}
+
+  <section class="card" aria-label="Painel em construção">
+    {% include 'components/_empty_state.html' with title='Seu painel completo chega em breve' text='Em breve você verá aqui o saldo das suas contas, as entradas e saídas do mês e as últimas transações.' only %}
+  </section>
+{% endblock %}

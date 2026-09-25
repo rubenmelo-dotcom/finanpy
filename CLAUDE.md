@@ -8,15 +8,16 @@ Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
 **Estado atual (Sprint 3 em andamento):** sprints 1 (setup) e 2 (design
-system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.9 estão feitas
+system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.10 estão feitas
 (`UserManager`, model `User` com `AUTH_USER_MODEL`, migrations iniciais,
 `UserAdmin` customizado, `SignUpForm`/`LoginForm` em `users/forms.py`,
 `SignUpView`/`UserLoginView` em `users/views.py`, rotas em `users/urls.py`,
-templates `templates/users/{signup,login}.html`, `HomeView` em
-`core/views.py` com rota `home` e `templates/home.html`). A rota
-`dashboard` (tarefa 3.10) ainda não existe, então qualquer página para
-usuário autenticado e o redirect pós-login/cadastro falham com
-`NoReverseMatch`; para visitantes anônimos tudo funciona. Já
+templates `templates/users/{signup,login}.html`, `HomeView` e
+`DashboardView` em `core/views.py` com rotas `home` e `dashboard`,
+`templates/home.html` e o `templates/dashboard.html` provisório). Falta a
+3.11 (validação da sprint). O `_sidebar.html` usa `{% url '...' as var %}`
+para rotas das sprints 4–7 e mostra esses itens desabilitados até as rotas
+existirem. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,
 `templates/components/_*.html` e o design system em `static/src/input.css`.
 A seção 13 do PRD é a referência para o progresso.
