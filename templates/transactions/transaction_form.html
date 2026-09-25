@@ -1,0 +1,81 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}{% if object %}Editar transação{% else %}Nova transação{% endif %} · Finanpy{% endblock %}
+
+{% block content %}
+  {% if object %}
+    {% include 'components/_page_header.html' with title='Editar transação' subtitle='Atualize os dados da transação.' only %}
+  {% else %}
+    {% include 'components/_page_header.html' with title='Nova transação' subtitle='Registre uma entrada ou uma saída.' only %}
+  {% endif %}
+
+  {% if not has_accounts or not has_categories %}
+    <div class="alert alert-warning mb-6 max-w-3xl" role="alert">
+      <p class="font-semibold">Antes de registrar uma transação:</p>
+      <ul class="mt-1 list-disc pl-5 space-y-1">
+        {% if not has_accounts %}
+          <li>Você não tem contas ativas. <a href="{% url 'accounts:create' %}" class="font-semibold underline underline-offset-2 hover:text-amber-300">Cadastre uma conta</a>.</li>
+        {% endif %}
+        {% if not has_categories %}
+          <li>Você não tem categorias. <a href="{% url 'categories:create' %}" class="font-semibold underline underline-offset-2 hover:text-amber-300">Cadastre uma categoria</a>.</li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <form method="post" class="card max-w-3xl" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error mb-5" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    {% with field=form.transaction_type %}
+      <fieldset class="mb-6"{% if field.errors %} aria-describedby="{{ field.auto_id }}_error"{% endif %}>
+        <legend class="label">{{ field.label }}</legend>
+        <div class="grid grid-cols-2 gap-3">
+          {% for radio in field %}
+            <div>
+              <input type="radio" name="{{ radio.data.name }}" id="{{ radio.id_for_label }}" value="{{ radio.data.value }}" class="sr-only peer"{% if radio.data.selected %} checked{% endif %}{% if field.errors %} aria-invalid="true"{% endif %}>
+              {% if radio.data.value == 'income' %}
+                <label for="{{ radio.id_for_label }}" class="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm font-semibold text-ink-muted transition hover:text-ink peer-checked:border-income peer-checked:bg-income/15 peer-checked:text-income peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-base">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                  </svg>
+                  {{ radio.choice_label }}
+                </label>
+              {% else %}
+                <label for="{{ radio.id_for_label }}" class="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm font-semibold text-ink-muted transition hover:text-ink peer-checked:border-expense peer-checked:bg-expense/15 peer-checked:text-expense peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-base">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                  </svg>
+                  {{ radio.choice_label }}
+                </label>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        {% if field.errors %}
+          <div id="{{ field.auto_id }}_error">
+            {% for error in field.errors %}<p class="error-text">{{ error }}</p>{% endfor %}
+          </div>
+        {% endif %}
+      </fieldset>
+    {% endwith %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {% include 'components/_form_field.html' with field=form.description wrapper_class='md:col-span-2' %}
+      {% include 'components/_form_field.html' with field=form.amount %}
+      {% include 'components/_form_field.html' with field=form.date %}
+      {% include 'components/_form_field.html' with field=form.account %}
+      {% include 'components/_form_field.html' with field=form.category %}
+    </div>
+
+    <div class="flex justify-end gap-3 pt-6 mt-6 border-t border-line">
+      <a href="{% url 'transactions:list' %}" class="btn-secondary">Cancelar</a>
+      <button type="submit" class="btn-primary">Salvar</button>
+    </div>
+  </form>
+{% endblock %}

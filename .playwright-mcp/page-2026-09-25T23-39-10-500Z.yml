@@ -1,0 +1,71 @@
+- generic [active] [ref=f64e1]:
+  - link "Pular para o conteúdo" [ref=f64e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f64e3]:
+    - link "Finanpy" [ref=f64e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f64e6]:
+      - link "Dashboard" [ref=f64e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f64e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f64e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f64e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f64e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f64e23]:
+      - generic [ref=f64e24]:
+        - generic [aria-hidden] [ref=f64e25]: QS
+        - generic [ref=f64e26]:
+          - paragraph [ref=f64e27]: QA Sete B
+          - paragraph [ref=f64e28]: qa7b+1790379224@example.com
+      - button "Sair" [ref=f64e30]
+  - main [ref=f64e34]:
+    - generic [ref=f64e36]:
+      - heading "Editar transação" [level=1] [ref=f64e37]
+      - paragraph [ref=f64e38]: Atualize os dados da transação.
+    - alert [ref=f64e39]:
+      - paragraph [ref=f64e40]: "Antes de registrar uma transação:"
+      - list [ref=f64e41]:
+        - listitem [ref=f64e42]:
+          - text: Você não tem contas ativas.
+          - link "Cadastre uma conta" [ref=f64e43] [cursor=pointer]:
+            - /url: /contas/nova/
+          - text: .
+    - generic [ref=f64e44]:
+      - group "Tipo" [ref=f64e45]:
+        - generic [ref=f64e47]:
+          - generic [ref=f64e48]:
+            - radio "Entrada" [ref=f64e49]
+            - generic [ref=f64e50] [cursor=pointer]: Entrada
+          - generic [ref=f64e53]:
+            - radio "Saída" [checked] [ref=f64e54]
+            - generic [ref=f64e55] [cursor=pointer]: Saída
+      - generic [ref=f64e58]:
+        - generic [ref=f64e59]:
+          - generic [ref=f64e60]: Descrição
+          - textbox "Descrição" [ref=f64e61]:
+            - /placeholder: "Ex.: Supermercado"
+            - text: Gasto B
+        - generic [ref=f64e62]:
+          - generic [ref=f64e63]: Valor
+          - spinbutton "Valor" [ref=f64e64]: "12.34"
+        - generic [ref=f64e65]:
+          - generic [ref=f64e66]: Data
+          - textbox "Data" [ref=f64e67]: 2026-09-25
+        - generic [ref=f64e68]:
+          - generic [ref=f64e69]: Conta
+          - combobox "Conta" [ref=f64e70]:
+            - option "Selecione a conta"
+            - option "Conta B" [selected]
+        - generic [ref=f64e71]:
+          - generic [ref=f64e72]: Categoria
+          - combobox "Categoria" [ref=f64e73]:
+            - option "Selecione a categoria"
+            - option "Categoria B" [selected]
+      - generic [ref=f64e74]:
+        - link "Cancelar" [ref=f64e75] [cursor=pointer]:
+          - /url: /transacoes/
+        - button "Salvar" [ref=f64e76]

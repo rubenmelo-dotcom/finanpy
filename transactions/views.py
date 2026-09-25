@@ -101,10 +101,12 @@ class TransactionFormMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['has_accounts'] = Account.objects.filter(
+        # When editing, the current account and category stay selectable.
+        editing = self.object is not None
+        context['has_accounts'] = editing or Account.objects.filter(
             user=user, is_active=True
         ).exists()
-        context['has_categories'] = Category.objects.filter(
+        context['has_categories'] = editing or Category.objects.filter(
             user=user
         ).exists()
         return context

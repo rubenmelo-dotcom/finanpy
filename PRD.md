@@ -1491,7 +1491,7 @@ Critérios de aceite:
 
 ---
 
-### Sprint 7 — Transações
+### [X] Sprint 7 — Transações
 
 - [X] **7.1 Model `Transaction` (`transactions/models.py`)**
   - [X] 7.1.1 Criar `TransactionType(models.TextChoices)`: `INCOME = 'income', 'Entrada'`, `EXPENSE = 'expense', 'Saída'`.
@@ -1547,27 +1547,27 @@ Critérios de aceite:
   - [X] 7.7.1 `transactions/urls.py` com `app_name = 'transactions'`: `''`, `nova/`, `<int:pk>/editar/`, `<int:pk>/excluir/`.
   - [X] 7.7.2 Incluir em `core/urls.py` com prefixo `transacoes/`.
 
-- [ ] **7.8 Templates de transações**
-  - [ ] 7.8.1 `transactions/transaction_list.html`: `_page_header` ("Transações", botão **Nova transação**).
-  - [ ] 7.8.2 Card de filtros com grid responsivo (seção 9.10) e botões **Filtrar** (primário) e **Limpar** (secundário, link para a listagem sem querystring).
-  - [ ] 7.8.3 Três mini cards de totais: Entradas (verde), Saídas (rosa), Saldo (verde/rosa conforme sinal).
-  - [ ] 7.8.4 Tabela desktop: Data, Descrição, Categoria (badge com cor), Conta, Valor (sinal e cor), Ações.
-  - [ ] 7.8.5 Lista mobile: descrição + categoria + data à esquerda, valor à direita, toque leva à edição.
-  - [ ] 7.8.6 Incluir `_pagination.html` preservando os filtros.
-  - [ ] 7.8.7 Estado vazio: sem transações ("Nenhuma transação registrada") e sem resultados de filtro ("Nenhuma transação encontrada para os filtros").
-  - [ ] 7.8.8 `transactions/transaction_form.html`: seletor de tipo em destaque no topo, campos em grid, **Cancelar**/**Salvar**.
-  - [ ] 7.8.9 Aviso no formulário quando não houver contas ou categorias, com links para cadastrá-las.
-  - [ ] 7.8.10 `transactions/transaction_confirm_delete.html` usando `_confirm_delete.html` (exibir descrição, valor e data).
+- [X] **7.8 Templates de transações**
+  - [X] 7.8.1 `transactions/transaction_list.html`: `_page_header` ("Transações", botão **Nova transação**).
+  - [X] 7.8.2 Card de filtros com grid responsivo (seção 9.10) e botões **Filtrar** (primário) e **Limpar** (secundário, link para a listagem sem querystring).
+  - [X] 7.8.3 Três mini cards de totais: Entradas (verde), Saídas (rosa), Saldo (verde/rosa conforme sinal).
+  - [X] 7.8.4 Tabela desktop: Data, Descrição, Categoria (badge com cor), Conta, Valor (sinal e cor), Ações.
+  - [X] 7.8.5 Lista mobile: descrição + categoria + data à esquerda, valor à direita, toque leva à edição.
+  - [X] 7.8.6 Incluir `_pagination.html` preservando os filtros.
+  - [X] 7.8.7 Estado vazio: sem transações ("Nenhuma transação registrada") e sem resultados de filtro ("Nenhuma transação encontrada para os filtros").
+  - [X] 7.8.8 `transactions/transaction_form.html`: seletor de tipo em destaque no topo, campos em grid, **Cancelar**/**Salvar**.
+  - [X] 7.8.9 Aviso no formulário quando não houver contas ou categorias, com links para cadastrá-las.
+  - [X] 7.8.10 `transactions/transaction_confirm_delete.html` usando `_confirm_delete.html` (exibir descrição, valor e data).
 
-- [ ] **7.9 Validação da sprint 7**
-  - [ ] 7.9.1 Criar entrada e saída; saldo da conta atualiza corretamente.
-  - [ ] 7.9.2 Categoria de tipo incompatível é bloqueada.
-  - [ ] 7.9.3 Valor 0 ou negativo é bloqueado.
-  - [ ] 7.9.4 Filtros combinados funcionam e totais batem com a soma manual.
-  - [ ] 7.9.5 Paginação mantém os filtros.
-  - [ ] 7.9.6 Excluir conta/categoria com transações exibe mensagem e não exclui.
-  - [ ] 7.9.7 Isolamento entre usuários (404 em transação alheia; contas/categorias alheias não aparecem nos selects).
-  - [ ] 7.9.8 Commit: `feat: transactions`.
+- [X] **7.9 Validação da sprint 7**
+  - [X] 7.9.1 Criar entrada e saída; saldo da conta atualiza corretamente.
+  - [X] 7.9.2 Categoria de tipo incompatível é bloqueada.
+  - [X] 7.9.3 Valor 0 ou negativo é bloqueado.
+  - [X] 7.9.4 Filtros combinados funcionam e totais batem com a soma manual.
+  - [X] 7.9.5 Paginação mantém os filtros.
+  - [X] 7.9.6 Excluir conta/categoria com transações exibe mensagem e não exclui.
+  - [X] 7.9.7 Isolamento entre usuários (404 em transação alheia; contas/categorias alheias não aparecem nos selects).
+  - [X] 7.9.8 Commit: `feat: transactions`.
 
 ---
 

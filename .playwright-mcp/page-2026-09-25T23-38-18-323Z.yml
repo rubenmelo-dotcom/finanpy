@@ -1,0 +1,53 @@
+- generic [active] [ref=f56e1]:
+  - link "Pular para o conteúdo" [ref=f56e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f56e3]:
+    - link "Finanpy" [ref=f56e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f56e6]:
+      - link "Dashboard" [ref=f56e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f56e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f56e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f56e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f56e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f56e23]:
+      - generic [ref=f56e24]:
+        - generic [aria-hidden] [ref=f56e25]: QS
+        - generic [ref=f56e26]:
+          - paragraph [ref=f56e27]: QA Sete B
+          - paragraph [ref=f56e28]: qa7b+1790379224@example.com
+      - button "Sair" [ref=f56e30]
+  - main [ref=f56e34]:
+    - status [ref=f56e35]:
+      - generic [ref=f56e36]: Categoria criada com sucesso.
+    - generic [ref=f56e37]:
+      - generic [ref=f56e38]:
+        - heading "Categorias" [level=1] [ref=f56e39]
+        - paragraph [ref=f56e40]: Organize suas entradas e saídas
+      - link "Nova categoria" [ref=f56e41] [cursor=pointer]:
+        - /url: /categorias/nova/
+    - generic [ref=f56e44]:
+      - region [ref=f56e45]:
+        - heading "Entradas" [level=2] [ref=f56e46]
+        - generic [ref=f56e48]:
+          - heading "Nenhuma categoria de entrada" [level=2] [ref=f56e52]
+          - paragraph [ref=f56e53]: Crie categorias para classificar o que você recebe.
+          - link "Adicionar categoria de entrada" [ref=f56e54] [cursor=pointer]:
+            - /url: /categorias/nova/?tipo=income
+      - region [ref=f56e57]:
+        - heading "Saídas" [level=2] [ref=f56e58]
+        - list [ref=f56e60]:
+          - listitem [ref=f56e61]:
+            - generic "Categoria B" [ref=f56e64]
+            - generic [ref=f56e65]:
+              - link "Editar categoria Categoria B" [ref=f56e66] [cursor=pointer]:
+                - /url: /categorias/28/editar/
+                - generic [ref=f56e69]: Editar
+              - link "Excluir categoria Categoria B" [ref=f56e70] [cursor=pointer]:
+                - /url: /categorias/28/excluir/
+                - generic [ref=f56e73]: Excluir

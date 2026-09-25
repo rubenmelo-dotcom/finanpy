@@ -1,0 +1,14 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Excluir transação · Finanpy{% endblock %}
+
+{% block content %}
+  {% include 'components/_page_header.html' with title='Excluir transação' only %}
+
+  {% url 'transactions:list' as list_url %}
+  {% with amount_text=object.amount|floatformat:2 date_text=object.date|date:'d/m/Y' %}
+    {% with object_name=object.description|add:' · R$ '|add:amount_text|add:' · '|add:date_text %}
+      {% include 'components/_confirm_delete.html' with object_name=object_name cancel_url=list_url %}
+    {% endwith %}
+  {% endwith %}
+{% endblock %}

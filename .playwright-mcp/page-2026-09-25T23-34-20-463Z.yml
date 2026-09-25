@@ -1,0 +1,45 @@
+- generic [active] [ref=f20e1]:
+  - link "Pular para o conteúdo" [ref=f20e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f20e3]:
+    - banner [ref=f20e4]:
+      - link "Finanpy" [ref=f20e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f20e6]
+    - main [ref=f20e9]:
+      - status [ref=f20e10]:
+        - generic [ref=f20e11]: Categoria criada com sucesso.
+      - generic [ref=f20e12]:
+        - generic [ref=f20e13]:
+          - heading "Categorias" [level=1] [ref=f20e14]
+          - paragraph [ref=f20e15]: Organize suas entradas e saídas
+        - link "Nova categoria" [ref=f20e16] [cursor=pointer]:
+          - /url: /categorias/nova/
+      - generic [ref=f20e19]:
+        - region [ref=f20e20]:
+          - heading "Entradas" [level=2] [ref=f20e21]
+          - list [ref=f20e23]:
+            - listitem [ref=f20e24]:
+              - generic "Freela QA" [ref=f20e27]
+              - generic [ref=f20e28]:
+                - link "Editar categoria Freela QA" [ref=f20e29] [cursor=pointer]:
+                  - /url: /categorias/25/editar/
+                - link "Excluir categoria Freela QA" [ref=f20e32] [cursor=pointer]:
+                  - /url: /categorias/25/excluir/
+            - listitem [ref=f20e35]:
+              - generic "Salário QA" [ref=f20e38]
+              - generic [ref=f20e39]:
+                - link "Editar categoria Salário QA" [ref=f20e40] [cursor=pointer]:
+                  - /url: /categorias/24/editar/
+                - link "Excluir categoria Salário QA" [ref=f20e43] [cursor=pointer]:
+                  - /url: /categorias/24/excluir/
+        - region [ref=f20e46]:
+          - heading "Saídas" [level=2] [ref=f20e47]
+          - list [ref=f20e49]:
+            - listitem [ref=f20e50]:
+              - generic "Mercado QA" [ref=f20e53]
+              - generic [ref=f20e54]:
+                - link "Editar categoria Mercado QA" [ref=f20e55] [cursor=pointer]:
+                  - /url: /categorias/26/editar/
+                - link "Excluir categoria Mercado QA" [ref=f20e58] [cursor=pointer]:
+                  - /url: /categorias/26/excluir/

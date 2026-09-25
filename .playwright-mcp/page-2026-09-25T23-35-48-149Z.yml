@@ -1,0 +1,64 @@
+- generic [active] [ref=f31e1]:
+  - link "Pular para o conteúdo" [ref=f31e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f31e3]:
+    - link "Finanpy" [ref=f31e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f31e6]:
+      - link "Dashboard" [ref=f31e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f31e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f31e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f31e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f31e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f31e23]:
+      - generic [ref=f31e24]:
+        - generic [aria-hidden] [ref=f31e25]: QS
+        - generic [ref=f31e26]:
+          - paragraph [ref=f31e27]: QA Sete A
+          - paragraph [ref=f31e28]: qa7a+1790379224@example.com
+      - button "Sair" [ref=f31e30]
+  - main [ref=f31e34]:
+    - generic [ref=f31e35]:
+      - generic [ref=f31e36]:
+        - heading "Contas" [level=1] [ref=f31e37]
+        - paragraph [ref=f31e38]: Gerencie suas contas bancárias
+      - link "Nova conta" [ref=f31e39] [cursor=pointer]:
+        - /url: /contas/nova/
+    - list [ref=f31e42]:
+      - listitem [ref=f31e43]:
+        - generic [ref=f31e44]:
+          - generic [ref=f31e45]:
+            - heading "QA Corrente" [level=2] [ref=f31e46]
+            - paragraph [ref=f31e47]: Banco QA
+          - generic [ref=f31e48]: Conta corrente
+        - generic [ref=f31e50]:
+          - paragraph [ref=f31e51]: Saldo atual
+          - paragraph [ref=f31e52]: R$ 2.179,75
+        - generic [ref=f31e53]:
+          - link "Editar conta QA Corrente" [ref=f31e54] [cursor=pointer]:
+            - /url: /contas/23/editar/
+            - text: Editar
+          - link "Excluir conta QA Corrente" [ref=f31e57] [cursor=pointer]:
+            - /url: /contas/23/excluir/
+            - text: Excluir
+      - listitem [ref=f31e60]:
+        - generic [ref=f31e61]:
+          - generic [ref=f31e62]:
+            - heading "QA Carteira" [level=2] [ref=f31e63]
+            - paragraph
+          - generic [ref=f31e64]: Conta corrente
+        - generic [ref=f31e66]:
+          - paragraph [ref=f31e67]: Saldo atual
+          - paragraph [ref=f31e68]: R$ 200,00
+        - generic [ref=f31e69]:
+          - link "Editar conta QA Carteira" [ref=f31e70] [cursor=pointer]:
+            - /url: /contas/24/editar/
+            - text: Editar
+          - link "Excluir conta QA Carteira" [ref=f31e73] [cursor=pointer]:
+            - /url: /contas/24/excluir/
+            - text: Excluir

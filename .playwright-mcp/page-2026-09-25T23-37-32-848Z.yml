@@ -1,0 +1,36 @@
+- generic [active] [ref=f43e1]:
+  - link "Pular para o conteúdo" [ref=f43e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f43e3]:
+    - link "Finanpy" [ref=f43e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f43e6]:
+      - link "Dashboard" [ref=f43e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f43e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f43e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f43e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f43e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f43e23]:
+      - generic [ref=f43e24]:
+        - generic [aria-hidden] [ref=f43e25]: QS
+        - generic [ref=f43e26]:
+          - paragraph [ref=f43e27]: QA Sete A
+          - paragraph [ref=f43e28]: qa7a+1790379224@example.com
+      - button "Sair" [ref=f43e30]
+  - main [ref=f43e34]:
+    - heading "Excluir conta" [level=1] [ref=f43e37]
+    - generic [ref=f43e38]:
+      - heading "Confirmar exclusão" [level=2] [ref=f43e42]
+      - paragraph [ref=f43e43]:
+        - text: Tem certeza de que deseja excluir
+        - strong [ref=f43e44]: QA Corrente
+        - text: "? Esta ação não pode ser desfeita."
+      - generic [ref=f43e45]:
+        - link "Cancelar" [ref=f43e46] [cursor=pointer]:
+          - /url: /contas/
+        - button "Excluir" [ref=f43e47]

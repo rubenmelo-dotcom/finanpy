@@ -1,0 +1,96 @@
+- generic [active] [ref=f59e1]:
+  - link "Pular para o conteúdo" [ref=f59e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f59e3]:
+    - link "Finanpy" [ref=f59e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f59e6]:
+      - link "Dashboard" [ref=f59e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f59e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f59e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f59e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f59e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f59e23]:
+      - generic [ref=f59e24]:
+        - generic [aria-hidden] [ref=f59e25]: QS
+        - generic [ref=f59e26]:
+          - paragraph [ref=f59e27]: QA Sete B
+          - paragraph [ref=f59e28]: qa7b+1790379224@example.com
+      - button "Sair" [ref=f59e30]
+  - main [ref=f59e34]:
+    - status [ref=f59e35]:
+      - generic [ref=f59e36]: Transação registrada com sucesso.
+    - generic [ref=f59e37]:
+      - generic [ref=f59e38]:
+        - heading "Transações" [level=1] [ref=f59e39]
+        - paragraph [ref=f59e40]: Acompanhe e filtre suas entradas e saídas
+      - link "Nova transação" [ref=f59e41] [cursor=pointer]:
+        - /url: /transacoes/nova/
+    - region [ref=f59e44]:
+      - heading "Filtros" [level=2] [ref=f59e45]
+      - generic [ref=f59e46]:
+        - generic [ref=f59e47]:
+          - generic [ref=f59e48]:
+            - generic [ref=f59e49]: De
+            - textbox "De" [ref=f59e50]
+          - generic [ref=f59e51]:
+            - generic [ref=f59e52]: Até
+            - textbox "Até" [ref=f59e53]
+          - generic [ref=f59e54]:
+            - generic [ref=f59e55]: Tipo
+            - combobox "Tipo" [ref=f59e56]:
+              - option "Todos" [selected]
+              - option "Entrada"
+              - option "Saída"
+          - generic [ref=f59e57]:
+            - generic [ref=f59e58]: Conta
+            - combobox "Conta" [ref=f59e59]:
+              - option "Todas" [selected]
+              - option "Conta B"
+          - generic [ref=f59e60]:
+            - generic [ref=f59e61]: Categoria
+            - combobox "Categoria" [ref=f59e62]:
+              - option "Todas" [selected]
+              - option "Categoria B"
+        - generic [ref=f59e63]:
+          - link "Limpar" [ref=f59e64] [cursor=pointer]:
+            - /url: /transacoes/
+          - button "Filtrar" [ref=f59e65]
+    - region "Totais do resultado" [ref=f59e68]:
+      - generic [ref=f59e69]:
+        - heading "Entradas" [level=3] [ref=f59e70]
+        - paragraph [ref=f59e71]: R$ 0,00
+      - generic [ref=f59e72]:
+        - heading "Saídas" [level=3] [ref=f59e73]
+        - paragraph [ref=f59e74]: R$ 12,34
+      - generic [ref=f59e75]:
+        - heading "Saldo" [level=3] [ref=f59e76]
+        - paragraph [ref=f59e77]: R$ -12,34
+    - table [ref=f59e79]:
+      - caption [ref=f59e80]: Lista de transações
+      - rowgroup [ref=f59e81]:
+        - row [ref=f59e82]:
+          - columnheader "Data" [ref=f59e83]
+          - columnheader "Descrição" [ref=f59e84]
+          - columnheader "Categoria" [ref=f59e85]
+          - columnheader "Conta" [ref=f59e86]
+          - columnheader "Valor" [ref=f59e87]
+          - columnheader "Ações" [ref=f59e88]
+      - rowgroup [ref=f59e90]:
+        - row [ref=f59e91]:
+          - cell "25/09/2026" [ref=f59e92]
+          - cell "Gasto B" [ref=f59e93]
+          - cell "Categoria B" [ref=f59e94]
+          - cell "Conta B" [ref=f59e97]
+          - cell "−R$ 12,34" [ref=f59e98]
+          - cell [ref=f59e99]:
+            - generic [ref=f59e100]:
+              - link "Editar transação Gasto B" [ref=f59e101] [cursor=pointer]:
+                - /url: /transacoes/48/editar/
+              - link "Excluir transação Gasto B" [ref=f59e104] [cursor=pointer]:
+                - /url: /transacoes/48/excluir/

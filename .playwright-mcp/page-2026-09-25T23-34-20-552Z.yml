@@ -1,0 +1,54 @@
+- generic [active] [ref=f21e1]:
+  - link "Pular para o conteúdo" [ref=f21e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f21e3]:
+    - banner [ref=f21e4]:
+      - link "Finanpy" [ref=f21e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f21e6]
+    - main [ref=f21e9]:
+      - generic [ref=f21e11]:
+        - heading "Nova categoria" [level=1] [ref=f21e12]
+        - paragraph [ref=f21e13]: Crie uma categoria de entrada ou de saída.
+      - generic [ref=f21e14]:
+        - generic [ref=f21e15]:
+          - generic [ref=f21e16]:
+            - generic [ref=f21e17]: Nome
+            - textbox "Nome" [ref=f21e18]:
+              - /placeholder: "Ex.: Alimentação"
+          - generic [ref=f21e19]:
+            - generic [ref=f21e20]: Tipo
+            - combobox "Tipo" [ref=f21e21]:
+              - option "Selecione o tipo"
+              - option "Entrada"
+              - option "Saída" [selected]
+          - group "Cor" [ref=f21e22]:
+            - generic [ref=f21e24]:
+              - generic [ref=f21e25]:
+                - radio "Violeta" [checked] [ref=f21e26]
+                - generic "Violeta" [ref=f21e27] [cursor=pointer]
+              - generic [ref=f21e29]:
+                - radio "Índigo" [ref=f21e30]
+                - generic "Índigo" [ref=f21e31] [cursor=pointer]
+              - generic [ref=f21e33]:
+                - radio "Ciano" [ref=f21e34]
+                - generic "Ciano" [ref=f21e35] [cursor=pointer]
+              - generic [ref=f21e37]:
+                - radio "Verde" [ref=f21e38]
+                - generic "Verde" [ref=f21e39] [cursor=pointer]
+              - generic [ref=f21e41]:
+                - radio "Âmbar" [ref=f21e42]
+                - generic "Âmbar" [ref=f21e43] [cursor=pointer]
+              - generic [ref=f21e45]:
+                - radio "Rosa" [ref=f21e46]
+                - generic "Rosa" [ref=f21e47] [cursor=pointer]
+              - generic [ref=f21e49]:
+                - radio "Pink" [ref=f21e50]
+                - generic "Pink" [ref=f21e51] [cursor=pointer]
+              - generic [ref=f21e53]:
+                - radio "Lima" [ref=f21e54]
+                - generic "Lima" [ref=f21e55] [cursor=pointer]
+        - generic [ref=f21e57]:
+          - link "Cancelar" [ref=f21e58] [cursor=pointer]:
+            - /url: /categorias/
+          - button "Salvar" [ref=f21e59]

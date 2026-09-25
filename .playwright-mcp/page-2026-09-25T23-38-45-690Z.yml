@@ -1,0 +1,67 @@
+- generic [ref=f58e1]:
+  - link "Pular para o conteúdo" [ref=f58e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f58e3]:
+    - link "Finanpy" [ref=f58e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f58e6]:
+      - link "Dashboard" [ref=f58e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f58e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f58e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f58e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f58e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f58e23]:
+      - generic [ref=f58e24]:
+        - generic [aria-hidden] [ref=f58e25]: QS
+        - generic [ref=f58e26]:
+          - paragraph [ref=f58e27]: QA Sete B
+          - paragraph [ref=f58e28]: qa7b+1790379224@example.com
+      - button "Sair" [ref=f58e30]
+  - main [ref=f58e34]:
+    - generic [ref=f58e36]:
+      - heading "Nova transação" [level=1] [ref=f58e37]
+      - paragraph [ref=f58e38]: Registre uma entrada ou uma saída.
+    - generic [ref=f58e39]:
+      - group "Tipo" [ref=f58e40]:
+        - generic [ref=f58e42]:
+          - generic [ref=f58e43]:
+            - radio "Entrada" [ref=f58e44]
+            - generic [ref=f58e45] [cursor=pointer]: Entrada
+          - generic [ref=f58e48]:
+            - radio "Saída" [checked] [active] [ref=f58e49]
+            - generic [ref=f58e50] [cursor=pointer]: Saída
+        - paragraph [ref=f58e54]: Selecione o tipo da transação.
+      - generic [ref=f58e55]:
+        - generic [ref=f58e56]:
+          - generic [ref=f58e57]: Descrição
+          - textbox "Descrição" [invalid] [ref=f58e58]:
+            - /placeholder: "Ex.: Supermercado"
+          - paragraph [ref=f58e60]: Este campo é obrigatório.
+        - generic [ref=f58e61]:
+          - generic [ref=f58e62]: Valor
+          - spinbutton "Valor" [invalid] [ref=f58e63]
+          - paragraph [ref=f58e65]: Este campo é obrigatório.
+        - generic [ref=f58e66]:
+          - generic [ref=f58e67]: Data
+          - textbox "Data" [ref=f58e68]: 2026-09-25
+        - generic [ref=f58e69]:
+          - generic [ref=f58e70]: Conta
+          - combobox "Conta" [invalid] [ref=f58e71]:
+            - option "Selecione a conta" [selected]
+            - option "Conta B"
+          - paragraph [ref=f58e73]: Este campo é obrigatório.
+        - generic [ref=f58e74]:
+          - generic [ref=f58e75]: Categoria
+          - combobox "Categoria" [invalid] [ref=f58e76]:
+            - option "Selecione a categoria" [selected]
+            - option "Categoria B"
+          - paragraph [ref=f58e78]: Este campo é obrigatório.
+      - generic [ref=f58e79]:
+        - link "Cancelar" [ref=f58e80] [cursor=pointer]:
+          - /url: /transacoes/
+        - button "Salvar" [ref=f58e81]

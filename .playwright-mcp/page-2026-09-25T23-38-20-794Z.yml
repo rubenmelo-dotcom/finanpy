@@ -1,0 +1,62 @@
+- generic [active] [ref=f57e1]:
+  - link "Pular para o conteúdo" [ref=f57e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f57e3]:
+    - link "Finanpy" [ref=f57e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f57e6]:
+      - link "Dashboard" [ref=f57e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f57e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f57e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f57e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f57e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f57e23]:
+      - generic [ref=f57e24]:
+        - generic [aria-hidden] [ref=f57e25]: QS
+        - generic [ref=f57e26]:
+          - paragraph [ref=f57e27]: QA Sete B
+          - paragraph [ref=f57e28]: qa7b+1790379224@example.com
+      - button "Sair" [ref=f57e30]
+  - main [ref=f57e34]:
+    - generic [ref=f57e36]:
+      - heading "Nova transação" [level=1] [ref=f57e37]
+      - paragraph [ref=f57e38]: Registre uma entrada ou uma saída.
+    - generic [ref=f57e39]:
+      - group "Tipo" [ref=f57e40]:
+        - generic [ref=f57e42]:
+          - generic [ref=f57e43]:
+            - radio "Entrada" [ref=f57e44]
+            - generic [ref=f57e45] [cursor=pointer]: Entrada
+          - generic [ref=f57e48]:
+            - radio "Saída" [ref=f57e49]
+            - generic [ref=f57e50] [cursor=pointer]: Saída
+      - generic [ref=f57e53]:
+        - generic [ref=f57e54]:
+          - generic [ref=f57e55]: Descrição
+          - textbox "Descrição" [ref=f57e56]:
+            - /placeholder: "Ex.: Supermercado"
+        - generic [ref=f57e57]:
+          - generic [ref=f57e58]: Valor
+          - spinbutton "Valor" [ref=f57e59]
+        - generic [ref=f57e60]:
+          - generic [ref=f57e61]: Data
+          - textbox "Data" [ref=f57e62]: 2026-09-25
+        - generic [ref=f57e63]:
+          - generic [ref=f57e64]: Conta
+          - combobox "Conta" [ref=f57e65]:
+            - option "Selecione a conta" [selected]
+            - option "Conta B"
+        - generic [ref=f57e66]:
+          - generic [ref=f57e67]: Categoria
+          - combobox "Categoria" [ref=f57e68]:
+            - option "Selecione a categoria" [selected]
+            - option "Categoria B"
+      - generic [ref=f57e69]:
+        - link "Cancelar" [ref=f57e70] [cursor=pointer]:
+          - /url: /transacoes/
+        - button "Salvar" [ref=f57e71]

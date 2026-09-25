@@ -1,0 +1,57 @@
+- generic [active] [ref=f10e1]:
+  - link "Pular para o conteúdo" [ref=f10e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f10e3]:
+    - banner [ref=f10e4]:
+      - link "Finanpy" [ref=f10e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f10e6]
+    - main [ref=f10e9]:
+      - generic [ref=f10e11]:
+        - heading "Nova transação" [level=1] [ref=f10e12]
+        - paragraph [ref=f10e13]: Registre uma entrada ou uma saída.
+      - alert [ref=f10e14]:
+        - paragraph [ref=f10e15]: "Antes de registrar uma transação:"
+        - list [ref=f10e16]:
+          - listitem [ref=f10e17]:
+            - text: Você não tem contas ativas.
+            - link "Cadastre uma conta" [ref=f10e18] [cursor=pointer]:
+              - /url: /contas/nova/
+            - text: .
+          - listitem [ref=f10e19]:
+            - text: Você não tem categorias.
+            - link "Cadastre uma categoria" [ref=f10e20] [cursor=pointer]:
+              - /url: /categorias/nova/
+            - text: .
+      - generic [ref=f10e21]:
+        - group "Tipo" [ref=f10e22]:
+          - generic [ref=f10e24]:
+            - generic [ref=f10e25]:
+              - radio "Entrada" [ref=f10e26]
+              - generic [ref=f10e27] [cursor=pointer]: Entrada
+            - generic [ref=f10e30]:
+              - radio "Saída" [ref=f10e31]
+              - generic [ref=f10e32] [cursor=pointer]: Saída
+        - generic [ref=f10e35]:
+          - generic [ref=f10e36]:
+            - generic [ref=f10e37]: Descrição
+            - textbox "Descrição" [ref=f10e38]:
+              - /placeholder: "Ex.: Supermercado"
+          - generic [ref=f10e39]:
+            - generic [ref=f10e40]: Valor
+            - spinbutton "Valor" [ref=f10e41]
+          - generic [ref=f10e42]:
+            - generic [ref=f10e43]: Data
+            - textbox "Data" [ref=f10e44]: 2026-09-25
+          - generic [ref=f10e45]:
+            - generic [ref=f10e46]: Conta
+            - combobox "Conta" [ref=f10e47]:
+              - option "Selecione a conta" [selected]
+          - generic [ref=f10e48]:
+            - generic [ref=f10e49]: Categoria
+            - combobox "Categoria" [ref=f10e50]:
+              - option "Selecione a categoria" [selected]
+        - generic [ref=f10e51]:
+          - link "Cancelar" [ref=f10e52] [cursor=pointer]:
+            - /url: /transacoes/
+          - button "Salvar" [ref=f10e53]

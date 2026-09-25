@@ -1,0 +1,98 @@
+- generic [active] [ref=f39e1]:
+  - link "Pular para o conteúdo" [ref=f39e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f39e3]:
+    - link "Finanpy" [ref=f39e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f39e6]:
+      - link "Dashboard" [ref=f39e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f39e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f39e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f39e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f39e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f39e23]:
+      - generic [ref=f39e24]:
+        - generic [aria-hidden] [ref=f39e25]: QS
+        - generic [ref=f39e26]:
+          - paragraph [ref=f39e27]: QA Sete A
+          - paragraph [ref=f39e28]: qa7a+1790379224@example.com
+      - button "Sair" [ref=f39e30]
+  - main [ref=f39e34]:
+    - generic [ref=f39e35]:
+      - generic [ref=f39e36]:
+        - heading "Transações" [level=1] [ref=f39e37]
+        - paragraph [ref=f39e38]: Acompanhe e filtre suas entradas e saídas
+      - link "Nova transação" [ref=f39e39] [cursor=pointer]:
+        - /url: /transacoes/nova/
+    - region [ref=f39e42]:
+      - heading "Filtros" [level=2] [ref=f39e43]
+      - generic [ref=f39e44]:
+        - generic [ref=f39e45]:
+          - generic [ref=f39e46]:
+            - generic [ref=f39e47]: De
+            - textbox "De" [ref=f39e48]: 2026-09-01
+          - generic [ref=f39e49]:
+            - generic [ref=f39e50]: Até
+            - textbox "Até" [ref=f39e51]: 2026-09-30
+          - generic [ref=f39e52]:
+            - generic [ref=f39e53]: Tipo
+            - combobox "Tipo" [ref=f39e54]:
+              - option "Todos"
+              - option "Entrada"
+              - option "Saída" [selected]
+          - generic [ref=f39e55]:
+            - generic [ref=f39e56]: Conta
+            - combobox "Conta" [ref=f39e57]:
+              - option "Todas"
+              - option "QA Carteira" [selected]
+              - option "QA Corrente"
+          - generic [ref=f39e58]:
+            - generic [ref=f39e59]: Categoria
+            - combobox "Categoria" [ref=f39e60]:
+              - option "Todas"
+              - option "Aluguel QA"
+              - option "Mercado QA" [selected]
+              - option "Freela QA"
+              - option "Salário QA"
+        - generic [ref=f39e61]:
+          - link "Limpar" [ref=f39e62] [cursor=pointer]:
+            - /url: /transacoes/
+          - button "Filtrar" [ref=f39e63]
+    - region "Totais do resultado" [ref=f39e66]:
+      - generic [ref=f39e67]:
+        - heading "Entradas" [level=3] [ref=f39e68]
+        - paragraph [ref=f39e69]: R$ 0,00
+      - generic [ref=f39e70]:
+        - heading "Saídas" [level=3] [ref=f39e71]
+        - paragraph [ref=f39e72]: R$ 45,30
+      - generic [ref=f39e73]:
+        - heading "Saldo" [level=3] [ref=f39e74]
+        - paragraph [ref=f39e75]: R$ -45,30
+    - table [ref=f39e77]:
+      - caption [ref=f39e78]: Lista de transações
+      - rowgroup [ref=f39e79]:
+        - row [ref=f39e80]:
+          - columnheader "Data" [ref=f39e81]
+          - columnheader "Descrição" [ref=f39e82]
+          - columnheader "Categoria" [ref=f39e83]
+          - columnheader "Conta" [ref=f39e84]
+          - columnheader "Valor" [ref=f39e85]
+          - columnheader "Ações" [ref=f39e86]
+      - rowgroup [ref=f39e88]:
+        - row [ref=f39e89]:
+          - cell "20/09/2026" [ref=f39e90]
+          - cell "Feira" [ref=f39e91]
+          - cell "Mercado QA" [ref=f39e92]
+          - cell "QA Carteira" [ref=f39e95]
+          - cell "−R$ 45,30" [ref=f39e96]
+          - cell [ref=f39e97]:
+            - generic [ref=f39e98]:
+              - link "Editar transação Feira" [ref=f39e99] [cursor=pointer]:
+                - /url: /transacoes/16/editar/
+              - link "Excluir transação Feira" [ref=f39e102] [cursor=pointer]:
+                - /url: /transacoes/16/excluir/

@@ -1,0 +1,34 @@
+- generic [active] [ref=f12e1]:
+  - link "Pular para o conteúdo" [ref=f12e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f12e3]:
+    - banner [ref=f12e4]:
+      - link "Finanpy" [ref=f12e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f12e6]
+    - main [ref=f12e9]:
+      - status [ref=f12e10]:
+        - generic [ref=f12e11]: Conta criada com sucesso.
+      - generic [ref=f12e12]:
+        - generic [ref=f12e13]:
+          - heading "Contas" [level=1] [ref=f12e14]
+          - paragraph [ref=f12e15]: Gerencie suas contas bancárias
+        - link "Nova conta" [ref=f12e16] [cursor=pointer]:
+          - /url: /contas/nova/
+      - list [ref=f12e19]:
+        - listitem [ref=f12e20]:
+          - generic [ref=f12e21]:
+            - generic [ref=f12e22]:
+              - heading "QA Corrente" [level=2] [ref=f12e23]
+              - paragraph [ref=f12e24]: Banco QA
+            - generic [ref=f12e25]: Conta corrente
+          - generic [ref=f12e27]:
+            - paragraph [ref=f12e28]: Saldo atual
+            - paragraph [ref=f12e29]: R$ 1.000,00
+          - generic [ref=f12e30]:
+            - link "Editar conta QA Corrente" [ref=f12e31] [cursor=pointer]:
+              - /url: /contas/23/editar/
+              - text: Editar
+            - link "Excluir conta QA Corrente" [ref=f12e34] [cursor=pointer]:
+              - /url: /contas/23/excluir/
+              - text: Excluir

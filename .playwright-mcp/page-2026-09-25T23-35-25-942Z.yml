@@ -1,0 +1,100 @@
+- generic [active] [ref=f28e1]:
+  - link "Pular para o conteúdo" [ref=f28e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f28e3]:
+    - link "Finanpy" [ref=f28e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f28e6]:
+      - link "Dashboard" [ref=f28e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f28e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f28e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f28e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f28e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f28e23]:
+      - generic [ref=f28e24]:
+        - generic [aria-hidden] [ref=f28e25]: QS
+        - generic [ref=f28e26]:
+          - paragraph [ref=f28e27]: QA Sete A
+          - paragraph [ref=f28e28]: qa7a+1790379224@example.com
+      - button "Sair" [ref=f28e30]
+  - main [ref=f28e34]:
+    - status [ref=f28e35]:
+      - generic [ref=f28e36]: Transação registrada com sucesso.
+    - generic [ref=f28e37]:
+      - generic [ref=f28e38]:
+        - heading "Transações" [level=1] [ref=f28e39]
+        - paragraph [ref=f28e40]: Acompanhe e filtre suas entradas e saídas
+      - link "Nova transação" [ref=f28e41] [cursor=pointer]:
+        - /url: /transacoes/nova/
+    - region [ref=f28e44]:
+      - heading "Filtros" [level=2] [ref=f28e45]
+      - generic [ref=f28e46]:
+        - generic [ref=f28e47]:
+          - generic [ref=f28e48]:
+            - generic [ref=f28e49]: De
+            - textbox "De" [ref=f28e50]
+          - generic [ref=f28e51]:
+            - generic [ref=f28e52]: Até
+            - textbox "Até" [ref=f28e53]
+          - generic [ref=f28e54]:
+            - generic [ref=f28e55]: Tipo
+            - combobox "Tipo" [ref=f28e56]:
+              - option "Todos" [selected]
+              - option "Entrada"
+              - option "Saída"
+          - generic [ref=f28e57]:
+            - generic [ref=f28e58]: Conta
+            - combobox "Conta" [ref=f28e59]:
+              - option "Todas" [selected]
+              - option "QA Carteira"
+              - option "QA Corrente"
+          - generic [ref=f28e60]:
+            - generic [ref=f28e61]: Categoria
+            - combobox "Categoria" [ref=f28e62]:
+              - option "Todas" [selected]
+              - option "Aluguel QA"
+              - option "Mercado QA"
+              - option "Freela QA"
+              - option "Salário QA"
+        - generic [ref=f28e63]:
+          - link "Limpar" [ref=f28e64] [cursor=pointer]:
+            - /url: /transacoes/
+          - button "Filtrar" [ref=f28e65]
+    - region "Totais do resultado" [ref=f28e68]:
+      - generic [ref=f28e69]:
+        - heading "Entradas" [level=3] [ref=f28e70]
+        - paragraph [ref=f28e71]: R$ 1.500,50
+      - generic [ref=f28e72]:
+        - heading "Saídas" [level=3] [ref=f28e73]
+        - paragraph [ref=f28e74]: R$ 0,00
+      - generic [ref=f28e75]:
+        - heading "Saldo" [level=3] [ref=f28e76]
+        - paragraph [ref=f28e77]: R$ 1.500,50
+    - table [ref=f28e79]:
+      - caption [ref=f28e80]: Lista de transações
+      - rowgroup [ref=f28e81]:
+        - row [ref=f28e82]:
+          - columnheader "Data" [ref=f28e83]
+          - columnheader "Descrição" [ref=f28e84]
+          - columnheader "Categoria" [ref=f28e85]
+          - columnheader "Conta" [ref=f28e86]
+          - columnheader "Valor" [ref=f28e87]
+          - columnheader "Ações" [ref=f28e88]
+      - rowgroup [ref=f28e90]:
+        - row [ref=f28e91]:
+          - cell "25/09/2026" [ref=f28e92]
+          - cell "Salário setembro" [ref=f28e93]
+          - cell "Salário QA" [ref=f28e94]
+          - cell "QA Corrente" [ref=f28e97]
+          - cell "+R$ 1.500,50" [ref=f28e98]
+          - cell [ref=f28e99]:
+            - generic [ref=f28e100]:
+              - link "Editar transação Salário setembro" [ref=f28e101] [cursor=pointer]:
+                - /url: /transacoes/12/editar/
+              - link "Excluir transação Salário setembro" [ref=f28e104] [cursor=pointer]:
+                - /url: /transacoes/12/excluir/

@@ -1,0 +1,50 @@
+- generic [active] [ref=f48e1]:
+  - link "Pular para o conteúdo" [ref=f48e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f48e3]:
+    - banner [ref=f48e4]:
+      - link "Finanpy" [ref=f48e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f48e6]
+    - main [ref=f48e9]:
+      - generic [ref=f48e11]:
+        - heading "Nova transação" [level=1] [ref=f48e12]
+        - paragraph [ref=f48e13]: Registre uma entrada ou uma saída.
+      - generic [ref=f48e14]:
+        - group "Tipo" [ref=f48e15]:
+          - generic [ref=f48e17]:
+            - generic [ref=f48e18]:
+              - radio "Entrada" [ref=f48e19]
+              - generic [ref=f48e20] [cursor=pointer]: Entrada
+            - generic [ref=f48e23]:
+              - radio "Saída" [checked] [ref=f48e24]
+              - generic [ref=f48e25] [cursor=pointer]: Saída
+        - generic [ref=f48e28]:
+          - generic [ref=f48e29]:
+            - generic [ref=f48e30]: Descrição
+            - textbox "Descrição" [ref=f48e31]:
+              - /placeholder: "Ex.: Supermercado"
+          - generic [ref=f48e32]:
+            - generic [ref=f48e33]: Valor
+            - spinbutton "Valor" [ref=f48e34]
+          - generic [ref=f48e35]:
+            - generic [ref=f48e36]: Data
+            - textbox "Data" [ref=f48e37]: 2026-09-25
+          - generic [ref=f48e38]:
+            - generic [ref=f48e39]: Conta
+            - combobox "Conta" [ref=f48e40]:
+              - option "Selecione a conta" [selected]
+              - option "QA Carteira"
+              - option "QA Corrente"
+          - generic [ref=f48e41]:
+            - generic [ref=f48e42]: Categoria
+            - combobox "Categoria" [ref=f48e43]:
+              - option "Selecione a categoria" [selected]
+              - option "Aluguel QA"
+              - option "Mercado QA"
+              - option "Freela QA"
+              - option "Salário QA"
+        - generic [ref=f48e44]:
+          - link "Cancelar" [ref=f48e45] [cursor=pointer]:
+            - /url: /transacoes/
+          - button "Salvar" [ref=f48e46]

@@ -1,0 +1,68 @@
+- generic [active] [ref=f27e1]:
+  - link "Pular para o conteúdo" [ref=f27e2] [cursor=pointer]:
+    - /url: "#main"
+  - complementary "Menu principal" [ref=f27e3]:
+    - link "Finanpy" [ref=f27e5] [cursor=pointer]:
+      - /url: /dashboard/
+    - navigation "Navegação principal" [ref=f27e6]:
+      - link "Dashboard" [ref=f27e7] [cursor=pointer]:
+        - /url: /dashboard/
+      - link "Transações" [ref=f27e10] [cursor=pointer]:
+        - /url: /transacoes/
+      - link "Contas" [ref=f27e13] [cursor=pointer]:
+        - /url: /contas/
+      - link "Categorias" [ref=f27e16] [cursor=pointer]:
+        - /url: /categorias/
+      - link "Perfil" [ref=f27e20] [cursor=pointer]:
+        - /url: /perfil/
+    - generic [ref=f27e23]:
+      - generic [ref=f27e24]:
+        - generic [aria-hidden] [ref=f27e25]: QS
+        - generic [ref=f27e26]:
+          - paragraph [ref=f27e27]: QA Sete A
+          - paragraph [ref=f27e28]: qa7a+1790379224@example.com
+      - button "Sair" [ref=f27e30]
+  - main [ref=f27e34]:
+    - generic [ref=f27e36]:
+      - heading "Nova transação" [level=1] [ref=f27e37]
+      - paragraph [ref=f27e38]: Registre uma entrada ou uma saída.
+    - generic [ref=f27e39]:
+      - group "Tipo" [ref=f27e40]:
+        - generic [ref=f27e42]:
+          - generic [ref=f27e43]:
+            - radio "Entrada" [checked] [ref=f27e44]
+            - generic [ref=f27e45] [cursor=pointer]: Entrada
+          - generic [ref=f27e48]:
+            - radio "Saída" [ref=f27e49]
+            - generic [ref=f27e50] [cursor=pointer]: Saída
+      - generic [ref=f27e53]:
+        - generic [ref=f27e54]:
+          - generic [ref=f27e55]: Descrição
+          - textbox "Descrição" [ref=f27e56]:
+            - /placeholder: "Ex.: Supermercado"
+            - text: Teste incompatível
+        - generic [ref=f27e57]:
+          - generic [ref=f27e58]: Valor
+          - spinbutton "Valor" [invalid] [ref=f27e59]: "-10"
+          - paragraph [ref=f27e61]: Informe um valor maior que zero.
+        - generic [ref=f27e62]:
+          - generic [ref=f27e63]: Data
+          - textbox "Data" [ref=f27e64]: 2026-09-25
+        - generic [ref=f27e65]:
+          - generic [ref=f27e66]: Conta
+          - combobox "Conta" [ref=f27e67]:
+            - option "Selecione a conta"
+            - option "QA Carteira"
+            - option "QA Corrente" [selected]
+        - generic [ref=f27e68]:
+          - generic [ref=f27e69]: Categoria
+          - combobox "Categoria" [ref=f27e70]:
+            - option "Selecione a categoria"
+            - option "Aluguel QA"
+            - option "Mercado QA"
+            - option "Freela QA"
+            - option "Salário QA" [selected]
+      - generic [ref=f27e71]:
+        - link "Cancelar" [ref=f27e72] [cursor=pointer]:
+          - /url: /transacoes/
+        - button "Salvar" [ref=f27e73]

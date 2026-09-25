@@ -1,0 +1,18 @@
+- generic [active] [ref=f8e1]:
+  - link "Pular para o conteúdo" [ref=f8e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f8e3]:
+    - banner [ref=f8e4]:
+      - link "Finanpy" [ref=f8e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f8e6]
+    - main [ref=f8e9]:
+      - status [ref=f8e10]:
+        - generic [ref=f8e11]: Bem-vindo(a) ao Finanpy!
+      - generic [ref=f8e13]:
+        - heading "Olá, QA" [level=1] [ref=f8e14]
+        - paragraph [ref=f8e15]: Bem-vindo(a) ao Finanpy. Aqui você acompanhará suas finanças.
+      - region "Painel em construção" [ref=f8e16]:
+        - generic [ref=f8e17]:
+          - heading "Seu painel completo chega em breve" [level=2] [ref=f8e21]
+          - paragraph [ref=f8e22]: Em breve você verá aqui o saldo das suas contas, as entradas e saídas do mês e as últimas transações.

@@ -1,0 +1,41 @@
+- generic [active] [ref=f13e1]:
+  - link "Pular para o conteúdo" [ref=f13e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f13e3]:
+    - banner [ref=f13e4]:
+      - link "Finanpy" [ref=f13e5] [cursor=pointer]:
+        - /url: /dashboard/
+      - button "Abrir menu" [ref=f13e6]
+    - main [ref=f13e9]:
+      - generic [ref=f13e11]:
+        - heading "Nova conta" [level=1] [ref=f13e12]
+        - paragraph [ref=f13e13]: Cadastre uma conta bancária com o saldo inicial.
+      - generic [ref=f13e14]:
+        - generic [ref=f13e15]:
+          - generic [ref=f13e16]:
+            - generic [ref=f13e17]: Nome
+            - textbox "Nome" [ref=f13e18]:
+              - /placeholder: "Ex.: Conta principal"
+          - generic [ref=f13e19]:
+            - generic [ref=f13e20]: Banco/instituição
+            - textbox "Banco/instituição" [ref=f13e21]:
+              - /placeholder: "Ex.: Nubank"
+          - generic [ref=f13e22]:
+            - generic [ref=f13e23]: Tipo
+            - combobox "Tipo" [ref=f13e24]:
+              - option "Conta corrente" [selected]
+              - option "Poupança"
+              - option "Carteira"
+              - option "Investimento"
+              - option "Outro"
+          - generic [ref=f13e25]:
+            - generic [ref=f13e26]: Saldo inicial
+            - spinbutton "Saldo inicial" [ref=f13e27]: "0.00"
+            - generic [ref=f13e28]: Saldo da conta no momento do cadastro.
+          - generic [ref=f13e30]:
+            - checkbox "Conta ativa" [checked] [ref=f13e31]
+            - generic [ref=f13e32]: Conta ativa
+        - generic [ref=f13e33]:
+          - link "Cancelar" [ref=f13e34] [cursor=pointer]:
+            - /url: /contas/
+          - button "Salvar" [ref=f13e35]

@@ -1,0 +1,40 @@
+- generic [ref=f51e2]:
+  - link "Finanpy" [ref=f51e3] [cursor=pointer]:
+    - /url: /
+  - main [ref=f51e4]:
+    - generic [ref=f51e5]:
+      - heading "Crie sua conta" [level=1] [ref=f51e6]
+      - paragraph [ref=f51e7]: Comece a organizar suas finanças em poucos minutos.
+    - generic [ref=f51e8]:
+      - generic [ref=f51e9]:
+        - generic [ref=f51e10]:
+          - generic [ref=f51e11]: Nome
+          - textbox "Nome" [ref=f51e12]:
+            - /placeholder: Seu nome
+        - generic [ref=f51e13]:
+          - generic [ref=f51e14]: Sobrenome
+          - textbox "Sobrenome" [ref=f51e15]:
+            - /placeholder: Seu sobrenome
+        - generic [ref=f51e16]:
+          - generic [ref=f51e17]: E-mail
+          - textbox "E-mail" [active] [ref=f51e18]:
+            - /placeholder: voce@exemplo.com
+        - generic [ref=f51e19]:
+          - generic [ref=f51e20]: Senha
+          - textbox "Senha" [ref=f51e21]:
+            - /placeholder: Crie uma senha
+          - list [ref=f51e23]:
+            - listitem [ref=f51e24]: Sua senha não pode ser muito parecida com o resto das suas informações pessoais.
+            - listitem [ref=f51e25]: Sua senha precisa conter pelo menos 8 caracteres.
+            - listitem [ref=f51e26]: Sua senha não pode ser uma senha comumente utilizada.
+            - listitem [ref=f51e27]: Sua senha não pode ser inteiramente numérica.
+        - generic [ref=f51e28]:
+          - generic [ref=f51e29]: Confirmar senha
+          - textbox "Confirmar senha" [ref=f51e30]:
+            - /placeholder: Repita a senha
+          - generic [ref=f51e31]: Informe a mesma senha informada anteriormente, para verificação.
+      - button "Criar conta" [ref=f51e32]
+  - generic [ref=f51e33]:
+    - text: Já tem conta?
+    - link "Entrar" [ref=f51e34] [cursor=pointer]:
+      - /url: /entrar/
