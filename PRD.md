@@ -1342,15 +1342,15 @@ Critérios de aceite:
   - [X] 4.2.3 Registrar o signal em `ProfilesConfig.ready()` com `import profiles.signals  # noqa: F401`.
   - [X] 4.2.4 Criar perfis para usuários já existentes via `python manage.py shell` (usuários criados na sprint 3).
 
-- [ ] **4.3 Admin de perfis**
-  - [ ] 4.3.1 Registrar `Profile` com `list_display = ('user', 'phone', 'birth_date', 'created_at')`.
-  - [ ] 4.3.2 `search_fields = ('user__email', 'user__first_name')`.
+- [X] **4.3 Admin de perfis**
+  - [X] 4.3.1 Registrar `Profile` com `list_display = ('user', 'phone', 'birth_date', 'created_at')`.
+  - [X] 4.3.2 `search_fields = ('user__email', 'user__first_name')`.
 
-- [ ] **4.4 Forms de perfil (`profiles/forms.py`)**
-  - [ ] 4.4.1 `UserUpdateForm(ModelForm)` para `User` com `first_name` e `last_name`.
-  - [ ] 4.4.2 `ProfileForm(ModelForm)` para `Profile` com `phone` e `birth_date` (`DateInput(type='date')`).
-  - [ ] 4.4.3 Aplicar `class='input'` e labels em pt-BR em todos os campos.
-  - [ ] 4.4.4 Estilizar o `PasswordChangeForm` nativo (subclasse `StyledPasswordChangeForm` aplicando `class='input'`).
+- [X] **4.4 Forms de perfil (`profiles/forms.py`)**
+  - [X] 4.4.1 `UserUpdateForm(ModelForm)` para `User` com `first_name` e `last_name`.
+  - [X] 4.4.2 `ProfileForm(ModelForm)` para `Profile` com `phone` e `birth_date` (`DateInput(type='date')`).
+  - [X] 4.4.3 Aplicar `class='input'` e labels em pt-BR em todos os campos.
+  - [X] 4.4.4 Estilizar o `PasswordChangeForm` nativo (subclasse `StyledPasswordChangeForm` aplicando `class='input'`).
 
 - [ ] **4.5 Views de perfil (`profiles/views.py`)**
   - [ ] 4.5.1 `ProfileDetailView(LoginRequiredMixin, TemplateView)` exibindo dados de `request.user` e `request.user.profile`.
