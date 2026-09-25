@@ -1246,7 +1246,7 @@ Critérios de aceite:
 
 ---
 
-### Sprint 3 — Usuários, autenticação e site público
+### [X] Sprint 3 — Usuários, autenticação e site público
 
 - [x] **3.1 Criar o `UserManager` (`users/managers.py`)**
   - [x] 3.1.1 Criar classe `UserManager(BaseUserManager)`.
@@ -1315,26 +1315,26 @@ Critérios de aceite:
   - [X] 3.10.2 Registrar rota `dashboard/` com nome `dashboard`.
   - [X] 3.10.3 Criar `dashboard.html` estendendo `layouts/app.html` com saudação "Olá, {{ user.first_name }}".
 
-- [ ] **3.11 Validação da sprint 3**
+- [X] **3.11 Validação da sprint 3**
   - [X] 3.11.1 Cadastrar novo usuário → login automático → dashboard.
   - [X] 3.11.2 Logout → página inicial; acessar `/dashboard/` → redireciona para login.
   - [X] 3.11.3 Login com e-mail/senha corretos → dashboard; incorretos → mensagem em pt-BR.
   - [X] 3.11.4 Cadastro com e-mail duplicado → erro em pt-BR.
   - [X] 3.11.5 `flake8` sem avisos.
-  - [ ] 3.11.6 Commit: `feat: email authentication and public site`.
+  - [X] 3.11.6 Commit: `feat: email authentication and public site`.
 
 ---
 
 ### Sprint 4 — Perfil
 
-- [ ] **4.1 Model `Profile` (`profiles/models.py`)**
-  - [ ] 4.1.1 `user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile', verbose_name='usuário')`.
-  - [ ] 4.1.2 `phone = models.CharField('telefone', max_length=20, blank=True)`.
-  - [ ] 4.1.3 `birth_date = models.DateField('data de nascimento', null=True, blank=True)`.
-  - [ ] 4.1.4 Campos `created_at` e `updated_at`.
-  - [ ] 4.1.5 `Meta`: `verbose_name = 'perfil'`, `verbose_name_plural = 'perfis'`.
-  - [ ] 4.1.6 `__str__` retornando `f'Perfil de {self.user}'`.
-  - [ ] 4.1.7 `makemigrations profiles` e `migrate`.
+- [X] **4.1 Model `Profile` (`profiles/models.py`)**
+  - [X] 4.1.1 `user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile', verbose_name='usuário')`.
+  - [X] 4.1.2 `phone = models.CharField('telefone', max_length=20, blank=True)`.
+  - [X] 4.1.3 `birth_date = models.DateField('data de nascimento', null=True, blank=True)`.
+  - [X] 4.1.4 Campos `created_at` e `updated_at`.
+  - [X] 4.1.5 `Meta`: `verbose_name = 'perfil'`, `verbose_name_plural = 'perfis'`.
+  - [X] 4.1.6 `__str__` retornando `f'Perfil de {self.user}'`.
+  - [X] 4.1.7 `makemigrations profiles` e `migrate`.
 
 - [ ] **4.2 Signal de criação automática (`profiles/signals.py`)**
   - [ ] 4.2.1 Criar receiver `create_user_profile` para `post_save` de `settings.AUTH_USER_MODEL`.

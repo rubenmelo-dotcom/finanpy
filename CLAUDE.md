@@ -7,18 +7,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
-**Estado atual (Sprint 3 em andamento):** sprints 1 (setup) e 2 (design
-system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.10 estão feitas
-(`UserManager`, model `User` com `AUTH_USER_MODEL`, migrations iniciais,
+**Estado atual (Sprint 3 concluída):** sprints 1 (setup), 2 (design
+system e layouts) e 3 (usuários, autenticação e site público) concluídas;
+a sprint 4 (perfil) é a próxima. A sprint 3 entregou `UserManager`,
+model `User` com `AUTH_USER_MODEL`, migrations iniciais,
 `UserAdmin` customizado, `SignUpForm`/`LoginForm` em `users/forms.py`,
 `SignUpView`/`UserLoginView` em `users/views.py`, rotas em `users/urls.py`,
 templates `templates/users/{signup,login}.html`, `HomeView` e
 `DashboardView` em `core/views.py` com rotas `home` e `dashboard`,
-`templates/home.html` e o `templates/dashboard.html` provisório). Na 3.11
-(validação), os itens 3.11.1–3.11.5 foram aprovados; falta só o commit
-(3.11.6). O `_sidebar.html` usa `{% url '...' as var %}`
-para rotas das sprints 4–7 e mostra esses itens desabilitados até as rotas
-existirem. Já
+`templates/home.html` e o `templates/dashboard.html` provisório. O
+`_sidebar.html` usa `{% url '...' as var %}` para rotas das sprints 4–7 e
+mostra esses itens desabilitados até as rotas existirem. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,
 `templates/components/_*.html` e o design system em `static/src/input.css`.
 A seção 13 do PRD é a referência para o progresso.
