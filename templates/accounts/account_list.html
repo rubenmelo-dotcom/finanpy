@@ -12,8 +12,8 @@
         <li class="card flex flex-col">
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <h2 class="truncate text-lg font-semibold text-ink">{{ account.name }}</h2>
-              <p class="truncate text-sm text-ink-muted">{{ account.bank_name }}</p>
+              <h2 class="truncate text-lg font-semibold text-ink" title="{{ account.name }}">{{ account.name }}</h2>
+              <p class="truncate text-sm text-ink-muted" title="{{ account.bank_name }}">{{ account.bank_name }}</p>
             </div>
             <div class="flex shrink-0 flex-wrap justify-end gap-2">
               <span class="badge badge-neutral">{{ account.get_account_type_display }}</span>

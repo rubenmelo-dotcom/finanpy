@@ -15,25 +15,43 @@ COLOR_CHOICES = (
 
 
 class CategoryForm(forms.ModelForm):
+    # Declared explicitly so the submitted color is validated against
+    # COLOR_CHOICES (the model field is a plain CharField). The
+    # model default ('#8B5CF6') is reused as the initial value on creation;
+    # on update the saved color comes from the instance.
+    color = forms.ChoiceField(
+        label='Cor',
+        choices=COLOR_CHOICES,
+        initial=Category._meta.get_field('color').default,
+        widget=forms.RadioSelect,
+        error_messages={
+            'required': 'Selecione uma cor.',
+            'invalid_choice': 'Selecione uma cor válida.',
+        },
+    )
+
     class Meta:
         model = Category
         fields = ('name', 'category_type', 'color')
         labels = {
             'name': 'Nome',
             'category_type': 'Tipo',
-            'color': 'Cor',
         }
         widgets = {
             'name': forms.TextInput(
                 attrs={'class': 'input', 'placeholder': 'Ex.: Alimentação'}
             ),
             'category_type': forms.Select(attrs={'class': 'input'}),
-            'color': forms.RadioSelect(choices=COLOR_CHOICES),
         }
 
     def __init__(self, *args, user=None, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
+        # Django 6.1 has no pt-BR translation for the blank choice label.
+        self.fields['category_type'].choices = [
+            ('', 'Selecione o tipo'),
+            *Category.CategoryType.choices,
+        ]
 
     def clean(self):
         cleaned_data = super().clean()

@@ -1476,17 +1476,17 @@ Critérios de aceite:
   - [X] 6.5.1 `categories/urls.py` com `app_name = 'categories'`: `''`, `nova/`, `<int:pk>/editar/`, `<int:pk>/excluir/`.
   - [X] 6.5.2 Incluir em `core/urls.py` com prefixo `categorias/`.
 
-- [ ] **6.6 Templates de categorias**
-  - [ ] 6.6.1 `categories/category_list.html`: `_page_header` ("Categorias", botão **Nova categoria**).
-  - [ ] 6.6.2 Duas colunas (`grid lg:grid-cols-2 gap-6`): card **Entradas** (título com `.badge-income`) e card **Saídas** (título com `.badge-expense`).
-  - [ ] 6.6.3 Cada item: bolinha de cor, nome e ações Editar/Excluir.
-  - [ ] 6.6.4 Estado vazio por coluna com link "Adicionar categoria de entrada/saída" (usa `?tipo=`).
-  - [ ] 6.6.5 `categories/category_form.html` com seletor de cor visual: cada opção do `RadioSelect` renderizada como círculo colorido com anel (`ring-2 ring-white`) quando selecionada (`peer-checked`).
-  - [ ] 6.6.6 `categories/category_confirm_delete.html` usando `_confirm_delete.html`.
+- [X] **6.6 Templates de categorias**
+  - [X] 6.6.1 `categories/category_list.html`: `_page_header` ("Categorias", botão **Nova categoria**).
+  - [X] 6.6.2 Duas colunas (`grid lg:grid-cols-2 gap-6`): card **Entradas** (título com `.badge-income`) e card **Saídas** (título com `.badge-expense`).
+  - [X] 6.6.3 Cada item: bolinha de cor, nome e ações Editar/Excluir.
+  - [X] 6.6.4 Estado vazio por coluna com link "Adicionar categoria de entrada/saída" (usa `?tipo=`).
+  - [X] 6.6.5 `categories/category_form.html` com seletor de cor visual: cada opção do `RadioSelect` renderizada como círculo colorido com anel (`ring-2 ring-white`) quando selecionada (`peer-checked`).
+  - [X] 6.6.6 `categories/category_confirm_delete.html` usando `_confirm_delete.html`.
 
 - [ ] **6.7 Validação da sprint 6**
-  - [ ] 6.7.1 Criar categorias de entrada e saída; duplicada é bloqueada.
-  - [ ] 6.7.2 Isolamento entre usuários (404 em categoria alheia).
+  - [X] 6.7.1 Criar categorias de entrada e saída; duplicada é bloqueada.
+  - [X] 6.7.2 Isolamento entre usuários (404 em categoria alheia).
   - [ ] 6.7.3 Commit: `feat: categories`.
 
 ---

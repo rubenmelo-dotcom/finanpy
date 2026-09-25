@@ -11,8 +11,8 @@
         {% if user.first_name %}{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}{% else %}{{ user.email|first|upper }}{% endif %}
       </span>
       <div class="min-w-0">
-        <h2 id="profile-name" class="text-lg font-semibold text-ink truncate">{{ user.get_full_name|default:'Nome não informado' }}</h2>
-        <p class="text-sm text-ink-muted truncate">{{ user.email }}</p>
+        <h2 id="profile-name" class="text-lg font-semibold text-ink truncate" title="{{ user.get_full_name|default:'Nome não informado' }}">{{ user.get_full_name|default:'Nome não informado' }}</h2>
+        <p class="text-sm text-ink-muted truncate" title="{{ user.email }}">{{ user.email }}</p>
       </div>
     </div>
 

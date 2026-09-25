@@ -97,8 +97,8 @@
       <div class="flex items-center gap-3 px-2">
         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-brand-500 via-accent-500 to-cyan-400 text-sm font-semibold text-white" aria-hidden="true">{% if user.first_name %}{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}{% else %}{{ user.email|first|upper }}{% endif %}</span>
         <div class="min-w-0">
-          {% if user.get_full_name %}<p class="truncate text-sm font-medium text-ink">{{ user.get_full_name }}</p>{% endif %}
-          <p class="truncate text-xs text-ink-faint">{{ user.email }}</p>
+          {% if user.get_full_name %}<p class="truncate text-sm font-medium text-ink" title="{{ user.get_full_name }}">{{ user.get_full_name }}</p>{% endif %}
+          <p class="truncate text-xs text-ink-faint" title="{{ user.email }}">{{ user.email }}</p>
         </div>
       </div>
       <form method="post" action="{% url 'logout' %}" class="mt-3">

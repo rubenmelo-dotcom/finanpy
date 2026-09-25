@@ -1,0 +1,52 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}{% if object %}Editar categoria{% else %}Nova categoria{% endif %} · Finanpy{% endblock %}
+
+{% block content %}
+  {% if object %}
+    {% include 'components/_page_header.html' with title='Editar categoria' subtitle='Atualize os dados da categoria.' only %}
+  {% else %}
+    {% include 'components/_page_header.html' with title='Nova categoria' subtitle='Crie uma categoria de entrada ou de saída.' only %}
+  {% endif %}
+
+  <form method="post" class="card max-w-3xl" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error mb-5" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {% include 'components/_form_field.html' with field=form.name %}
+      {% include 'components/_form_field.html' with field=form.category_type %}
+
+      {% with field=form.color %}
+        <fieldset class="md:col-span-2"{% if field.errors %} aria-describedby="{{ field.auto_id }}_error"{% endif %}>
+          <legend class="label">{{ field.label }}</legend>
+          <div class="flex flex-wrap gap-3">
+            {% for radio in field %}
+              <div>
+                <input type="radio" name="{{ radio.data.name }}" id="{{ radio.id_for_label }}" value="{{ radio.data.value }}" class="sr-only peer"{% if radio.data.selected %} checked{% endif %}{% if field.errors %} aria-invalid="true"{% endif %}>
+                <label for="{{ radio.id_for_label }}" title="{{ radio.choice_label }}" class="block h-9 w-9 cursor-pointer rounded-full transition hover:scale-110 peer-checked:ring-2 peer-checked:ring-white peer-checked:ring-offset-2 peer-checked:ring-offset-base peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-brand-500" style="background-color: {{ radio.data.value }}">
+                  <span class="sr-only">{{ radio.choice_label }}</span>
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+          {% if field.errors %}
+            <div id="{{ field.auto_id }}_error">
+              {% for error in field.errors %}<p class="error-text">{{ error }}</p>{% endfor %}
+            </div>
+          {% endif %}
+        </fieldset>
+      {% endwith %}
+    </div>
+
+    <div class="flex justify-end gap-3 pt-6 mt-6 border-t border-line">
+      <a href="{% url 'categories:list' %}" class="btn-secondary">Cancelar</a>
+      <button type="submit" class="btn-primary">Salvar</button>
+    </div>
+  </form>
+{% endblock %}

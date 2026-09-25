@@ -1,0 +1,10 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Excluir categoria · Finanpy{% endblock %}
+
+{% block content %}
+  {% include 'components/_page_header.html' with title='Excluir categoria' only %}
+
+  {% url 'categories:list' as list_url %}
+  {% include 'components/_confirm_delete.html' with object_name=object.name cancel_url=list_url %}
+{% endblock %}

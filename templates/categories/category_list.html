@@ -1,0 +1,36 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Categorias · Finanpy{% endblock %}
+
+{% block content %}
+  {% url 'categories:create' as create_url %}
+  {% include 'components/_page_header.html' with title='Categorias' subtitle='Organize suas entradas e saídas' action_url=create_url action_label='Nova categoria' only %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <section class="card" aria-labelledby="income-categories-title">
+      <h2 id="income-categories-title" class="mb-4">
+        <span class="badge badge-income">Entradas</span>
+      </h2>
+      {% if income_categories %}
+        {% include 'categories/_category_items.html' with categories=income_categories only %}
+      {% else %}
+        {% with income_create_url=create_url|add:'?tipo=income' %}
+          {% include 'components/_empty_state.html' with title='Nenhuma categoria de entrada' text='Crie categorias para classificar o que você recebe.' action_url=income_create_url action_label='Adicionar categoria de entrada' only %}
+        {% endwith %}
+      {% endif %}
+    </section>
+
+    <section class="card" aria-labelledby="expense-categories-title">
+      <h2 id="expense-categories-title" class="mb-4">
+        <span class="badge badge-expense">Saídas</span>
+      </h2>
+      {% if expense_categories %}
+        {% include 'categories/_category_items.html' with categories=expense_categories only %}
+      {% else %}
+        {% with expense_create_url=create_url|add:'?tipo=expense' %}
+          {% include 'components/_empty_state.html' with title='Nenhuma categoria de saída' text='Crie categorias para classificar seus gastos.' action_url=expense_create_url action_label='Adicionar categoria de saída' only %}
+        {% endwith %}
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}
