@@ -1419,23 +1419,23 @@ Critérios de aceite:
   - [X] 5.6.4 `AccountDeleteView(LoginRequiredMixin, UserQuerySetMixin, DeleteView)`; em `form_valid`, capturar `ProtectedError` e exibir `messages.error` "Esta conta possui transações e não pode ser excluída. Você pode desativá-la."; em caso de sucesso, `messages.success` "Conta excluída com sucesso.".
   - [X] 5.6.5 `success_url = reverse_lazy('accounts:list')` em todas as views de escrita.
 
-- [ ] **5.7 URLs de contas**
-  - [ ] 5.7.1 `accounts/urls.py` com `app_name = 'accounts'`: `''` (`list`), `nova/` (`create`), `<int:pk>/editar/` (`update`), `<int:pk>/excluir/` (`delete`).
-  - [ ] 5.7.2 Incluir em `core/urls.py` com prefixo `contas/`.
+- [X] **5.7 URLs de contas**
+  - [X] 5.7.1 `accounts/urls.py` com `app_name = 'accounts'`: `''` (`list`), `nova/` (`create`), `<int:pk>/editar/` (`update`), `<int:pk>/excluir/` (`delete`).
+  - [X] 5.7.2 Incluir em `core/urls.py` com prefixo `contas/`.
 
-- [ ] **5.8 Templates de contas**
-  - [ ] 5.8.1 `accounts/account_list.html`: `_page_header` ("Contas", "Gerencie suas contas bancárias", botão **Nova conta**).
-  - [ ] 5.8.2 Grid de cards (`grid sm:grid-cols-2 xl:grid-cols-3 gap-4`), um por conta: nome, banco, badge do tipo, saldo atual (vermelho se negativo), badge "Inativa" quando aplicável.
-  - [ ] 5.8.3 Ações em cada card: **Editar** e **Excluir** (`.btn-ghost .btn-sm`).
-  - [ ] 5.8.4 Estado vazio: "Nenhuma conta cadastrada" + botão **Nova conta**.
-  - [ ] 5.8.5 `accounts/account_form.html`: título dinâmico ("Nova conta" / "Editar conta"), campos com `_form_field.html`, ações **Cancelar** e **Salvar**.
-  - [ ] 5.8.6 `accounts/account_confirm_delete.html` usando `_confirm_delete.html`.
-  - [ ] 5.8.7 Adicionar link "Contas" ativo na sidebar.
+- [X] **5.8 Templates de contas**
+  - [X] 5.8.1 `accounts/account_list.html`: `_page_header` ("Contas", "Gerencie suas contas bancárias", botão **Nova conta**).
+  - [X] 5.8.2 Grid de cards (`grid sm:grid-cols-2 xl:grid-cols-3 gap-4`), um por conta: nome, banco, badge do tipo, saldo atual (vermelho se negativo), badge "Inativa" quando aplicável.
+  - [X] 5.8.3 Ações em cada card: **Editar** e **Excluir** (`.btn-ghost .btn-sm`).
+  - [X] 5.8.4 Estado vazio: "Nenhuma conta cadastrada" + botão **Nova conta**.
+  - [X] 5.8.5 `accounts/account_form.html`: título dinâmico ("Nova conta" / "Editar conta"), campos com `_form_field.html`, ações **Cancelar** e **Salvar**.
+  - [X] 5.8.6 `accounts/account_confirm_delete.html` usando `_confirm_delete.html`.
+  - [X] 5.8.7 Adicionar link "Contas" ativo na sidebar.
 
 - [ ] **5.9 Validação da sprint 5**
-  - [ ] 5.9.1 Criar, editar e excluir contas com mensagens corretas.
-  - [ ] 5.9.2 Usuário B não acessa `/contas/<pk>/editar/` do usuário A (404).
-  - [ ] 5.9.3 Valores exibidos como `R$ 1.234,56`.
+  - [X] 5.9.1 Criar, editar e excluir contas com mensagens corretas.
+  - [X] 5.9.2 Usuário B não acessa `/contas/<pk>/editar/` do usuário A (404).
+  - [X] 5.9.3 Valores exibidos como `R$ 1.234,56`.
   - [ ] 5.9.4 Commit: `feat: bank accounts`.
 
 ---

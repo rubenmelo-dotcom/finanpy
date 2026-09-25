@@ -1,0 +1,34 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}{% if object %}Editar conta{% else %}Nova conta{% endif %} · Finanpy{% endblock %}
+
+{% block content %}
+  {% if object %}
+    {% include 'components/_page_header.html' with title='Editar conta' subtitle='Atualize os dados da conta.' only %}
+  {% else %}
+    {% include 'components/_page_header.html' with title='Nova conta' subtitle='Cadastre uma conta bancária com o saldo inicial.' only %}
+  {% endif %}
+
+  <form method="post" class="card max-w-3xl" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error mb-5" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {% include 'components/_form_field.html' with field=form.name %}
+      {% include 'components/_form_field.html' with field=form.bank_name %}
+      {% include 'components/_form_field.html' with field=form.account_type %}
+      {% include 'components/_form_field.html' with field=form.initial_balance %}
+      {% include 'components/_form_field.html' with field=form.is_active wrapper_class='md:col-span-2' %}
+    </div>
+
+    <div class="flex justify-end gap-3 pt-6 mt-6 border-t border-line">
+      <a href="{% url 'accounts:list' %}" class="btn-secondary">Cancelar</a>
+      <button type="submit" class="btn-primary">Salvar</button>
+    </div>
+  </form>
+{% endblock %}

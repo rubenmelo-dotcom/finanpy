@@ -1,0 +1,10 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Excluir conta · Finanpy{% endblock %}
+
+{% block content %}
+  {% include 'components/_page_header.html' with title='Excluir conta' only %}
+
+  {% url 'accounts:list' as list_url %}
+  {% include 'components/_confirm_delete.html' with object_name=object.name cancel_url=list_url %}
+{% endblock %}
