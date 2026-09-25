@@ -1518,20 +1518,20 @@ Critérios de aceite:
   - [X] 7.3.2 Atualizar a anotação `with_balance(user)` com `Sum('transactions__amount', filter=Q(transactions__transaction_type='income'))` e equivalente para `expense`, usando `Coalesce(..., Decimal('0'))`.
   - [X] 7.3.3 Conferir na listagem de contas que o saldo reflete as transações.
 
-- [ ] **7.4 Form de transação (`transactions/forms.py`)**
-  - [ ] 7.4.1 `TransactionForm(ModelForm)` com `fields = ('transaction_type', 'description', 'amount', 'date', 'account', 'category')`.
-  - [ ] 7.4.2 Receber `user` no `__init__` e filtrar `account.queryset` para contas ativas do usuário (na edição, incluir também a conta atual mesmo se inativa).
-  - [ ] 7.4.3 Filtrar `category.queryset` para categorias do usuário, ordenadas por tipo e nome.
-  - [ ] 7.4.4 `transaction_type` como `RadioSelect` estilizado em dois botões lado a lado (Entrada verde / Saída rosa).
-  - [ ] 7.4.5 `date` com `DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')`.
-  - [ ] 7.4.6 `amount` com `NumberInput(attrs={'step': '0.01', 'min': '0.01'})`.
-  - [ ] 7.4.7 `clean()`: se `category.category_type != transaction_type`, adicionar erro no campo `category`: "A categoria selecionada não corresponde ao tipo da transação.".
-  - [ ] 7.4.8 Labels e placeholders em pt-BR; `class='input'` em todos os campos de texto/select.
+- [X] **7.4 Form de transação (`transactions/forms.py`)**
+  - [X] 7.4.1 `TransactionForm(ModelForm)` com `fields = ('transaction_type', 'description', 'amount', 'date', 'account', 'category')`.
+  - [X] 7.4.2 Receber `user` no `__init__` e filtrar `account.queryset` para contas ativas do usuário (na edição, incluir também a conta atual mesmo se inativa).
+  - [X] 7.4.3 Filtrar `category.queryset` para categorias do usuário, ordenadas por tipo e nome.
+  - [X] 7.4.4 `transaction_type` como `RadioSelect` estilizado em dois botões lado a lado (Entrada verde / Saída rosa).
+  - [X] 7.4.5 `date` com `DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')`.
+  - [X] 7.4.6 `amount` com `NumberInput(attrs={'step': '0.01', 'min': '0.01'})`.
+  - [X] 7.4.7 `clean()`: se `category.category_type != transaction_type`, adicionar erro no campo `category`: "A categoria selecionada não corresponde ao tipo da transação.".
+  - [X] 7.4.8 Labels e placeholders em pt-BR; `class='input'` em todos os campos de texto/select.
 
-- [ ] **7.5 Form de filtros (`transactions/forms.py`)**
-  - [ ] 7.5.1 `TransactionFilterForm(forms.Form)` com campos opcionais: `start_date`, `end_date`, `transaction_type`, `account`, `category`.
-  - [ ] 7.5.2 Labels em pt-BR ("De", "Até", "Tipo", "Conta", "Categoria") e opção vazia "Todos"/"Todas".
-  - [ ] 7.5.3 Receber `user` no `__init__` e filtrar querysets de conta e categoria.
+- [X] **7.5 Form de filtros (`transactions/forms.py`)**
+  - [X] 7.5.1 `TransactionFilterForm(forms.Form)` com campos opcionais: `start_date`, `end_date`, `transaction_type`, `account`, `category`.
+  - [X] 7.5.2 Labels em pt-BR ("De", "Até", "Tipo", "Conta", "Categoria") e opção vazia "Todos"/"Todas".
+  - [X] 7.5.3 Receber `user` no `__init__` e filtrar querysets de conta e categoria.
 
 - [ ] **7.6 Views de transações (`transactions/views.py`)**
   - [ ] 7.6.1 `TransactionListView(LoginRequiredMixin, ListView)` com `paginate_by = 20` e `select_related('account', 'category')`.
