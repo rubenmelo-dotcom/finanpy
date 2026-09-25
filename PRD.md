@@ -1399,25 +1399,25 @@ Critérios de aceite:
   - [X] 5.2.2 Enquanto a app `transactions` não existir, o método retorna `initial_balance` (ajustar na sprint 7 — tarefa 7.3).
   - [X] 5.2.3 Criar método de classe/manager simples `with_balance(user)` que anota o saldo em uma única query (`annotate` com `Sum` + `filter`) para a listagem e o dashboard.
 
-- [ ] **5.3 Admin de contas**
-  - [ ] 5.3.1 Registrar `Account` com `list_display = ('name', 'user', 'account_type', 'initial_balance', 'is_active', 'created_at')`.
-  - [ ] 5.3.2 `list_filter = ('account_type', 'is_active')` e `search_fields = ('name', 'bank_name', 'user__email')`.
+- [X] **5.3 Admin de contas**
+  - [X] 5.3.1 Registrar `Account` com `list_display = ('name', 'user', 'account_type', 'initial_balance', 'is_active', 'created_at')`.
+  - [X] 5.3.2 `list_filter = ('account_type', 'is_active')` e `search_fields = ('name', 'bank_name', 'user__email')`.
 
-- [ ] **5.4 Form de conta (`accounts/forms.py`)**
-  - [ ] 5.4.1 `AccountForm(ModelForm)` com `fields = ('name', 'bank_name', 'account_type', 'initial_balance', 'is_active')`.
-  - [ ] 5.4.2 Widgets com `class='input'` (e `class='checkbox'` em `is_active`), placeholders em pt-BR (ex.: "Ex.: Nubank").
-  - [ ] 5.4.3 `initial_balance` com `NumberInput(attrs={'step': '0.01'})` e help text "Saldo da conta no momento do cadastro.".
+- [X] **5.4 Form de conta (`accounts/forms.py`)**
+  - [X] 5.4.1 `AccountForm(ModelForm)` com `fields = ('name', 'bank_name', 'account_type', 'initial_balance', 'is_active')`.
+  - [X] 5.4.2 Widgets com `class='input'` (e `class='checkbox'` em `is_active`), placeholders em pt-BR (ex.: "Ex.: Nubank").
+  - [X] 5.4.3 `initial_balance` com `NumberInput(attrs={'step': '0.01'})` e help text "Saldo da conta no momento do cadastro.".
 
-- [ ] **5.5 Mixin de isolamento por usuário**
-  - [ ] 5.5.1 Criar em `accounts/views.py` (ou replicar de forma simples em cada app) um `UserQuerySetMixin` com `get_queryset()` retornando `super().get_queryset().filter(user=self.request.user)`.
-  - [ ] 5.5.2 Garantir que acesso a `pk` de outro usuário resulta em 404 (comportamento natural de `get_object()` com queryset filtrado).
+- [X] **5.5 Mixin de isolamento por usuário**
+  - [X] 5.5.1 Criar em `accounts/views.py` (ou replicar de forma simples em cada app) um `UserQuerySetMixin` com `get_queryset()` retornando `super().get_queryset().filter(user=self.request.user)`.
+  - [X] 5.5.2 Garantir que acesso a `pk` de outro usuário resulta em 404 (comportamento natural de `get_object()` com queryset filtrado).
 
-- [ ] **5.6 Views de contas (`accounts/views.py`)**
-  - [ ] 5.6.1 `AccountListView(LoginRequiredMixin, ListView)` usando o queryset anotado com saldo (tarefa 5.2.3); `context_object_name = 'accounts'`.
-  - [ ] 5.6.2 `AccountCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView)`; em `form_valid`, `form.instance.user = self.request.user`; `success_message = 'Conta criada com sucesso.'`.
-  - [ ] 5.6.3 `AccountUpdateView(LoginRequiredMixin, UserQuerySetMixin, SuccessMessageMixin, UpdateView)`; `success_message = 'Conta atualizada com sucesso.'`.
-  - [ ] 5.6.4 `AccountDeleteView(LoginRequiredMixin, UserQuerySetMixin, DeleteView)`; em `form_valid`, capturar `ProtectedError` e exibir `messages.error` "Esta conta possui transações e não pode ser excluída. Você pode desativá-la."; em caso de sucesso, `messages.success` "Conta excluída com sucesso.".
-  - [ ] 5.6.5 `success_url = reverse_lazy('accounts:list')` em todas as views de escrita.
+- [X] **5.6 Views de contas (`accounts/views.py`)**
+  - [X] 5.6.1 `AccountListView(LoginRequiredMixin, ListView)` usando o queryset anotado com saldo (tarefa 5.2.3); `context_object_name = 'accounts'`.
+  - [X] 5.6.2 `AccountCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView)`; em `form_valid`, `form.instance.user = self.request.user`; `success_message = 'Conta criada com sucesso.'`.
+  - [X] 5.6.3 `AccountUpdateView(LoginRequiredMixin, UserQuerySetMixin, SuccessMessageMixin, UpdateView)`; `success_message = 'Conta atualizada com sucesso.'`.
+  - [X] 5.6.4 `AccountDeleteView(LoginRequiredMixin, UserQuerySetMixin, DeleteView)`; em `form_valid`, capturar `ProtectedError` e exibir `messages.error` "Esta conta possui transações e não pode ser excluída. Você pode desativá-la."; em caso de sucesso, `messages.success` "Conta excluída com sucesso.".
+  - [X] 5.6.5 `success_url = reverse_lazy('accounts:list')` em todas as views de escrita.
 
 - [ ] **5.7 URLs de contas**
   - [ ] 5.7.1 `accounts/urls.py` com `app_name = 'accounts'`: `''` (`list`), `nova/` (`create`), `<int:pk>/editar/` (`update`), `<int:pk>/excluir/` (`delete`).
