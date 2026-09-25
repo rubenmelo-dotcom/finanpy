@@ -1533,19 +1533,19 @@ Critérios de aceite:
   - [X] 7.5.2 Labels em pt-BR ("De", "Até", "Tipo", "Conta", "Categoria") e opção vazia "Todos"/"Todas".
   - [X] 7.5.3 Receber `user` no `__init__` e filtrar querysets de conta e categoria.
 
-- [ ] **7.6 Views de transações (`transactions/views.py`)**
-  - [ ] 7.6.1 `TransactionListView(LoginRequiredMixin, ListView)` com `paginate_by = 20` e `select_related('account', 'category')`.
-  - [ ] 7.6.2 Em `get_queryset`, instanciar `TransactionFilterForm(self.request.GET, user=...)` e aplicar filtros válidos (`date__gte`, `date__lte`, `transaction_type`, `account`, `category`).
-  - [ ] 7.6.3 Em `get_context_data`, adicionar `filter_form` e totais do queryset filtrado via `aggregate` (entradas, saídas e saldo).
-  - [ ] 7.6.4 `TransactionCreateView` com `get_form_kwargs` (user), `form_valid` atribuindo usuário e mensagem "Transação registrada com sucesso.".
-  - [ ] 7.6.5 Em `get_context_data` da criação, informar `has_accounts` e `has_categories` para exibir aviso quando faltarem.
-  - [ ] 7.6.6 Permitir pré-selecionar tipo via `?tipo=income|expense` em `get_initial`.
-  - [ ] 7.6.7 `TransactionUpdateView` com queryset filtrado por usuário e mensagem "Transação atualizada com sucesso.".
-  - [ ] 7.6.8 `TransactionDeleteView` com queryset filtrado e mensagem "Transação excluída com sucesso.".
+- [X] **7.6 Views de transações (`transactions/views.py`)**
+  - [X] 7.6.1 `TransactionListView(LoginRequiredMixin, ListView)` com `paginate_by = 20` e `select_related('account', 'category')`.
+  - [X] 7.6.2 Em `get_queryset`, instanciar `TransactionFilterForm(self.request.GET, user=...)` e aplicar filtros válidos (`date__gte`, `date__lte`, `transaction_type`, `account`, `category`).
+  - [X] 7.6.3 Em `get_context_data`, adicionar `filter_form` e totais do queryset filtrado via `aggregate` (entradas, saídas e saldo).
+  - [X] 7.6.4 `TransactionCreateView` com `get_form_kwargs` (user), `form_valid` atribuindo usuário e mensagem "Transação registrada com sucesso.".
+  - [X] 7.6.5 Em `get_context_data` da criação, informar `has_accounts` e `has_categories` para exibir aviso quando faltarem.
+  - [X] 7.6.6 Permitir pré-selecionar tipo via `?tipo=income|expense` em `get_initial`.
+  - [X] 7.6.7 `TransactionUpdateView` com queryset filtrado por usuário e mensagem "Transação atualizada com sucesso.".
+  - [X] 7.6.8 `TransactionDeleteView` com queryset filtrado e mensagem "Transação excluída com sucesso.".
 
-- [ ] **7.7 URLs de transações**
-  - [ ] 7.7.1 `transactions/urls.py` com `app_name = 'transactions'`: `''`, `nova/`, `<int:pk>/editar/`, `<int:pk>/excluir/`.
-  - [ ] 7.7.2 Incluir em `core/urls.py` com prefixo `transacoes/`.
+- [X] **7.7 URLs de transações**
+  - [X] 7.7.1 `transactions/urls.py` com `app_name = 'transactions'`: `''`, `nova/`, `<int:pk>/editar/`, `<int:pk>/excluir/`.
+  - [X] 7.7.2 Incluir em `core/urls.py` com prefixo `transacoes/`.
 
 - [ ] **7.8 Templates de transações**
   - [ ] 7.8.1 `transactions/transaction_list.html`: `_page_header` ("Transações", botão **Nova transação**).
