@@ -1336,11 +1336,11 @@ Critérios de aceite:
   - [X] 4.1.6 `__str__` retornando `f'Perfil de {self.user}'`.
   - [X] 4.1.7 `makemigrations profiles` e `migrate`.
 
-- [ ] **4.2 Signal de criação automática (`profiles/signals.py`)**
-  - [ ] 4.2.1 Criar receiver `create_user_profile` para `post_save` de `settings.AUTH_USER_MODEL`.
-  - [ ] 4.2.2 Quando `created=True`, executar `Profile.objects.create(user=instance)`.
-  - [ ] 4.2.3 Registrar o signal em `ProfilesConfig.ready()` com `import profiles.signals  # noqa: F401`.
-  - [ ] 4.2.4 Criar perfis para usuários já existentes via `python manage.py shell` (usuários criados na sprint 3).
+- [X] **4.2 Signal de criação automática (`profiles/signals.py`)**
+  - [X] 4.2.1 Criar receiver `create_user_profile` para `post_save` de `settings.AUTH_USER_MODEL`.
+  - [X] 4.2.2 Quando `created=True`, executar `Profile.objects.create(user=instance)`.
+  - [X] 4.2.3 Registrar o signal em `ProfilesConfig.ready()` com `import profiles.signals  # noqa: F401`.
+  - [X] 4.2.4 Criar perfis para usuários já existentes via `python manage.py shell` (usuários criados na sprint 3).
 
 - [ ] **4.3 Admin de perfis**
   - [ ] 4.3.1 Registrar `Profile` com `list_display = ('user', 'phone', 'birth_date', 'created_at')`.
