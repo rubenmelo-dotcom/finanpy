@@ -1360,16 +1360,16 @@ Critérios de aceite:
   - [X] 4.5.5 Mensagem "Perfil atualizado com sucesso." e redirecionamento para `profiles:detail`.
   - [X] 4.5.6 `UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView)` com form estilizado, `success_url = reverse_lazy('profiles:detail')` e mensagem "Senha alterada com sucesso.".
 
-- [ ] **4.6 URLs de perfil**
-  - [ ] 4.6.1 Criar `profiles/urls.py` com `app_name = 'profiles'` e rotas `''` (`detail`), `editar/` (`update`) e `senha/` (`password`).
-  - [ ] 4.6.2 Incluir em `core/urls.py` com prefixo `perfil/`.
+- [X] **4.6 URLs de perfil**
+  - [X] 4.6.1 Criar `profiles/urls.py` com `app_name = 'profiles'` e rotas `''` (`detail`), `editar/` (`update`) e `senha/` (`password`).
+  - [X] 4.6.2 Incluir em `core/urls.py` com prefixo `perfil/`.
 
-- [ ] **4.7 Templates de perfil**
-  - [ ] 4.7.1 `profiles/profile_detail.html`: card com avatar de iniciais (círculo em gradiente), nome, e-mail, telefone, nascimento e data de cadastro.
-  - [ ] 4.7.2 Botões **Editar perfil** (`.btn-primary`) e **Alterar senha** (`.btn-secondary`).
-  - [ ] 4.7.3 `profiles/profile_form.html`: form com os campos de `user_form` e `form` usando `_form_field.html`; e-mail exibido como somente leitura.
-  - [ ] 4.7.4 `profiles/password_change.html`: form com senha atual, nova senha e confirmação.
-  - [ ] 4.7.5 Garantir que o item "Perfil" da sidebar fica ativo nas 3 páginas.
+- [X] **4.7 Templates de perfil**
+  - [X] 4.7.1 `profiles/profile_detail.html`: card com avatar de iniciais (círculo em gradiente), nome, e-mail, telefone, nascimento e data de cadastro.
+  - [X] 4.7.2 Botões **Editar perfil** (`.btn-primary`) e **Alterar senha** (`.btn-secondary`).
+  - [X] 4.7.3 `profiles/profile_form.html`: form com os campos de `user_form` e `form` usando `_form_field.html`; e-mail exibido como somente leitura.
+  - [X] 4.7.4 `profiles/password_change.html`: form com senha atual, nova senha e confirmação.
+  - [X] 4.7.5 Garantir que o item "Perfil" da sidebar fica ativo nas 3 páginas.
 
 - [ ] **4.8 Validação da sprint 4**
   - [ ] 4.8.1 Novo cadastro cria `Profile` automaticamente (conferir no admin).

@@ -24,4 +24,5 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('', include('users.urls')),
+    path('perfil/', include('profiles.urls')),
 ]
