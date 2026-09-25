@@ -14,8 +14,9 @@ system e layouts) concluídas; na sprint 3, as tarefas 3.1 a 3.10 estão feitas
 `SignUpView`/`UserLoginView` em `users/views.py`, rotas em `users/urls.py`,
 templates `templates/users/{signup,login}.html`, `HomeView` e
 `DashboardView` em `core/views.py` com rotas `home` e `dashboard`,
-`templates/home.html` e o `templates/dashboard.html` provisório). Falta a
-3.11 (validação da sprint). O `_sidebar.html` usa `{% url '...' as var %}`
+`templates/home.html` e o `templates/dashboard.html` provisório). Na 3.11
+(validação), os itens 3.11.1–3.11.5 foram aprovados; falta só o commit
+(3.11.6). O `_sidebar.html` usa `{% url '...' as var %}`
 para rotas das sprints 4–7 e mostra esses itens desabilitados até as rotas
 existirem. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,

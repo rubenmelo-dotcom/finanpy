@@ -1316,11 +1316,11 @@ Critérios de aceite:
   - [X] 3.10.3 Criar `dashboard.html` estendendo `layouts/app.html` com saudação "Olá, {{ user.first_name }}".
 
 - [ ] **3.11 Validação da sprint 3**
-  - [ ] 3.11.1 Cadastrar novo usuário → login automático → dashboard.
-  - [ ] 3.11.2 Logout → página inicial; acessar `/dashboard/` → redireciona para login.
-  - [ ] 3.11.3 Login com e-mail/senha corretos → dashboard; incorretos → mensagem em pt-BR.
-  - [ ] 3.11.4 Cadastro com e-mail duplicado → erro em pt-BR.
-  - [ ] 3.11.5 `flake8` sem avisos.
+  - [X] 3.11.1 Cadastrar novo usuário → login automático → dashboard.
+  - [X] 3.11.2 Logout → página inicial; acessar `/dashboard/` → redireciona para login.
+  - [X] 3.11.3 Login com e-mail/senha corretos → dashboard; incorretos → mensagem em pt-BR.
+  - [X] 3.11.4 Cadastro com e-mail duplicado → erro em pt-BR.
+  - [X] 3.11.5 `flake8` sem avisos.
   - [ ] 3.11.6 Commit: `feat: email authentication and public site`.
 
 ---
