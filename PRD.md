@@ -1465,16 +1465,16 @@ Critérios de aceite:
   - [X] 6.3.4 `clean()`: se existir outra categoria do usuário com mesmo nome (case-insensitive, `name__iexact`) e tipo, lançar "Já existe uma categoria com este nome para este tipo.".
   - [X] 6.3.5 Aplicar `class='input'` em `name` e `category_type`.
 
-- [ ] **6.4 Views de categorias (`categories/views.py`)**
-  - [ ] 6.4.1 `CategoryListView(LoginRequiredMixin, ListView)` filtrando por usuário; em `get_context_data`, separar `income_categories` e `expense_categories`.
-  - [ ] 6.4.2 `CategoryCreateView` com `get_form_kwargs` passando `user`, `form_valid` atribuindo usuário e mensagem "Categoria criada com sucesso.".
-  - [ ] 6.4.3 Permitir pré-selecionar o tipo via querystring (`?tipo=income`) em `get_initial`.
-  - [ ] 6.4.4 `CategoryUpdateView` com queryset filtrado, `user` no form e mensagem "Categoria atualizada com sucesso.".
-  - [ ] 6.4.5 `CategoryDeleteView` tratando `ProtectedError` com "Esta categoria possui transações e não pode ser excluída." e mensagem de sucesso na exclusão.
+- [X] **6.4 Views de categorias (`categories/views.py`)**
+  - [X] 6.4.1 `CategoryListView(LoginRequiredMixin, ListView)` filtrando por usuário; em `get_context_data`, separar `income_categories` e `expense_categories`.
+  - [X] 6.4.2 `CategoryCreateView` com `get_form_kwargs` passando `user`, `form_valid` atribuindo usuário e mensagem "Categoria criada com sucesso.".
+  - [X] 6.4.3 Permitir pré-selecionar o tipo via querystring (`?tipo=income`) em `get_initial`.
+  - [X] 6.4.4 `CategoryUpdateView` com queryset filtrado, `user` no form e mensagem "Categoria atualizada com sucesso.".
+  - [X] 6.4.5 `CategoryDeleteView` tratando `ProtectedError` com "Esta categoria possui transações e não pode ser excluída." e mensagem de sucesso na exclusão.
 
-- [ ] **6.5 URLs de categorias**
-  - [ ] 6.5.1 `categories/urls.py` com `app_name = 'categories'`: `''`, `nova/`, `<int:pk>/editar/`, `<int:pk>/excluir/`.
-  - [ ] 6.5.2 Incluir em `core/urls.py` com prefixo `categorias/`.
+- [X] **6.5 URLs de categorias**
+  - [X] 6.5.1 `categories/urls.py` com `app_name = 'categories'`: `''`, `nova/`, `<int:pk>/editar/`, `<int:pk>/excluir/`.
+  - [X] 6.5.2 Incluir em `core/urls.py` com prefixo `categorias/`.
 
 - [ ] **6.6 Templates de categorias**
   - [ ] 6.6.1 `categories/category_list.html`: `_page_header` ("Categorias", botão **Nova categoria**).
