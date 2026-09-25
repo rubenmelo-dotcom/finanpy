@@ -1325,7 +1325,7 @@ Critérios de aceite:
 
 ---
 
-### Sprint 4 — Perfil
+### [X] Sprint 4 — Perfil
 
 - [X] **4.1 Model `Profile` (`profiles/models.py`)**
   - [X] 4.1.1 `user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile', verbose_name='usuário')`.
@@ -1371,33 +1371,33 @@ Critérios de aceite:
   - [X] 4.7.4 `profiles/password_change.html`: form com senha atual, nova senha e confirmação.
   - [X] 4.7.5 Garantir que o item "Perfil" da sidebar fica ativo nas 3 páginas.
 
-- [ ] **4.8 Validação da sprint 4**
-  - [ ] 4.8.1 Novo cadastro cria `Profile` automaticamente (conferir no admin).
-  - [ ] 4.8.2 Editar perfil salva nome, sobrenome, telefone e nascimento.
-  - [ ] 4.8.3 Alterar senha mantém o usuário logado e a nova senha funciona no próximo login.
-  - [ ] 4.8.4 Commit: `feat: user profile`.
+- [X] **4.8 Validação da sprint 4**
+  - [X] 4.8.1 Novo cadastro cria `Profile` automaticamente (conferir no admin).
+  - [X] 4.8.2 Editar perfil salva nome, sobrenome, telefone e nascimento.
+  - [X] 4.8.3 Alterar senha mantém o usuário logado e a nova senha funciona no próximo login.
+  - [X] 4.8.4 Commit: `feat: user profile`.
 
 ---
 
 ### Sprint 5 — Contas bancárias
 
-- [ ] **5.1 Model `Account` (`accounts/models.py`)**
-  - [ ] 5.1.1 Criar `AccountType(models.TextChoices)`: `CHECKING = 'checking', 'Conta corrente'`, `SAVINGS = 'savings', 'Poupança'`, `WALLET = 'wallet', 'Carteira'`, `INVESTMENT = 'investment', 'Investimento'`, `OTHER = 'other', 'Outro'`.
-  - [ ] 5.1.2 `user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='accounts', verbose_name='usuário')`.
-  - [ ] 5.1.3 `name = models.CharField('nome', max_length=100)`.
-  - [ ] 5.1.4 `bank_name = models.CharField('banco/instituição', max_length=100, blank=True)`.
-  - [ ] 5.1.5 `account_type = models.CharField('tipo', max_length=20, choices=AccountType.choices, default=AccountType.CHECKING)`.
-  - [ ] 5.1.6 `initial_balance = models.DecimalField('saldo inicial', max_digits=12, decimal_places=2, default=Decimal('0.00'))`.
-  - [ ] 5.1.7 `is_active = models.BooleanField('ativa', default=True)`.
-  - [ ] 5.1.8 Campos `created_at` e `updated_at`.
-  - [ ] 5.1.9 `Meta`: `ordering = ['name']`, `verbose_name = 'conta'`, `verbose_name_plural = 'contas'`.
-  - [ ] 5.1.10 `__str__` retornando o nome.
-  - [ ] 5.1.11 `makemigrations accounts` e `migrate`.
+- [X] **5.1 Model `Account` (`accounts/models.py`)**
+  - [X] 5.1.1 Criar `AccountType(models.TextChoices)`: `CHECKING = 'checking', 'Conta corrente'`, `SAVINGS = 'savings', 'Poupança'`, `WALLET = 'wallet', 'Carteira'`, `INVESTMENT = 'investment', 'Investimento'`, `OTHER = 'other', 'Outro'`.
+  - [X] 5.1.2 `user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='accounts', verbose_name='usuário')`.
+  - [X] 5.1.3 `name = models.CharField('nome', max_length=100)`.
+  - [X] 5.1.4 `bank_name = models.CharField('banco/instituição', max_length=100, blank=True)`.
+  - [X] 5.1.5 `account_type = models.CharField('tipo', max_length=20, choices=AccountType.choices, default=AccountType.CHECKING)`.
+  - [X] 5.1.6 `initial_balance = models.DecimalField('saldo inicial', max_digits=12, decimal_places=2, default=Decimal('0.00'))`.
+  - [X] 5.1.7 `is_active = models.BooleanField('ativa', default=True)`.
+  - [X] 5.1.8 Campos `created_at` e `updated_at`.
+  - [X] 5.1.9 `Meta`: `ordering = ['name']`, `verbose_name = 'conta'`, `verbose_name_plural = 'contas'`.
+  - [X] 5.1.10 `__str__` retornando o nome.
+  - [X] 5.1.11 `makemigrations accounts` e `migrate`.
 
-- [ ] **5.2 Cálculo de saldo atual**
-  - [ ] 5.2.1 Implementar método `current_balance()` em `Account`: agregar `Sum('amount')` das transações de entrada e de saída (`self.transactions`) e retornar `initial_balance + entradas - saídas` (usar `Coalesce`/`or Decimal('0')` para somas vazias).
-  - [ ] 5.2.2 Enquanto a app `transactions` não existir, o método retorna `initial_balance` (ajustar na sprint 7 — tarefa 7.3).
-  - [ ] 5.2.3 Criar método de classe/manager simples `with_balance(user)` que anota o saldo em uma única query (`annotate` com `Sum` + `filter`) para a listagem e o dashboard.
+- [X] **5.2 Cálculo de saldo atual**
+  - [X] 5.2.1 Implementar método `current_balance()` em `Account`: agregar `Sum('amount')` das transações de entrada e de saída (`self.transactions`) e retornar `initial_balance + entradas - saídas` (usar `Coalesce`/`or Decimal('0')` para somas vazias).
+  - [X] 5.2.2 Enquanto a app `transactions` não existir, o método retorna `initial_balance` (ajustar na sprint 7 — tarefa 7.3).
+  - [X] 5.2.3 Criar método de classe/manager simples `with_balance(user)` que anota o saldo em uma única query (`annotate` com `Sum` + `filter`) para a listagem e o dashboard.
 
 - [ ] **5.3 Admin de contas**
   - [ ] 5.3.1 Registrar `Account` com `list_display = ('name', 'user', 'account_type', 'initial_balance', 'is_active', 'created_at')`.

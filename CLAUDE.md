@@ -7,16 +7,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
-**Estado atual (Sprint 3 concluída):** sprints 1 (setup), 2 (design
-system e layouts) e 3 (usuários, autenticação e site público) concluídas;
-a sprint 4 (perfil) é a próxima. A sprint 3 entregou `UserManager`,
-model `User` com `AUTH_USER_MODEL`, migrations iniciais,
+**Estado atual (Sprint 4 concluída):** sprints 1 (setup), 2 (design
+system e layouts), 3 (usuários, autenticação e site público) e 4 (perfil)
+concluídas; a sprint 5 (contas bancárias) é a próxima. A sprint 3 entregou
+`UserManager`, model `User` com `AUTH_USER_MODEL`, migrations iniciais,
 `UserAdmin` customizado, `SignUpForm`/`LoginForm` em `users/forms.py`,
 `SignUpView`/`UserLoginView` em `users/views.py`, rotas em `users/urls.py`,
 templates `templates/users/{signup,login}.html`, `HomeView` e
 `DashboardView` em `core/views.py` com rotas `home` e `dashboard`,
-`templates/home.html` e o `templates/dashboard.html` provisório. O
-`_sidebar.html` usa `{% url '...' as var %}` para rotas das sprints 4–7 e
+`templates/home.html` e o `templates/dashboard.html` provisório. A
+sprint 4 entregou a model `Profile` (migration aplicada), o signal
+`create_user_profile` em `profiles/signals.py`, `ProfileAdmin`,
+`UserUpdateForm`/`ProfileForm`/`StyledPasswordChangeForm` em
+`profiles/forms.py`, `ProfileDetailView`/`ProfileUpdateView`/
+`UserPasswordChangeView` em `profiles/views.py`, rotas `profiles:detail`,
+`profiles:update` e `profiles:password` sob `perfil/` e os templates
+`templates/profiles/{profile_detail,profile_form,password_change}.html`. O
+`_sidebar.html` usa `{% url '...' as var %}` para rotas das sprints 5–7 e
 mostra esses itens desabilitados até as rotas existirem. Já
 existem `templates/base.html`, `layouts/{public,auth,app}.html`,
 `templates/components/_*.html` e o design system em `static/src/input.css`.
