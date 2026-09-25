@@ -1352,13 +1352,13 @@ Critérios de aceite:
   - [X] 4.4.3 Aplicar `class='input'` e labels em pt-BR em todos os campos.
   - [X] 4.4.4 Estilizar o `PasswordChangeForm` nativo (subclasse `StyledPasswordChangeForm` aplicando `class='input'`).
 
-- [ ] **4.5 Views de perfil (`profiles/views.py`)**
-  - [ ] 4.5.1 `ProfileDetailView(LoginRequiredMixin, TemplateView)` exibindo dados de `request.user` e `request.user.profile`.
-  - [ ] 4.5.2 `ProfileUpdateView(LoginRequiredMixin, UpdateView)` com `model = Profile`, `form_class = ProfileForm` e `get_object()` retornando `request.user.profile`.
-  - [ ] 4.5.3 Em `get_context_data`, incluir `user_form` (`UserUpdateForm`) com `instance=request.user`.
-  - [ ] 4.5.4 Em `post`, validar os dois forms; salvar ambos se válidos, senão re-renderizar com erros.
-  - [ ] 4.5.5 Mensagem "Perfil atualizado com sucesso." e redirecionamento para `profiles:detail`.
-  - [ ] 4.5.6 `UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView)` com form estilizado, `success_url = reverse_lazy('profiles:detail')` e mensagem "Senha alterada com sucesso.".
+- [X] **4.5 Views de perfil (`profiles/views.py`)**
+  - [X] 4.5.1 `ProfileDetailView(LoginRequiredMixin, TemplateView)` exibindo dados de `request.user` e `request.user.profile`.
+  - [X] 4.5.2 `ProfileUpdateView(LoginRequiredMixin, UpdateView)` com `model = Profile`, `form_class = ProfileForm` e `get_object()` retornando `request.user.profile`.
+  - [X] 4.5.3 Em `get_context_data`, incluir `user_form` (`UserUpdateForm`) com `instance=request.user`.
+  - [X] 4.5.4 Em `post`, validar os dois forms; salvar ambos se válidos, senão re-renderizar com erros.
+  - [X] 4.5.5 Mensagem "Perfil atualizado com sucesso." e redirecionamento para `profiles:detail`.
+  - [X] 4.5.6 `UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView)` com form estilizado, `success_url = reverse_lazy('profiles:detail')` e mensagem "Senha alterada com sucesso.".
 
 - [ ] **4.6 URLs de perfil**
   - [ ] 4.6.1 Criar `profiles/urls.py` com `app_name = 'profiles'` e rotas `''` (`detail`), `editar/` (`update`) e `senha/` (`password`).
