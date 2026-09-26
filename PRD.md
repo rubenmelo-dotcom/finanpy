@@ -1708,34 +1708,34 @@ Critérios de aceite:
 
 ### Sprint 11 — Docker
 
-- [ ] **11.1 Preparar configurações por ambiente**
-  - [ ] 11.1.1 Ler `SECRET_KEY`, `DEBUG` e `ALLOWED_HOSTS` de variáveis de ambiente com `os.environ.get` e valores padrão de desenvolvimento.
-  - [ ] 11.1.2 Criar `.env.example` com as variáveis documentadas.
-  - [ ] 11.1.3 Permitir configurar o caminho do SQLite por variável (`SQLITE_PATH`) para uso em volume.
+- [X] **11.1 Preparar configurações por ambiente**
+  - [X] 11.1.1 Ler `SECRET_KEY`, `DEBUG` e `ALLOWED_HOSTS` de variáveis de ambiente com `os.environ.get` e valores padrão de desenvolvimento.
+  - [X] 11.1.2 Criar `.env.example` com as variáveis documentadas.
+  - [X] 11.1.3 Permitir configurar o caminho do SQLite por variável (`SQLITE_PATH`) para uso em volume.
 
-- [ ] **11.2 Dockerfile**
-  - [ ] 11.2.1 Usar imagem base `python:3.12-slim`.
-  - [ ] 11.2.2 Definir `PYTHONDONTWRITEBYTECODE=1` e `PYTHONUNBUFFERED=1`.
-  - [ ] 11.2.3 Copiar `requirements.txt` e instalar dependências (camada de cache).
-  - [ ] 11.2.4 Baixar o Tailwind CLI standalone em um estágio de build e gerar `output.css` com `--minify`.
-  - [ ] 11.2.5 Copiar o código do projeto e executar `collectstatic --noinput`.
-  - [ ] 11.2.6 Expor a porta 8000 e definir o comando de inicialização (`migrate` + servidor).
-  - [ ] 11.2.7 Criar `.dockerignore` (`.venv`, `__pycache__`, `db.sqlite`, `.git`, `bin/`).
+- [X] **11.2 Dockerfile**
+  - [X] 11.2.1 Usar imagem base `python:3.12-slim`.
+  - [X] 11.2.2 Definir `PYTHONDONTWRITEBYTECODE=1` e `PYTHONUNBUFFERED=1`.
+  - [X] 11.2.3 Copiar `requirements.txt` e instalar dependências (camada de cache).
+  - [X] 11.2.4 Baixar o Tailwind CLI standalone em um estágio de build e gerar `output.css` com `--minify`.
+  - [X] 11.2.5 Copiar o código do projeto e executar `collectstatic --noinput`.
+  - [X] 11.2.6 Expor a porta 8000 e definir o comando de inicialização (`migrate` + servidor).
+  - [X] 11.2.7 Criar `.dockerignore` (`.venv`, `__pycache__`, `db.sqlite`, `.git`, `bin/`).
 
-- [ ] **11.3 Docker Compose**
-  - [ ] 11.3.1 Criar `docker-compose.yml` com o serviço `web` (build local, porta `8000:8000`, `env_file: .env`).
-  - [ ] 11.3.2 Criar volume nomeado para o diretório do SQLite.
-  - [ ] 11.3.3 Testar `docker compose up --build` e acessar `http://localhost:8000`.
-  - [ ] 11.3.4 Testar `docker compose exec web python manage.py createsuperuser`.
-  - [ ] 11.3.5 Testar `docker compose exec web python manage.py test`.
+- [X] **11.3 Docker Compose**
+  - [X] 11.3.1 Criar `docker-compose.yml` com o serviço `web` (build local, porta `8000:8000`, `env_file: .env`).
+  - [X] 11.3.2 Criar volume nomeado para o diretório do SQLite.
+  - [X] 11.3.3 Testar `docker compose up --build` e acessar `http://localhost:8000`.
+  - [X] 11.3.4 Testar `docker compose exec web python manage.py createsuperuser`.
+  - [X] 11.3.5 Testar `docker compose exec web python manage.py test`.
 
-- [ ] **11.4 Documentação final**
-  - [ ] 11.4.1 Atualizar README com seção "Executando com Docker".
-  - [ ] 11.4.2 Revisar README completo (instalação local, Tailwind, testes, Docker).
+- [X] **11.4 Documentação final**
+  - [X] 11.4.1 Atualizar README com seção "Executando com Docker".
+  - [X] 11.4.2 Revisar README completo (instalação local, Tailwind, testes, Docker).
 
 - [ ] **11.5 Validação da sprint 11**
-  - [ ] 11.5.1 Aplicação sobe do zero com `docker compose up --build`.
-  - [ ] 11.5.2 Dados persistem após `docker compose down` e `up`.
+  - [X] 11.5.1 Aplicação sobe do zero com `docker compose up --build`.
+  - [X] 11.5.2 Dados persistem após `docker compose down` e `up`.
   - [ ] 11.5.3 Commit: `chore: docker setup`.
 
 ---
