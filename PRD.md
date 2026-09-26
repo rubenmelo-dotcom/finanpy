@@ -1649,60 +1649,60 @@ Critérios de aceite:
 
 ### Sprint 10 — Testes automatizados
 
-- [ ] **10.1 Estrutura de testes**
-  - [ ] 10.1.1 Usar `django.test.TestCase` nos arquivos `tests.py` de cada app (converter em pacote `tests/` apenas se o arquivo ficar grande).
-  - [ ] 10.1.2 Criar funções auxiliares simples para criar usuário, conta, categoria e transação nos testes.
-  - [ ] 10.1.3 Instalar `coverage` (`pip install coverage`) e atualizar `requirements.txt`.
+- [X] **10.1 Estrutura de testes**
+  - [X] 10.1.1 Usar `django.test.TestCase` nos arquivos `tests.py` de cada app (converter em pacote `tests/` apenas se o arquivo ficar grande).
+  - [X] 10.1.2 Criar funções auxiliares simples para criar usuário, conta, categoria e transação nos testes.
+  - [X] 10.1.3 Instalar `coverage` (`pip install coverage`) e atualizar `requirements.txt`.
 
-- [ ] **10.2 Testes da app `users`**
-  - [ ] 10.2.1 `create_user` cria usuário com e-mail normalizado e senha criptografada.
-  - [ ] 10.2.2 `create_user` sem e-mail lança `ValueError`.
-  - [ ] 10.2.3 `create_superuser` define `is_staff` e `is_superuser`.
-  - [ ] 10.2.4 E-mail duplicado é rejeitado no cadastro.
-  - [ ] 10.2.5 Cadastro válido autentica e redireciona para o dashboard.
-  - [ ] 10.2.6 Login com e-mail e senha corretos redireciona para o dashboard.
-  - [ ] 10.2.7 Login inválido exibe a mensagem em pt-BR.
-  - [ ] 10.2.8 Logout via POST redireciona para a página inicial.
+- [X] **10.2 Testes da app `users`**
+  - [X] 10.2.1 `create_user` cria usuário com e-mail normalizado e senha criptografada.
+  - [X] 10.2.2 `create_user` sem e-mail lança `ValueError`.
+  - [X] 10.2.3 `create_superuser` define `is_staff` e `is_superuser`.
+  - [X] 10.2.4 E-mail duplicado é rejeitado no cadastro.
+  - [X] 10.2.5 Cadastro válido autentica e redireciona para o dashboard.
+  - [X] 10.2.6 Login com e-mail e senha corretos redireciona para o dashboard.
+  - [X] 10.2.7 Login inválido exibe a mensagem em pt-BR.
+  - [X] 10.2.8 Logout via POST redireciona para a página inicial.
 
-- [ ] **10.3 Testes da app `profiles`**
-  - [ ] 10.3.1 Signal cria `Profile` ao criar `User`.
-  - [ ] 10.3.2 Edição de perfil atualiza `User` e `Profile`.
-  - [ ] 10.3.3 Alteração de senha funciona e mantém a sessão.
-  - [ ] 10.3.4 Páginas de perfil exigem login.
+- [X] **10.3 Testes da app `profiles`**
+  - [X] 10.3.1 Signal cria `Profile` ao criar `User`.
+  - [X] 10.3.2 Edição de perfil atualiza `User` e `Profile`.
+  - [X] 10.3.3 Alteração de senha funciona e mantém a sessão.
+  - [X] 10.3.4 Páginas de perfil exigem login.
 
-- [ ] **10.4 Testes da app `accounts`**
-  - [ ] 10.4.1 `current_balance` sem transações retorna o saldo inicial.
-  - [ ] 10.4.2 `current_balance` considera entradas e saídas.
-  - [ ] 10.4.3 Listagem mostra apenas contas do usuário logado.
-  - [ ] 10.4.4 Editar/excluir conta de outro usuário retorna 404.
-  - [ ] 10.4.5 Exclusão de conta com transações é bloqueada com mensagem.
+- [X] **10.4 Testes da app `accounts`**
+  - [X] 10.4.1 `current_balance` sem transações retorna o saldo inicial.
+  - [X] 10.4.2 `current_balance` considera entradas e saídas.
+  - [X] 10.4.3 Listagem mostra apenas contas do usuário logado.
+  - [X] 10.4.4 Editar/excluir conta de outro usuário retorna 404.
+  - [X] 10.4.5 Exclusão de conta com transações é bloqueada com mensagem.
 
-- [ ] **10.5 Testes da app `categories`**
-  - [ ] 10.5.1 Categoria duplicada (mesmo nome e tipo) é rejeitada pelo form.
-  - [ ] 10.5.2 Mesmo nome com tipos diferentes é permitido.
-  - [ ] 10.5.3 Isolamento entre usuários (404).
-  - [ ] 10.5.4 Exclusão de categoria com transações é bloqueada.
+- [X] **10.5 Testes da app `categories`**
+  - [X] 10.5.1 Categoria duplicada (mesmo nome e tipo) é rejeitada pelo form.
+  - [X] 10.5.2 Mesmo nome com tipos diferentes é permitido.
+  - [X] 10.5.3 Isolamento entre usuários (404).
+  - [X] 10.5.4 Exclusão de categoria com transações é bloqueada.
 
-- [ ] **10.6 Testes da app `transactions`**
-  - [ ] 10.6.1 Valor menor ou igual a zero é rejeitado.
-  - [ ] 10.6.2 Categoria de tipo incompatível é rejeitada.
-  - [ ] 10.6.3 Selects do form listam apenas contas ativas e categorias do usuário.
-  - [ ] 10.6.4 Filtros por período, tipo, conta e categoria retornam os registros corretos.
-  - [ ] 10.6.5 Totais da listagem correspondem aos registros filtrados.
-  - [ ] 10.6.6 Isolamento entre usuários (404).
+- [X] **10.6 Testes da app `transactions`**
+  - [X] 10.6.1 Valor menor ou igual a zero é rejeitado.
+  - [X] 10.6.2 Categoria de tipo incompatível é rejeitada.
+  - [X] 10.6.3 Selects do form listam apenas contas ativas e categorias do usuário.
+  - [X] 10.6.4 Filtros por período, tipo, conta e categoria retornam os registros corretos.
+  - [X] 10.6.5 Totais da listagem correspondem aos registros filtrados.
+  - [X] 10.6.6 Isolamento entre usuários (404).
 
-- [ ] **10.7 Testes do `core`**
-  - [ ] 10.7.1 Página inicial retorna 200 para anônimos.
-  - [ ] 10.7.2 Dashboard redireciona anônimos para o login.
-  - [ ] 10.7.3 Totais do mês ignoram transações de meses anteriores.
-  - [ ] 10.7.4 Saldo total soma apenas contas ativas.
-  - [ ] 10.7.5 Gastos por categoria e percentuais calculados corretamente.
+- [X] **10.7 Testes do `core`**
+  - [X] 10.7.1 Página inicial retorna 200 para anônimos.
+  - [X] 10.7.2 Dashboard redireciona anônimos para o login.
+  - [X] 10.7.3 Totais do mês ignoram transações de meses anteriores.
+  - [X] 10.7.4 Saldo total soma apenas contas ativas.
+  - [X] 10.7.5 Gastos por categoria e percentuais calculados corretamente.
 
 - [ ] **10.8 Validação da sprint 10**
-  - [ ] 10.8.1 `python manage.py test` sem falhas.
-  - [ ] 10.8.2 `coverage run manage.py test && coverage report` com cobertura ≥ 80% nas apps de domínio.
-  - [ ] 10.8.3 Documentar o comando de testes no README.
-  - [ ] 10.8.4 Commit: `test: automated test suite`.
+  - [X] 10.8.1 `python manage.py test` sem falhas.
+  - [X] 10.8.2 `coverage run manage.py test && coverage report` com cobertura ≥ 80% nas apps de domínio.
+  - [X] 10.8.3 Documentar o comando de testes no README.
+  - [X] 10.8.4 Commit: `test: automated test suite`.
 
 ---
 

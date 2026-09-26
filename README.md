@@ -55,6 +55,20 @@ python manage.py check
 flake8
 ```
 
+## Testes
+
+A suíte usa `django.test.TestCase` (um `tests.py` por app) e os helpers de
+`core/test_utils.py`. Com o venv ativado:
+
+```bash
+python manage.py test                     # suíte completa
+python manage.py test transactions        # uma app
+python manage.py test accounts.tests.AccountBalanceTests  # uma classe
+
+# Cobertura (configuração em .coveragerc)
+coverage run manage.py test && coverage report
+```
+
 ## Build final do CSS
 
 ```bash

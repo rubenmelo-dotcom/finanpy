@@ -1,7 +1,12 @@
 asgiref==3.12.1
+click==8.5.0
+coverage==7.16.1
 Django==6.1.1
 flake8==7.4.1
 mccabe==0.7.0
+pillow==12.3.0
 pycodestyle==2.15.0
 pyflakes==4.0.0
+setuptools==84.0.0
 sqlparse==0.6.0
+svgwrite==1.4.3
