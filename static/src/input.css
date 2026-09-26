@@ -137,21 +137,21 @@
   /* Badges (9.8) */
   .badge {
     @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
-      text-xs font-medium;
+      text-xs font-medium whitespace-nowrap;
   }
   .badge-income {
     @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
-      text-xs font-medium;
+      text-xs font-medium whitespace-nowrap;
     @apply bg-income/15 text-income;
   }
   .badge-expense {
     @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
-      text-xs font-medium;
+      text-xs font-medium whitespace-nowrap;
     @apply bg-expense/15 text-expense;
   }
   .badge-neutral {
     @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
-      text-xs font-medium;
+      text-xs font-medium whitespace-nowrap;
     @apply border border-line bg-surface-2 text-ink-muted;
   }
 

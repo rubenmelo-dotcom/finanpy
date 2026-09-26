@@ -1,17 +1,223 @@
 {% extends 'layouts/app.html' %}
-
-{% comment %}
-  Dashboard provisório (PRD 3.10). O painel completo chega na sprint 8.
-{% endcomment %}
+{% load currency %}
 
 {% block title %}Dashboard · Finanpy{% endblock %}
 
 {% block content %}
-  {% with greeting_name=user.first_name|default:user.email %}
-    {% include 'components/_page_header.html' with title='Olá, '|add:greeting_name subtitle='Bem-vindo(a) ao Finanpy. Aqui você acompanhará suas finanças.' only %}
-  {% endwith %}
+  {% url 'transactions:create' as transaction_create_url %}
+  {% url 'transactions:list' as transaction_list_url %}
+  {% url 'accounts:create' as account_create_url %}
+  {% url 'accounts:list' as account_list_url %}
+  {% url 'categories:create' as category_create_url %}
 
-  <section class="card" aria-label="Painel em construção">
-    {% include 'components/_empty_state.html' with title='Seu painel completo chega em breve' text='Em breve você verá aqui o saldo das suas contas, as entradas e saídas do mês e as últimas transações.' only %}
-  </section>
+  {% with month_label=today|date:'F \d\e Y'|lower %}
+    {% comment %}
+      Cabeçalho com as mesmas classes de components/_page_header.html (9.11),
+      escrito aqui porque o dashboard tem três ações rápidas (RF37).
+    {% endcomment %}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div class="min-w-0">
+        <h1 class="text-2xl md:text-3xl font-semibold text-ink break-words">Olá, {{ user.first_name|default:user.email }}</h1>
+        <p class="mt-1 text-sm text-ink-muted">Resumo de {{ month_label }}</p>
+      </div>
+      <nav class="flex flex-wrap gap-2 sm:justify-end" aria-label="Ações rápidas">
+        <a href="{{ account_create_url }}" class="btn-secondary btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Nova conta
+        </a>
+        <a href="{{ category_create_url }}" class="btn-secondary btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Nova categoria
+        </a>
+        <a href="{{ transaction_create_url }}" class="btn-primary btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Nova transação
+        </a>
+      </nav>
+    </div>
+
+    {% if not onboarding_complete %}
+      <section class="card mb-6" aria-labelledby="onboarding-title">
+        <h2 id="onboarding-title" class="text-lg font-semibold text-ink">Primeiros passos</h2>
+        <p class="mt-1 text-sm text-ink-muted">Complete os passos abaixo para começar a acompanhar suas finanças.</p>
+        <ol class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4" role="list">
+          <li class="flex items-center gap-3 rounded-xl border p-4 {% if has_accounts %}border-income/30 bg-income/10{% else %}border-line bg-surface-2/60{% endif %}">
+            {% if has_accounts %}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-income/15 text-income">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+              </span>
+              <p class="min-w-0 text-sm font-medium text-income">Cadastrar conta <span class="sr-only">(concluído)</span></p>
+            {% else %}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-surface-2 text-sm font-semibold text-ink-muted" aria-hidden="true">1</span>
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-ink">Cadastrar conta <span class="sr-only">(pendente)</span></p>
+                <a href="{{ account_create_url }}" class="mt-1 inline-block text-sm font-medium text-brand-400 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Cadastrar conta</a>
+              </div>
+            {% endif %}
+          </li>
+          <li class="flex items-center gap-3 rounded-xl border p-4 {% if has_categories %}border-income/30 bg-income/10{% else %}border-line bg-surface-2/60{% endif %}">
+            {% if has_categories %}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-income/15 text-income">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+              </span>
+              <p class="min-w-0 text-sm font-medium text-income">Cadastrar categorias <span class="sr-only">(concluído)</span></p>
+            {% else %}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-surface-2 text-sm font-semibold text-ink-muted" aria-hidden="true">2</span>
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-ink">Cadastrar categorias <span class="sr-only">(pendente)</span></p>
+                <a href="{{ category_create_url }}" class="mt-1 inline-block text-sm font-medium text-brand-400 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Cadastrar categoria</a>
+              </div>
+            {% endif %}
+          </li>
+          <li class="flex items-center gap-3 rounded-xl border p-4 {% if has_transactions %}border-income/30 bg-income/10{% else %}border-line bg-surface-2/60{% endif %}">
+            {% if has_transactions %}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-income/15 text-income">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+              </span>
+              <p class="min-w-0 text-sm font-medium text-income">Registrar transação <span class="sr-only">(concluído)</span></p>
+            {% else %}
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-surface-2 text-sm font-semibold text-ink-muted" aria-hidden="true">3</span>
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-ink">Registrar transação <span class="sr-only">(pendente)</span></p>
+                <a href="{{ transaction_create_url }}" class="mt-1 inline-block text-sm font-medium text-brand-400 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Registrar transação</a>
+              </div>
+            {% endif %}
+          </li>
+        </ol>
+      </section>
+    {% endif %}
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-6" aria-label="Resumo financeiro">
+      {% include 'components/_stat_card.html' with title='Saldo total' value=total_balance caption='Contas ativas' variant='highlight' only %}
+      {% include 'components/_stat_card.html' with title='Entradas do mês' value=month_income caption=month_label variant='income' only %}
+      {% include 'components/_stat_card.html' with title='Saídas do mês' value=month_expense caption=month_label variant='expense' only %}
+      {% if month_result < 0 %}
+        {% include 'components/_stat_card.html' with title='Resultado do mês' value=month_result caption='Entradas − saídas' variant='expense' only %}
+      {% else %}
+        {% include 'components/_stat_card.html' with title='Resultado do mês' value=month_result caption='Entradas − saídas' variant='income' only %}
+      {% endif %}
+    </section>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div class="min-w-0 space-y-6 xl:col-span-2">
+        <section class="card p-0 overflow-hidden" aria-labelledby="recent-title">
+          <div class="flex items-center justify-between gap-3 px-5 py-4 md:px-6">
+            <h2 id="recent-title" class="text-lg font-semibold text-ink">Últimas transações</h2>
+            {% if has_transactions %}
+              <a href="{{ transaction_list_url }}" class="btn-ghost btn-sm">
+                Ver todas
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+          {% if has_transactions %}
+            <ul role="list" aria-label="Últimas transações">
+              {% for transaction in recent_transactions %}
+                <li class="border-t border-line">
+                  <a href="{% url 'transactions:update' transaction.pk %}" class="flex items-center justify-between gap-3 px-5 py-3 md:px-6 hover:bg-surface-2/60 transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-500">
+                    <div class="min-w-0">
+                      <p class="truncate text-sm font-medium text-ink">{{ transaction.description }}</p>
+                      <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span class="badge badge-neutral">
+                          <span class="h-2 w-2 shrink-0 rounded-full" style="background-color: {{ transaction.category.color }}" aria-hidden="true"></span>
+                          {{ transaction.category.name }}
+                        </span>
+                        <span class="text-xs text-ink-faint">{{ transaction.account.name }}</span>
+                        <span class="text-xs tabular-nums text-ink-faint">{{ transaction.date|date:'d/m/Y' }}</span>
+                      </div>
+                    </div>
+                    <p class="shrink-0 text-sm font-semibold tabular-nums {% if transaction.transaction_type == 'income' %}text-income{% else %}text-expense{% endif %}">
+                      {% if transaction.transaction_type == 'income' %}+{% endif %}{{ transaction.signed_amount|currency }}
+                    </p>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="border-t border-line">
+              {% include 'components/_empty_state.html' with title='Nenhuma transação registrada' text='Registre sua primeira entrada ou saída para acompanhar suas finanças.' action_url=transaction_create_url action_label='Registrar primeira transação' only %}
+            </div>
+          {% endif %}
+        </section>
+
+        <section class="card" aria-labelledby="expenses-title">
+          <h2 id="expenses-title" class="text-lg font-semibold text-ink">Gastos por categoria</h2>
+          <p class="mt-1 text-sm text-ink-muted">Saídas de {{ month_label }}</p>
+          {% if expenses_by_category %}
+            <ul class="mt-5 space-y-4" role="list" aria-label="Gastos por categoria">
+              {% for item in expenses_by_category %}
+                <li>
+                  <div class="flex items-center justify-between gap-3 text-sm">
+                    <span class="flex min-w-0 items-center gap-2">
+                      <span class="h-2 w-2 shrink-0 rounded-full" style="background-color: {{ item.color }}" aria-hidden="true"></span>
+                      <span class="truncate font-medium text-ink" title="{{ item.name }}">{{ item.name }}</span>
+                    </span>
+                    <span class="shrink-0 tabular-nums">
+                      <span class="font-semibold text-ink">{{ item.total|currency }}</span>
+                      <span class="ml-2 text-ink-faint">{{ item.percent }}%</span>
+                    </span>
+                  </div>
+                  <div class="mt-2 h-2 rounded-full bg-surface-2" aria-hidden="true">
+                    <div class="h-2 rounded-full" style="width: {{ item.percent }}%; background-color: {{ item.color }}"></div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            {% include 'components/_empty_state.html' with title='Nenhum gasto registrado neste mês' text='Quando você registrar saídas, verá aqui a proporção de cada categoria.' only %}
+          {% endif %}
+        </section>
+      </div>
+
+      <aside class="min-w-0" aria-labelledby="accounts-title">
+        <section class="card p-0 overflow-hidden">
+          <div class="flex items-center justify-between gap-3 px-5 py-4 md:px-6">
+            <h2 id="accounts-title" class="text-lg font-semibold text-ink">Saldo por conta</h2>
+            {% if accounts %}
+              <a href="{{ account_list_url }}" class="btn-ghost btn-sm">
+                Ver contas
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+          {% if accounts %}
+            <ul role="list" aria-label="Saldo por conta">
+              {% for account in accounts %}
+                <li class="flex items-center justify-between gap-3 border-t border-line px-5 py-3 md:px-6">
+                  <div class="min-w-0">
+                    <p class="truncate text-sm font-medium text-ink" title="{{ account.name }}">{{ account.name }}</p>
+                    <div class="mt-1 flex flex-wrap items-center gap-2">
+                      <span class="badge badge-neutral">{{ account.get_account_type_display }}</span>
+                      {% if account.bank_name %}<span class="truncate text-xs text-ink-faint">{{ account.bank_name }}</span>{% endif %}
+                    </div>
+                  </div>
+                  <p class="shrink-0 text-sm font-semibold tabular-nums {% if account.balance < 0 %}text-expense{% elif account.balance > 0 %}text-income{% else %}text-ink{% endif %}">{{ account.balance|currency }}</p>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="border-t border-line">
+              {% include 'components/_empty_state.html' with title='Nenhuma conta cadastrada' text='Cadastre sua primeira conta para acompanhar o saldo.' action_url=account_create_url action_label='Cadastrar primeira conta' only %}
+            </div>
+          {% endif %}
+        </section>
+      </aside>
+    </div>
+  {% endwith %}
 {% endblock %}

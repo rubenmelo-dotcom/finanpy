@@ -1573,38 +1573,38 @@ Critérios de aceite:
 
 ### Sprint 8 — Dashboard
 
-- [ ] **8.1 Dados do dashboard (`core/views.py` — `DashboardView`)**
-  - [ ] 8.1.1 Calcular `today = timezone.localdate()` e o primeiro dia do mês (`today.replace(day=1)`).
-  - [ ] 8.1.2 Buscar contas ativas do usuário com saldo anotado (`with_balance`) → `accounts`.
-  - [ ] 8.1.3 Calcular `total_balance` somando os saldos das contas ativas.
-  - [ ] 8.1.4 Filtrar transações do mês corrente (`date__gte=primeiro_dia`, `date__lte=today`).
-  - [ ] 8.1.5 Calcular `month_income` e `month_expense` com um único `aggregate` usando `Sum(..., filter=Q(...))`.
-  - [ ] 8.1.6 Calcular `month_result = month_income - month_expense`.
-  - [ ] 8.1.7 Calcular gastos por categoria do mês: `values('category__name', 'category__color').annotate(total=Sum('amount')).order_by('-total')` filtrando saídas.
-  - [ ] 8.1.8 Calcular o percentual de cada categoria em relação a `month_expense` (em Python, arredondado para inteiro; 0 se não houver saídas).
-  - [ ] 8.1.9 Buscar as 5 transações mais recentes com `select_related('account', 'category')`.
-  - [ ] 8.1.10 Enviar ao contexto flags `has_accounts` e `has_categories` para os estados vazios.
+- [X] **8.1 Dados do dashboard (`core/views.py` — `DashboardView`)**
+  - [X] 8.1.1 Calcular `today = timezone.localdate()` e o primeiro dia do mês (`today.replace(day=1)`).
+  - [X] 8.1.2 Buscar contas ativas do usuário com saldo anotado (`with_balance`) → `accounts`.
+  - [X] 8.1.3 Calcular `total_balance` somando os saldos das contas ativas.
+  - [X] 8.1.4 Filtrar transações do mês corrente (`date__gte=primeiro_dia`, `date__lte=today`).
+  - [X] 8.1.5 Calcular `month_income` e `month_expense` com um único `aggregate` usando `Sum(..., filter=Q(...))`.
+  - [X] 8.1.6 Calcular `month_result = month_income - month_expense`.
+  - [X] 8.1.7 Calcular gastos por categoria do mês: `values('category__name', 'category__color').annotate(total=Sum('amount')).order_by('-total')` filtrando saídas.
+  - [X] 8.1.8 Calcular o percentual de cada categoria em relação a `month_expense` (em Python, arredondado para inteiro; 0 se não houver saídas).
+  - [X] 8.1.9 Buscar as 5 transações mais recentes com `select_related('account', 'category')`.
+  - [X] 8.1.10 Enviar ao contexto flags `has_accounts` e `has_categories` para os estados vazios.
 
-- [ ] **8.2 Template do dashboard — cabeçalho e cards**
-  - [ ] 8.2.1 Cabeçalho: "Olá, {{ user.first_name }}" e subtítulo com o mês por extenso.
-  - [ ] 8.2.2 Ações rápidas à direita: **Nova transação** (primário), **Nova conta** e **Nova categoria** (secundários).
-  - [ ] 8.2.3 Grid de 4 `_stat_card`: Saldo total (`highlight`), Entradas do mês (`income`), Saídas do mês (`expense`), Resultado do mês (cor por sinal).
+- [X] **8.2 Template do dashboard — cabeçalho e cards**
+  - [X] 8.2.1 Cabeçalho: "Olá, {{ user.first_name }}" e subtítulo com o mês por extenso.
+  - [X] 8.2.2 Ações rápidas à direita: **Nova transação** (primário), **Nova conta** e **Nova categoria** (secundários).
+  - [X] 8.2.3 Grid de 4 `_stat_card`: Saldo total (`highlight`), Entradas do mês (`income`), Saídas do mês (`expense`), Resultado do mês (cor por sinal).
 
-- [ ] **8.3 Template do dashboard — blocos de conteúdo**
-  - [ ] 8.3.1 Coluna principal (`lg:col-span-2`): card **Últimas transações** com lista compacta e link "Ver todas".
-  - [ ] 8.3.2 Coluna principal: card **Gastos por categoria** com nome, valor, percentual e barra de proporção na cor da categoria.
-  - [ ] 8.3.3 Coluna lateral: card **Saldo por conta** com nome, badge de tipo e saldo (link para a listagem de contas).
-  - [ ] 8.3.4 Estados vazios: sem contas → CTA **Cadastrar primeira conta**; sem transações → CTA **Registrar primeira transação**; sem saídas no mês → "Nenhum gasto registrado neste mês".
+- [X] **8.3 Template do dashboard — blocos de conteúdo**
+  - [X] 8.3.1 Coluna principal (`lg:col-span-2`): card **Últimas transações** com lista compacta e link "Ver todas".
+  - [X] 8.3.2 Coluna principal: card **Gastos por categoria** com nome, valor, percentual e barra de proporção na cor da categoria.
+  - [X] 8.3.3 Coluna lateral: card **Saldo por conta** com nome, badge de tipo e saldo (link para a listagem de contas).
+  - [X] 8.3.4 Estados vazios: sem contas → CTA **Cadastrar primeira conta**; sem transações → CTA **Registrar primeira transação**; sem saídas no mês → "Nenhum gasto registrado neste mês".
 
-- [ ] **8.4 Onboarding implícito**
-  - [ ] 8.4.1 Quando o usuário não tiver contas ou categorias, exibir no topo um card com os passos: 1) Cadastrar conta, 2) Cadastrar categorias, 3) Registrar transação — cada passo marcado como concluído quando atendido.
-  - [ ] 8.4.2 Ocultar o card quando os três passos estiverem concluídos.
+- [X] **8.4 Onboarding implícito**
+  - [X] 8.4.1 Quando o usuário não tiver contas ou categorias, exibir no topo um card com os passos: 1) Cadastrar conta, 2) Cadastrar categorias, 3) Registrar transação — cada passo marcado como concluído quando atendido.
+  - [X] 8.4.2 Ocultar o card quando os três passos estiverem concluídos.
 
 - [ ] **8.5 Validação da sprint 8**
-  - [ ] 8.5.1 Conferir manualmente os totais do mês com a listagem de transações filtrada pelo mês.
-  - [ ] 8.5.2 Conferir que transações de meses anteriores não entram nos totais do mês, mas entram no saldo.
-  - [ ] 8.5.3 Conferir quantidade de queries (sem N+1) usando o log de SQL do Django em modo debug.
-  - [ ] 8.5.4 Commit: `feat: dashboard`.
+  - [X] 8.5.1 Conferir manualmente os totais do mês com a listagem de transações filtrada pelo mês.
+  - [X] 8.5.2 Conferir que transações de meses anteriores não entram nos totais do mês, mas entram no saldo.
+  - [X] 8.5.3 Conferir quantidade de queries (sem N+1) usando o log de SQL do Django em modo debug.
+  - [X] 8.5.4 Commit: `feat: dashboard`.
 
 ---
 
