@@ -1,9 +1,10 @@
 from django import forms
 
 from accounts.models import Account
+from core.forms import StyledFormMixin
 
 
-class AccountForm(forms.ModelForm):
+class AccountForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Account
         fields = (

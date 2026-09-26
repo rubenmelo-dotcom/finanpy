@@ -6,7 +6,7 @@
   {% for category in categories %}
     <li class="flex items-center justify-between gap-3 py-3">
       <div class="flex min-w-0 items-center gap-3">
-        <span class="h-3 w-3 shrink-0 rounded-full" style="background-color: {{ category.color }}" aria-hidden="true"></span>
+        <span class="h-2 w-2 shrink-0 rounded-full" style="background-color: {{ category.color }}" aria-hidden="true"></span>
         <span class="truncate text-sm font-medium text-ink" title="{{ category.name }}">{{ category.name }}</span>
       </div>
       <div class="flex shrink-0 gap-2">

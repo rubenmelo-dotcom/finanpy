@@ -5,10 +5,10 @@
 
 {% block content %}
   {% url 'accounts:create' as create_url %}
-  {% include 'components/_page_header.html' with title='Contas' subtitle='Gerencie suas contas bancárias' action_url=create_url action_label='Nova conta' only %}
+  {% include 'components/_page_header.html' with title='Contas' subtitle='Gerencie suas contas bancárias.' action_url=create_url action_label='Nova conta' only %}
 
   {% if accounts %}
-    <ul class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4" role="list">
+    <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" role="list">
       {% for account in accounts %}
         <li class="card flex flex-col">
           <div class="flex items-start justify-between gap-3">
@@ -24,7 +24,7 @@
 
           <div class="mt-4">
             <p class="text-sm font-medium text-ink-muted">Saldo atual</p>
-            <p class="mt-1 text-2xl font-bold tabular-nums {% if account.balance < 0 %}text-expense{% else %}text-ink{% endif %}">{{ account.balance|currency }}</p>
+            <p class="mt-1 text-2xl font-bold tabular-nums {% if account.balance < 0 %}text-expense{% elif account.balance > 0 %}text-income{% else %}text-ink{% endif %}">{{ account.balance|currency }}</p>
           </div>
 
           <div class="mt-4 flex justify-end gap-2 pt-4 border-t border-line">

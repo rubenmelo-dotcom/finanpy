@@ -3,10 +3,11 @@ from django.db.models import Q
 
 from accounts.models import Account
 from categories.models import Category
+from core.forms import StyledFormMixin
 from transactions.models import Transaction
 
 
-class TransactionForm(forms.ModelForm):
+class TransactionForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Transaction
         fields = (
@@ -61,7 +62,6 @@ class TransactionForm(forms.ModelForm):
         }
 
     def __init__(self, *args, user=None, **kwargs):
-        self.user = user
         super().__init__(*args, **kwargs)
         # The model field has no default, so Django adds a blank choice;
         # the type selector must offer only Entrada/Saída.
@@ -99,7 +99,7 @@ class TransactionForm(forms.ModelForm):
         return cleaned_data
 
 
-class TransactionFilterForm(forms.Form):
+class TransactionFilterForm(StyledFormMixin, forms.Form):
     start_date = forms.DateField(
         label='De',
         required=False,
@@ -136,7 +136,6 @@ class TransactionFilterForm(forms.Form):
     )
 
     def __init__(self, *args, user=None, **kwargs):
-        self.user = user
         super().__init__(*args, **kwargs)
         # Inactive accounts are listed too: they may hold old transactions.
         self.fields['account'].queryset = Account.objects.filter(user=user)

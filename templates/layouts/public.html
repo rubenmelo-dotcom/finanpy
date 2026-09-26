@@ -4,7 +4,7 @@
   <div class="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_rgba(139,92,246,0.18),_transparent_60%)]">
     <header class="sticky top-0 z-30 bg-base/70 backdrop-blur border-b border-line/60">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between gap-4">
-        <a href="{% url 'home' %}" class="text-xl font-bold tracking-tight text-gradient rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500">Finanpy</a>
+        <a href="{% url 'home' %}" class="text-xl font-bold tracking-tight text-gradient rounded-lg focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500">Finanpy</a>
         <nav class="flex items-center gap-2" aria-label="Acesso">
           {% if user.is_authenticated %}
             <a href="{% url 'dashboard' %}" class="btn-primary">Ir para o dashboard</a>
@@ -17,6 +17,11 @@
     </header>
 
     <main id="main" class="flex-1">
+      {% if messages %}
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-6">
+          {% include 'components/_messages.html' %}
+        </div>
+      {% endif %}
       {% block content %}{% endblock %}
     </main>
 

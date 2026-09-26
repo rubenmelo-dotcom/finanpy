@@ -1,6 +1,7 @@
 from django import forms
 
 from categories.models import Category
+from core.forms import StyledFormMixin
 
 COLOR_CHOICES = (
     ('#8B5CF6', 'Violeta'),
@@ -9,12 +10,12 @@ COLOR_CHOICES = (
     ('#10B981', 'Verde'),
     ('#F59E0B', 'Âmbar'),
     ('#F43F5E', 'Rosa'),
-    ('#EC4899', 'Pink'),
+    ('#EC4899', 'Rosa-choque'),
     ('#84CC16', 'Lima'),
 )
 
 
-class CategoryForm(forms.ModelForm):
+class CategoryForm(StyledFormMixin, forms.ModelForm):
     # Declared explicitly so the submitted color is validated against
     # COLOR_CHOICES (the model field is a plain CharField). The
     # model default ('#8B5CF6') is reused as the initial value on creation;

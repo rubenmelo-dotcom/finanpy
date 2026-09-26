@@ -8,25 +8,25 @@
 {% if variant == 'income' %}
   <div class="card bg-linear-to-br from-emerald-500/20 to-emerald-500/5">
     <h3 class="text-sm font-medium text-ink-muted">{{ title }}</h3>
-    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums text-income">{{ value|currency }}</p>
-    {% if caption %}<p class="mt-1 text-xs text-ink-muted">{{ caption }}</p>{% endif %}
+    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums whitespace-nowrap text-income">{{ value|currency }}</p>
+    {% if caption %}<p class="mt-1 text-xs text-ink-faint">{{ caption }}</p>{% endif %}
   </div>
 {% elif variant == 'expense' %}
   <div class="card bg-linear-to-br from-rose-500/20 to-rose-500/5">
     <h3 class="text-sm font-medium text-ink-muted">{{ title }}</h3>
-    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums text-expense">{{ value|currency }}</p>
-    {% if caption %}<p class="mt-1 text-xs text-ink-muted">{{ caption }}</p>{% endif %}
+    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums whitespace-nowrap text-expense">{{ value|currency }}</p>
+    {% if caption %}<p class="mt-1 text-xs text-ink-faint">{{ caption }}</p>{% endif %}
   </div>
 {% elif variant == 'highlight' %}
   <div class="card-highlight">
     <h3 class="text-sm font-medium text-ink-muted">{{ title }}</h3>
-    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums text-ink">{{ value|currency }}</p>
-    {% if caption %}<p class="mt-1 text-xs text-ink-muted">{{ caption }}</p>{% endif %}
+    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums whitespace-nowrap text-ink">{{ value|currency }}</p>
+    {% if caption %}<p class="mt-1 text-xs text-ink-faint">{{ caption }}</p>{% endif %}
   </div>
 {% else %}
   <div class="card">
     <h3 class="text-sm font-medium text-ink-muted">{{ title }}</h3>
-    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums text-ink">{{ value|currency }}</p>
-    {% if caption %}<p class="mt-1 text-xs text-ink-muted">{{ caption }}</p>{% endif %}
+    <p class="mt-2 text-2xl md:text-3xl font-bold tabular-nums whitespace-nowrap text-ink">{{ value|currency }}</p>
+    {% if caption %}<p class="mt-1 text-xs text-ink-faint">{{ caption }}</p>{% endif %}
   </div>
 {% endif %}

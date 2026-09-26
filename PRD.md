@@ -708,7 +708,7 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
 | Primário | `.btn-primary` | `bg-linear-to-r from-brand-600 via-indigo-600 to-cyan-700 text-white shadow-lg shadow-brand-500/25 hover:brightness-110` | Ação principal (Salvar, Entrar, Nova transação) |
 | Secundário | `.btn-secondary` | `bg-surface-2 text-ink border border-line hover:bg-line` | Ações alternativas (Cancelar, Voltar) |
 | Fantasma | `.btn-ghost` | `text-ink-muted hover:text-ink hover:bg-surface-2` | Ações discretas em tabelas |
-| Perigo | `.btn-danger` | `bg-expense/90 text-white hover:bg-expense` | Confirmar exclusão |
+| Perigo | `.btn-danger` | `bg-rose-700 text-white hover:bg-rose-800` (branco sobre `expense` não atinge 4.5:1) | Confirmar exclusão |
 | Pequeno | `.btn-sm` | `px-3 py-1.5 text-xs rounded-lg` | Combinável com as variantes |
 
 ```css
@@ -731,7 +731,7 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
     @apply btn text-ink-muted hover:text-ink hover:bg-surface-2;
   }
   .btn-danger {
-    @apply btn bg-expense/90 text-white hover:bg-expense;
+    @apply btn bg-rose-700 text-white hover:bg-rose-800;
   }
 }
 ```
@@ -777,8 +777,8 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
 ### 9.7 Tabelas e listas
 
 - Container: `.card p-0 overflow-hidden`.
-- Tabela (desktop, `hidden md:table`): `w-full text-sm`; cabeçalho `bg-surface-2 text-xs uppercase tracking-wider text-ink-faint`; células `px-5 py-3.5`; linhas `border-t border-line hover:bg-surface-2/60 transition`.
-- Lista (mobile, `md:hidden`): cada item é um bloco `flex items-center justify-between px-4 py-3 border-t border-line`.
+- Tabela (desktop, `hidden md:table`; na listagem de transações, que tem mais colunas, a tabela aparece só a partir de `xl` dentro de `hidden xl:block overflow-x-auto`): `w-full text-sm`; cabeçalho `bg-surface-2 text-xs uppercase tracking-wider text-ink-faint`; células `px-5 py-3.5`; linhas `border-t border-line hover:bg-surface-2/60 transition`.
+- Lista (mobile, `md:hidden`; `xl:hidden` na listagem de transações): cada item é um bloco `flex items-center justify-between px-4 py-3 border-t border-line`.
 - Valores: entrada `text-income` com prefixo `+`, saída `text-expense` com prefixo `−`, alinhados à direita.
 - Ações de linha: botões `.btn-ghost .btn-sm` (Editar / Excluir).
 
@@ -788,7 +788,7 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
 |---|---|---|
 | `.badge` | `inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium` | Base |
 | `.badge-income` | `bg-income/15 text-income` | Tipo Entrada |
-| `.badge-expense` | `bg-expense/15 text-expense` | Tipo Saída |
+| `.badge-expense` | `bg-expense/15 text-rose-400` (texto `rose-400` para contraste AA) | Tipo Saída |
 | `.badge-neutral` | `bg-surface-2 text-ink-muted border border-line` | Tipo de conta, status |
 | Categoria | `.badge` + bolinha `h-2 w-2 rounded-full` com `style="background-color: {{ category.color }}"` | Categoria da transação |
 
@@ -799,7 +799,7 @@ Componente `components/_messages.html`, renderizando `messages` do Django por `m
 | Tag | Estilo |
 |---|---|
 | `success` | `rounded-xl border border-income/30 bg-income/10 text-income px-4 py-3 text-sm` |
-| `error` | `rounded-xl border border-expense/30 bg-expense/10 text-expense px-4 py-3 text-sm` |
+| `error` | `rounded-xl border border-expense/30 bg-expense/10 text-rose-400 px-4 py-3 text-sm` |
 | `warning` | `rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 px-4 py-3 text-sm` |
 | `info` | `rounded-xl border border-sky-400/30 bg-sky-400/10 text-sky-300 px-4 py-3 text-sm` |
 
@@ -811,7 +811,7 @@ Componente `components/_messages.html`, renderizando `messages` do Django por `m
 | Área de conteúdo (app) | `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-8` |
 | Layout app | `min-h-screen bg-base text-ink lg:pl-64` (sidebar fixa de 16rem) |
 | Cards de estatística | `grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6` |
-| Dashboard (2 colunas) | `grid grid-cols-1 lg:grid-cols-3 gap-6` (conteúdo principal `lg:col-span-2`) |
+| Dashboard (2 colunas) | `grid grid-cols-1 xl:grid-cols-3 gap-6` (conteúdo principal `xl:col-span-2`; em `lg` a sidebar de 16rem deixa a coluna lateral estreita demais) |
 | Formulários | `grid grid-cols-1 md:grid-cols-2 gap-5` (campos longos com `md:col-span-2`) |
 | Features (landing) | `grid grid-cols-1 md:grid-cols-3 gap-6` |
 | Filtros | `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end` |
@@ -824,7 +824,7 @@ Componente `components/_messages.html`, renderizando `messages` do Django por `m
 
 - `fixed inset-y-0 left-0 w-64 bg-surface border-r border-line flex flex-col`.
 - Topo: logo "Finanpy" com texto em gradiente de marca.
-- Itens: `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 transition`.
+- Itens: `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface` (classe `.nav-link`, também usada no botão **Sair**).
 - Item ativo: `bg-linear-to-r from-brand-500/20 to-transparent text-ink border-l-2 border-brand-500`.
 - Rodapé: nome e e-mail do usuário + botão **Sair** (form POST).
 - Ícones: SVG inline (Heroicons outline, 20px), sem dependências.
@@ -1608,42 +1608,42 @@ Critérios de aceite:
 
 ---
 
-### Sprint 9 — Refinamentos de UX e consistência
+### [X] Sprint 9 — Refinamentos de UX e consistência
 
-- [ ] **9.1 Revisão de consistência visual**
-  - [ ] 9.1.1 Percorrer todas as telas e confirmar uso exclusivo das classes do design system.
-  - [ ] 9.1.2 Padronizar espaçamentos entre cabeçalho, filtros, cards e tabelas.
-  - [ ] 9.1.3 Padronizar botões de ação (ordem **Cancelar** → **Salvar**, à direita).
-  - [ ] 9.1.4 Garantir `title` de página em todas as telas (ex.: "Transações · Finanpy").
+- [X] **9.1 Revisão de consistência visual**
+  - [X] 9.1.1 Percorrer todas as telas e confirmar uso exclusivo das classes do design system.
+  - [X] 9.1.2 Padronizar espaçamentos entre cabeçalho, filtros, cards e tabelas.
+  - [X] 9.1.3 Padronizar botões de ação (ordem **Cancelar** → **Salvar**, à direita).
+  - [X] 9.1.4 Garantir `title` de página em todas as telas (ex.: "Transações · Finanpy").
 
-- [ ] **9.2 Responsividade**
-  - [ ] 9.2.1 Testar todas as telas em 360px, 390px, 768px, 1024px e 1440px.
-  - [ ] 9.2.2 Corrigir overflow horizontal em tabelas e filtros.
-  - [ ] 9.2.3 Validar abertura/fechamento do menu mobile e fechamento ao clicar no overlay.
+- [X] **9.2 Responsividade**
+  - [X] 9.2.1 Testar todas as telas em 360px, 390px, 768px, 1024px e 1440px.
+  - [X] 9.2.2 Corrigir overflow horizontal em tabelas e filtros.
+  - [X] 9.2.3 Validar abertura/fechamento do menu mobile e fechamento ao clicar no overlay.
 
-- [ ] **9.3 Textos e localização**
-  - [ ] 9.3.1 Revisar todos os textos da interface em pt-BR (labels, mensagens, botões, estados vazios).
-  - [ ] 9.3.2 Conferir `verbose_name` de todas as models e campos no admin.
-  - [ ] 9.3.3 Conferir formatação de datas (`dd/mm/aaaa`) e moeda (`R$ 1.234,56`) em todas as telas.
+- [X] **9.3 Textos e localização**
+  - [X] 9.3.1 Revisar todos os textos da interface em pt-BR (labels, mensagens, botões, estados vazios).
+  - [X] 9.3.2 Conferir `verbose_name` de todas as models e campos no admin.
+  - [X] 9.3.3 Conferir formatação de datas (`dd/mm/aaaa`) e moeda (`R$ 1.234,56`) em todas as telas.
 
-- [ ] **9.4 Acessibilidade**
-  - [ ] 9.4.1 Garantir `label` associado a todos os inputs.
-  - [ ] 9.4.2 Garantir foco visível (`focus-visible:ring`) em links, botões e inputs.
-  - [ ] 9.4.3 Adicionar `aria-label` no botão hambúrguer e nos botões apenas com ícone.
-  - [ ] 9.4.4 Verificar contraste AA dos textos `ink-muted` e `ink-faint` sobre `surface`.
+- [X] **9.4 Acessibilidade**
+  - [X] 9.4.1 Garantir `label` associado a todos os inputs.
+  - [X] 9.4.2 Garantir foco visível (`focus-visible:ring`) em links, botões e inputs.
+  - [X] 9.4.3 Adicionar `aria-label` no botão hambúrguer e nos botões apenas com ícone.
+  - [X] 9.4.4 Verificar contraste AA dos textos `ink-muted` e `ink-faint` sobre `surface`.
 
-- [ ] **9.5 Revisão de código**
-  - [ ] 9.5.1 Rodar `flake8` e corrigir todos os avisos.
-  - [ ] 9.5.2 Garantir aspas simples em todo o código Python.
-  - [ ] 9.5.3 Remover código morto, imports não usados e templates temporários.
-  - [ ] 9.5.4 Confirmar que todas as models possuem `created_at` e `updated_at`.
-  - [ ] 9.5.5 Confirmar que todas as views privadas usam `LoginRequiredMixin` e querysets filtrados por usuário.
-  - [ ] 9.5.6 Confirmar que o único signal do projeto está em `profiles/signals.py`.
-  - [ ] 9.5.7 Gerar CSS final com `--minify`.
+- [X] **9.5 Revisão de código**
+  - [X] 9.5.1 Rodar `flake8` e corrigir todos os avisos.
+  - [X] 9.5.2 Garantir aspas simples em todo o código Python.
+  - [X] 9.5.3 Remover código morto, imports não usados e templates temporários.
+  - [X] 9.5.4 Confirmar que todas as models possuem `created_at` e `updated_at`.
+  - [X] 9.5.5 Confirmar que todas as views privadas usam `LoginRequiredMixin` e querysets filtrados por usuário.
+  - [X] 9.5.6 Confirmar que o único signal do projeto está em `profiles/signals.py`.
+  - [X] 9.5.7 Gerar CSS final com `--minify`.
 
-- [ ] **9.6 Validação da sprint 9**
-  - [ ] 9.6.1 Roteiro manual completo: cadastro → conta → categorias → transações → dashboard → perfil → logout.
-  - [ ] 9.6.2 Commit: `refactor: ux and consistency review`.
+- [X] **9.6 Validação da sprint 9**
+  - [X] 9.6.1 Roteiro manual completo: cadastro → conta → categorias → transações → dashboard → perfil → logout.
+  - [X] 9.6.2 Commit: `refactor: ux and consistency review`.
 
 ---
 

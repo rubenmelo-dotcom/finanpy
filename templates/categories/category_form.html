@@ -29,7 +29,7 @@
             {% for radio in field %}
               <div>
                 <input type="radio" name="{{ radio.data.name }}" id="{{ radio.id_for_label }}" value="{{ radio.data.value }}" class="sr-only peer"{% if radio.data.selected %} checked{% endif %}{% if field.errors %} aria-invalid="true"{% endif %}>
-                <label for="{{ radio.id_for_label }}" title="{{ radio.choice_label }}" class="block h-9 w-9 cursor-pointer rounded-full transition hover:scale-110 peer-checked:ring-2 peer-checked:ring-white peer-checked:ring-offset-2 peer-checked:ring-offset-base peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-brand-500" style="background-color: {{ radio.data.value }}">
+                <label for="{{ radio.id_for_label }}" title="{{ radio.choice_label }}" class="block h-9 w-9 cursor-pointer rounded-full{% if field.errors %} border-2 border-expense{% endif %} transition hover:scale-110 peer-checked:ring-2 peer-checked:ring-white peer-checked:ring-offset-2 peer-checked:ring-offset-base peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-brand-500" style="background-color: {{ radio.data.value }}">
                   <span class="sr-only">{{ radio.choice_label }}</span>
                 </label>
               </div>

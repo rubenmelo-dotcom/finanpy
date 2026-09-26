@@ -4,7 +4,7 @@
 
 {% block content %}
   {% url 'categories:create' as create_url %}
-  {% include 'components/_page_header.html' with title='Categorias' subtitle='Organize suas entradas e saídas' action_url=create_url action_label='Nova categoria' only %}
+  {% include 'components/_page_header.html' with title='Categorias' subtitle='Organize suas entradas e saídas.' action_url=create_url action_label='Nova categoria' only %}
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <section class="card" aria-labelledby="income-categories-title">

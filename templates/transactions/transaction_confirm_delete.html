@@ -1,4 +1,5 @@
 {% extends 'layouts/app.html' %}
+{% load currency %}
 
 {% block title %}Excluir transação · Finanpy{% endblock %}
 
@@ -6,8 +7,15 @@
   {% include 'components/_page_header.html' with title='Excluir transação' only %}
 
   {% url 'transactions:list' as list_url %}
-  {% with amount_text=object.amount|floatformat:2 date_text=object.date|date:'d/m/Y' %}
-    {% with object_name=object.description|add:' · R$ '|add:amount_text|add:' · '|add:date_text %}
+  {% comment %}
+    object_name é montado como texto (o componente escapa o valor). O filtro
+    currency já usa espaço não separável entre "R$" e o número; o sinal
+    (+ entrada, − saída) é prefixado conforme o tipo, pois amount é sempre
+    positivo.
+  {% endcomment %}
+  {% if object.transaction_type == 'income' %}{% firstof '+' as sign %}{% else %}{% firstof '−' as sign %}{% endif %}
+  {% with amount_text=object.amount|currency date_text=object.date|date:'d/m/Y' %}
+    {% with object_name=object.description|add:' · '|add:sign|add:amount_text|add:' · '|add:date_text %}
       {% include 'components/_confirm_delete.html' with object_name=object_name cancel_url=list_url %}
     {% endwith %}
   {% endwith %}

@@ -1,10 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
+from core.forms import PasswordErrorsOnFirstFieldMixin, StyledFormMixin
 from users.models import User
 
 
-class SignUpForm(UserCreationForm):
+class SignUpForm(
+    StyledFormMixin, PasswordErrorsOnFirstFieldMixin, UserCreationForm
+):
     field_settings = {
         'first_name': ('Nome', 'Seu nome'),
         'last_name': ('Sobrenome', 'Seu sobrenome'),
@@ -38,7 +41,7 @@ class SignUpForm(UserCreationForm):
         return email
 
 
-class LoginForm(AuthenticationForm):
+class LoginForm(StyledFormMixin, AuthenticationForm):
     error_messages = {
         **AuthenticationForm.error_messages,
         'invalid_login': 'E-mail ou senha inválidos.',

@@ -88,7 +88,9 @@
       focus-visible:ring-2 focus-visible:ring-brand-500
       focus-visible:ring-offset-2 focus-visible:ring-offset-base
       disabled:opacity-50;
-    @apply bg-expense/90 text-white hover:bg-expense;
+    /* rose-700/800 em vez de expense/90: branco sobre expense ficava abaixo
+       de 4.5:1 (RNF15); o token --color-expense segue intacto. */
+    @apply bg-rose-700 text-white hover:bg-rose-800;
   }
   /* Declarada depois das variantes para sobrescrever padding e raio. */
   .btn-sm {
@@ -147,7 +149,8 @@
   .badge-expense {
     @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
       text-xs font-medium whitespace-nowrap;
-    @apply bg-expense/15 text-expense;
+    /* Texto rose-400: expense sobre expense/15 ficava abaixo de 4.5:1. */
+    @apply bg-expense/15 text-rose-400;
   }
   .badge-neutral {
     @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
@@ -165,7 +168,7 @@
   }
   .alert-error {
     @apply rounded-xl border px-4 py-3 text-sm;
-    @apply border-expense/30 bg-expense/10 text-expense;
+    @apply border-expense/30 bg-expense/10 text-rose-400;
   }
   .alert-warning {
     @apply rounded-xl border px-4 py-3 text-sm;
@@ -180,11 +183,15 @@
   .nav-link {
     @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm
       font-medium text-ink-muted transition hover:bg-surface-2
-      hover:text-ink;
+      hover:text-ink focus:outline-hidden focus-visible:ring-2
+      focus-visible:ring-brand-500 focus-visible:ring-offset-2
+      focus-visible:ring-offset-surface;
   }
   .nav-link-active {
     @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm
-      font-medium transition hover:bg-surface-2;
+      font-medium transition hover:bg-surface-2 focus:outline-hidden
+      focus-visible:ring-2 focus-visible:ring-brand-500
+      focus-visible:ring-offset-2 focus-visible:ring-offset-surface;
     @apply border-l-2 border-brand-500 bg-linear-to-r from-brand-500/20
       to-transparent text-ink;
   }
