@@ -1,7 +1,8 @@
 # Agentes de IA do Finanpy
 
 Time de agentes especialistas na stack do projeto (Python 3.12, Django 6.1,
-Django Template Language, TailwindCSS 4 via CLI standalone, SQLite). Todos
+Django Template Language, TailwindCSS 4 via CLI standalone, SQLite e, na
+Sprint 12, LangChain 1.4.3 + langchain-openai 1.6.6). Todos
 seguem o [PRD](../PRD.md) como fonte da verdade e os padrões do
 [CLAUDE.md](../CLAUDE.md).
 
@@ -15,6 +16,7 @@ seguem o [PRD](../PRD.md) como fonte da verdade e os padrões do
 | [`qa-playwright`](qa-playwright.md) | QA / tester | Validar no navegador (Playwright MCP) fluxos, isolamento, mensagens, responsividade, acessibilidade e fidelidade ao design system. Ao fim de cada tela, correção ou sprint. |
 | [`django-tests`](django-tests.md) | Testes automatizados | Suíte com `django.test.TestCase` e `coverage` (Sprint 10) e diagnóstico de testes falhando. |
 | [`devops-docker`](devops-docker.md) | DevOps | Variáveis de ambiente, Dockerfile, Docker Compose, `.dockerignore`, `.env.example` (Sprint 11). |
+| [`ai-langchain`](ai-langchain.md) | Integração com LLM | App `ai`: agente LangChain (`create_agent`), tools somente leitura com `ToolRuntime`, saída estruturada, `ChatOpenAI`, prompts, geração mensal, comando agendado e testes com modelo falso (Sprint 12). |
 
 ## Fluxo típico de uma funcionalidade
 
@@ -32,12 +34,15 @@ django-backend ──► django-templates ──► tailwindcss ──► qa-pla
 - Refinamentos (sprint 9): `qa-playwright` levanta os problemas; os demais
   corrigem.
 - Sprints finais: `django-tests` (10) e `devops-docker` (11).
+- Análise com IA (sprint 12): `ai-langchain` (model, tools, agente, serviço,
+  comando, view) → `django-templates` + `tailwindcss` (bloco do dashboard)
+  → `qa-playwright`.
 
 ## MCP servers utilizados
 
 | MCP | Agentes | Para quê |
 |---|---|---|
-| **context7** | `django-backend`, `django-templates`, `tailwindcss`, `django-tests`, `devops-docker` | Consultar a documentação atual antes de escrever código. IDs: Django 6.1 `/websites/djangoproject_en_6_1`, Tailwind `/tailwindlabs/tailwindcss.com`, Docker `/docker/docs`, Compose `/docker/compose`. |
+| **context7** | `django-backend`, `django-templates`, `tailwindcss`, `django-tests`, `devops-docker`, `ai-langchain` | Consultar a documentação atual antes de escrever código. IDs: Django 6.1 `/websites/djangoproject_en_6_1`, Tailwind `/tailwindlabs/tailwindcss.com`, Docker `/docker/docs`, Compose `/docker/compose`, LangChain `/websites/langchain_oss_python_langchain`, referência LangChain/langchain-openai `/websites/reference_langchain`. |
 | **playwright** | `qa-playwright` | Navegar, interagir, redimensionar e tirar screenshots do sistema rodando em `http://127.0.0.1:8000`. Configurado em [`../.mcp.json`](../.mcp.json). |
 
 O Playwright MCP precisa de Node.js (`npx`) só para o próprio servidor MCP; o

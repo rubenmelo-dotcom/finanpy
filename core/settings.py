@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'transactions',
     'profiles',
     'users',
+    'ai',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -190,3 +191,41 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+# Logging
+# https://docs.djangoproject.com/en/6.1/topics/logging/
+
+# Only the 'ai' logger is configured here; Django's default loggers are
+# kept as they are.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'ai': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+
+# AI monthly analysis (PRD section 14.8)
+# Without OPENAI_API_KEY the feature is disabled and the rest of the
+# system keeps working. Never hardcode the key.
+
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+
+OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-6-luna')
+
+OPENAI_TIMEOUT = float(os.environ.get('OPENAI_TIMEOUT', 60))
+
+OPENAI_MAX_RETRIES = int(os.environ.get('OPENAI_MAX_RETRIES', 2))
+
+AI_ANALYSIS_ENABLED = bool(OPENAI_API_KEY)

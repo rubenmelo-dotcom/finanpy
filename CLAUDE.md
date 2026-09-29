@@ -7,17 +7,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
-**Estado atual (Sprint 10 concluída, falta só o commit 10.8.4):** sprints
-1 (setup), 2 (design system e layouts), 3 (usuários, autenticação e site
-público), 4 (perfil), 5 (contas), 6 (categorias), 7 (transações), 8
-(dashboard), 9 (refinamentos de UX) e 10 (testes automatizados) estão
-implementadas; a sprint 11 (Docker) é a próxima. Todas as apps de domínio
-têm models, forms, CBVs, rotas, admin e templates; `core/views.py` tem
-`HomeView` e `DashboardView`. A suíte de testes tem um `tests.py` por app
-(`users`, `profiles`, `accounts`, `categories`, `transactions`, `core`), com
-helpers em `core/test_utils.py` (`create_user`, `create_account`,
-`create_category`, `create_transaction`, `DEFAULT_PASSWORD`) e cobertura de
-~99% nas apps de domínio. A seção 13 do PRD é a referência para o progresso.
+**Estado atual (todas as sprints do PRD concluídas):** sprints 1 (setup), 2
+(design system e layouts), 3 (usuários, autenticação e site público), 4
+(perfil), 5 (contas), 6 (categorias), 7 (transações), 8 (dashboard), 9
+(refinamentos de UX), 10 (testes automatizados) e 11 (Docker) estão
+implementadas. Todas as apps de domínio têm models, forms, CBVs, rotas, admin
+e templates; `core/views.py` tem `HomeView` e `DashboardView`. A suíte de
+testes tem um `tests.py` por app (`users`, `profiles`, `accounts`,
+`categories`, `transactions`, `core`), com helpers em `core/test_utils.py`
+(`create_user`, `create_account`, `create_category`, `create_transaction`,
+`DEFAULT_PASSWORD`) e cobertura de ~99% nas apps de domínio. A aplicação roda
+também via Docker Compose (`Dockerfile`, `docker-compose.yml`, `.env.example`).
+Novas funcionalidades fora do PRD original devem seguir os mesmos padrões e
+o checklist de conclusão do fim da seção 13.
 
 - **`PRD.md` é a fonte da verdade** para requisitos, rotas (seção 8.4), models
   (8.5), design system (9) e a lista de tarefas por sprint (13). Consulte a
@@ -57,12 +59,31 @@ Tailwind usa o **CLI standalone** (binário em `bin/`, não versionado) — sem
 Node.js. Rode o `--watch` e o `runserver` em terminais separados.
 `bin/` e `static/css/output.css` estão no `.gitignore`.
 
+Docker (sprint 11; detalhes na seção "Executando com Docker" do README):
+
+```bash
+cp .env.example .env                 # SECRET_KEY, DEBUG, ALLOWED_HOSTS, SQLITE_PATH
+docker compose up --build            # http://localhost:8000
+docker compose exec web python manage.py createsuperuser
+docker compose exec web python manage.py test
+```
+
+`core/settings.py` lê `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` e `SQLITE_PATH`
+de variáveis de ambiente com padrões de desenvolvimento (sem `.env`, o local
+continua funcionando e usa `db.sqlite3` na raiz). O `Dockerfile` é
+multi-stage: o primeiro estágio baixa o Tailwind CLI e gera o `output.css`
+minificado; o final instala as dependências, roda `collectstatic`, usa um
+usuário sem privilégios e inicia com `migrate` + `runserver --insecure`. O
+SQLite fica no volume nomeado `sqlite_data` (`/app/data`), então os dados
+persistem entre `down`/`up`. Nova variável de ambiente → documente no
+`.env.example`; nova dependência → `requirements.txt` (a imagem instala dele).
+
 ## Subagentes
 
 `.claude/agents` é um symlink para `agents/` (ver `agents/README.md`):
 `django-backend`, `django-templates`, `tailwindcss`, `qa-playwright` (só
-reporta, não altera código), `django-tests` (sprint 10) e `devops-docker`
-(sprint 11).
+reporta, não altera código), `django-tests` (testes) e `devops-docker`
+(Docker/Compose).
 
 ## Armadilha crítica: model de usuário customizada (risco R1)
 
@@ -126,7 +147,8 @@ precisar ser recriado, apague `db.sqlite3` e rode `migrate` de novo.
 - Evitar N+1 com `select_related`, `aggregate` e `annotate`.
 - Nada além do escopo pedido; não adicionar dependências sem necessidade
   (depois de instalar, `pip freeze > requirements.txt`).
-- Docker e testes automatizados só nas sprints finais (10 e 11).
+- Toda funcionalidade nova vem com testes em `<app>/tests.py` e deve manter
+  `python manage.py test` e o build do Docker funcionando.
 
 ## Divergências entre PRD e projeto atual
 
