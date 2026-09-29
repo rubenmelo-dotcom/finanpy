@@ -1827,24 +1827,24 @@ Critérios de aceite:
   - [X] 12.5.2 Lançar `ImproperlyConfigured` quando `OPENAI_API_KEY` estiver vazia (nunca chamar a API sem chave).
   - [X] 12.5.3 Garantir que nenhuma chave ou nome de modelo fique hardcoded fora do `settings.py`.
 
-- [ ] **12.6 Tools somente leitura (`ai/tools.py`)**
-  - [ ] 12.6.1 Criar o dataclass `AnalysisContext(user_id, period_start, period_end)` (seção 14.5.4).
-  - [ ] 12.6.2 Criar o guard `read_only_queries()` com `connection.execute_wrapper` que bloqueia qualquer SQL que não seja `SELECT`.
-  - [ ] 12.6.3 Criar helpers internos: validação de `month` (`YYYY-MM` dentro do período) e conversão de `Decimal` em string com 2 casas.
-  - [ ] 12.6.4 Implementar `get_financial_overview`.
-  - [ ] 12.6.5 Implementar `get_category_breakdown`.
-  - [ ] 12.6.6 Implementar `get_largest_transactions` (descrição truncada em 100 caracteres, `limit` entre 1 e 10).
-  - [ ] 12.6.7 Implementar `get_categories`.
-  - [ ] 12.6.8 Implementar `get_account_balances` reutilizando `Account.objects.with_balance(user)`.
-  - [ ] 12.6.9 Conferir que nenhuma tool expõe `user_id` no schema enviado ao modelo (`tool.tool_call_schema`) e que todas usam `runtime.context.user_id`.
-  - [ ] 12.6.10 Exportar `ANALYSIS_TOOLS` com a lista das cinco tools.
+- [X] **12.6 Tools somente leitura (`ai/tools.py`)**
+  - [X] 12.6.1 Criar o dataclass `AnalysisContext(user_id, period_start, period_end)` (seção 14.5.4).
+  - [X] 12.6.2 Criar o guard `read_only_queries()` com `connection.execute_wrapper` que bloqueia qualquer SQL que não seja `SELECT`.
+  - [X] 12.6.3 Criar helpers internos: validação de `month` (`YYYY-MM` dentro do período) e conversão de `Decimal` em string com 2 casas.
+  - [X] 12.6.4 Implementar `get_financial_overview`.
+  - [X] 12.6.5 Implementar `get_category_breakdown`.
+  - [X] 12.6.6 Implementar `get_largest_transactions` (descrição truncada em 100 caracteres, `limit` entre 1 e 10).
+  - [X] 12.6.7 Implementar `get_categories`.
+  - [X] 12.6.8 Implementar `get_account_balances` reutilizando `Account.objects.with_balance(user)`.
+  - [X] 12.6.9 Conferir que nenhuma tool expõe `user_id` no schema enviado ao modelo (`tool.tool_call_schema`) e que todas usam `runtime.context.user_id`.
+  - [X] 12.6.10 Exportar `ANALYSIS_TOOLS` com a lista das cinco tools.
 
-- [ ] **12.7 Agente especialista (`ai/prompts.py` e `ai/agent.py`)**
-  - [ ] 12.7.1 Escrever `SYSTEM_PROMPT` em `ai/prompts.py` conforme a seção 14.5.3.
-  - [ ] 12.7.2 Criar `build_agent(model=None)` com `create_agent(model or get_chat_model(), tools=ANALYSIS_TOOLS, system_prompt=SYSTEM_PROMPT, context_schema=AnalysisContext, response_format=ToolStrategy(FinancialAnalysis))`.
-  - [ ] 12.7.3 Criar `run_analysis(context, model=None)` que invoca o agente com `context=` e `config={'recursion_limit': AI_RECURSION_LIMIT}` e retorna `(FinancialAnalysis, usage)`.
-  - [ ] 12.7.4 Somar `usage_metadata` (`input_tokens`, `output_tokens`, `total_tokens`) de todas as `AIMessage` do resultado.
-  - [ ] 12.7.5 Lançar erro de domínio (`AnalysisGenerationError`) quando `structured_response` estiver ausente.
+- [X] **12.7 Agente especialista (`ai/prompts.py` e `ai/agent.py`)**
+  - [X] 12.7.1 Escrever `SYSTEM_PROMPT` em `ai/prompts.py` conforme a seção 14.5.3.
+  - [X] 12.7.2 Criar `build_agent(model=None)` com `create_agent(model or get_chat_model(), tools=ANALYSIS_TOOLS, system_prompt=SYSTEM_PROMPT, context_schema=AnalysisContext, response_format=ToolStrategy(FinancialAnalysis))`.
+  - [X] 12.7.3 Criar `run_analysis(context, model=None)` que invoca o agente com `context=` e `config={'recursion_limit': AI_RECURSION_LIMIT}` e retorna `(FinancialAnalysis, usage)`.
+  - [X] 12.7.4 Somar `usage_metadata` (`input_tokens`, `output_tokens`, `total_tokens`) de todas as `AIMessage` do resultado.
+  - [X] 12.7.5 Lançar erro de domínio (`AnalysisGenerationError`) quando `structured_response` estiver ausente.
 
 - [ ] **12.8 Serviço de geração mensal (`ai/services.py`)**
   - [ ] 12.8.1 Definir em `ai/constants.py` as constantes `AI_MIN_TRANSACTIONS = 5`, `AI_MAX_ATTEMPTS = 3`, `AI_LOOKBACK_MONTHS = 3`, `AI_STALE_AFTER = timedelta(minutes=10)` e `AI_RECURSION_LIMIT = 15` (módulo próprio para evitar import circular entre `models.py`, `agent.py` e `services.py`).
@@ -2166,6 +2166,11 @@ class AnalysisContext:
 - O contexto é passado em `agent.invoke(..., context=AnalysisContext(...))`. Cada tool declara `runtime: ToolRuntime[AnalysisContext]`; o LangChain injeta esse parâmetro na execução e **o omite do schema enviado ao modelo**. Assim, o modelo não vê nem consegue alterar o usuário ou o período.
 - Toda consulta começa por `filter(user_id=runtime.context.user_id)` e é limitada a `period_start`–`period_end`.
 - O corpo de cada tool roda dentro de `read_only_queries()`, que usa `connection.execute_wrapper` para lançar erro em qualquer SQL diferente de `SELECT`.
+- **Tools em threads auxiliares (decisão de implementação):** o LangGraph executa as tools em threads auxiliares (`ContextThreadPoolExecutor`), e o Django mantém uma conexão de banco por thread. Sem tratamento, cada tool abriria uma conexão própria, que ficaria aberta ao fim da thread, e não enxergaria a transação de quem chamou (nos testes com `TestCase`, o SQLite falha com `database table is locked`). Por isso:
+  - `run_analysis` envolve o `agent.invoke(...)` em `share_connection_with_tools()` (`ai/tools.py`), que publica a conexão de quem chamou num `ContextVar` (copiado para as threads auxiliares) e habilita o compartilhamento com `inc_thread_sharing()`/`dec_thread_sharing()`.
+  - Cada tool roda dentro de `_tool_queries()`, que usa essa conexão compartilhada no lugar da conexão da thread e aplica `read_only_queries()`.
+  - Um `threading.Lock` serializa a execução das tools, pois a conexão e seus `execute_wrapper` são compartilhados. O custo é baixo: as consultas são curtas e o tempo total é dominado pelas chamadas ao modelo.
+  - Consequência: nenhuma conexão fica aberta nas threads auxiliares, as tools veem os mesmos dados de quem chamou e os testes funcionam com `TestCase` sem ajustes.
 - Retorno sempre em `dict` serializável em JSON; valores monetários como **string com 2 casas** (`'1234.56'`), nunca `float`.
 - Argumento inválido (mês fora do período, formato errado) retorna `{'error': '<mensagem em inglês>'}` em vez de lançar exceção, para o modelo corrigir a chamada.
 

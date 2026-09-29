@@ -1,9 +1,5 @@
-from decimal import Decimal
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import DecimalField, Q, Sum, Value
-from django.db.models.functions import Coalesce
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -17,17 +13,6 @@ from accounts.views import UserQuerySetMixin
 from categories.models import Category
 from transactions.forms import TransactionFilterForm, TransactionForm
 from transactions.models import Transaction
-
-MONEY = DecimalField(max_digits=12, decimal_places=2)
-ZERO = Value(Decimal('0'), output_field=MONEY)
-
-
-def _sum_by_type(transaction_type):
-    return Coalesce(
-        Sum('amount', filter=Q(transaction_type=transaction_type)),
-        ZERO,
-        output_field=MONEY,
-    )
 
 
 class TransactionListView(LoginRequiredMixin, ListView):
@@ -66,8 +51,10 @@ class TransactionListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         # object_list is the filtered queryset before pagination.
         totals = self.object_list.aggregate(
-            total_income=_sum_by_type(Transaction.TransactionType.INCOME),
-            total_expense=_sum_by_type(
+            total_income=Transaction.sum_by_type(
+                Transaction.TransactionType.INCOME
+            ),
+            total_expense=Transaction.sum_by_type(
                 Transaction.TransactionType.EXPENSE
             ),
         )

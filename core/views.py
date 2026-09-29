@@ -8,7 +8,6 @@ from django.views.generic import TemplateView
 from accounts.models import Account
 from categories.models import Category
 from transactions.models import Transaction
-from transactions.views import _sum_by_type
 
 INCOME = Transaction.TransactionType.INCOME
 EXPENSE = Transaction.TransactionType.EXPENSE
@@ -41,8 +40,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             date__gte=month_start, date__lte=today
         )
         totals = month_transactions.aggregate(
-            month_income=_sum_by_type(INCOME),
-            month_expense=_sum_by_type(EXPENSE),
+            month_income=Transaction.sum_by_type(INCOME),
+            month_expense=Transaction.sum_by_type(EXPENSE),
         )
         month_income = totals['month_income']
         month_expense = totals['month_expense']

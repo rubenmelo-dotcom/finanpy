@@ -3,7 +3,12 @@ from decimal import Decimal
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Q, Sum, Value
+from django.db.models.functions import Coalesce
 from django.utils import timezone
+
+MONEY = models.DecimalField(max_digits=12, decimal_places=2)
+ZERO = Value(Decimal('0'), output_field=MONEY)
 
 
 class Transaction(models.Model):
@@ -51,6 +56,15 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f'{self.description} - {self.amount}'
+
+    @staticmethod
+    def sum_by_type(transaction_type):
+        """Aggregate expression: total ``amount`` of one type, or zero."""
+        return Coalesce(
+            Sum('amount', filter=Q(transaction_type=transaction_type)),
+            ZERO,
+            output_field=MONEY,
+        )
 
     @property
     def signed_amount(self):
