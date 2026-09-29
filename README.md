@@ -142,3 +142,46 @@ Sobre os arquivos estáticos: o container usa o `runserver` do Django com
 `.env.example`). É uma configuração para uso local, sem servidor de
 produção (como gunicorn ou nginx), mantida assim para não adicionar
 dependências ao projeto.
+
+## Análise financeira com IA
+
+### Agendamento mensal
+
+O comando `generate_monthly_analyses` gera a análise do mês para todos os
+usuários ativos com a análise ativada no perfil. Sem `--month`, ele só age
+no **último dia do mês** (data no fuso `America/Sao_Paulo`); nos outros
+dias, informa "Hoje não é o último dia do mês; nada a fazer." e sai com
+sucesso. Por isso basta uma linha de cron para os dias 28 a 31, às 23:59.
+Sem `OPENAI_API_KEY`, o comando sai com erro.
+
+```bash
+python manage.py generate_monthly_analyses                  # último dia do mês
+python manage.py generate_monthly_analyses --month 2026-09  # mês encerrado
+python manage.py generate_monthly_analyses --user ana@exemplo.com
+```
+
+`--month` aceita apenas meses já encerrados (o mês corrente e meses
+futuros são recusados) e serve para preencher o histórico ou repetir
+manualmente uma execução das 23:59 que falhou. Análises concluídas nunca
+são regeneradas; usuários que já geraram a análise pelo botão do
+dashboard são ignorados. Ao final, o comando mostra um resumo por status
+(ex.: `Concluídas: 12 · Dados insuficientes: 3 · Já existentes: 40`).
+
+O agendador precisa usar o fuso `America/Sao_Paulo` (via `CRON_TZ`, `TZ`
+ou o relógio do host); caso contrário, as 23:59 do cron não coincidem com
+o último dia do mês visto pela aplicação. Exemplo de `crontab -e`, com
+uma linha para a instalação local e outra para o Docker (use só a que se
+aplica):
+
+```cron
+CRON_TZ=America/Sao_Paulo
+# Instalação local (crie antes a pasta logs/)
+59 23 28-31 * * cd /caminho/finanpy && venv/bin/python manage.py generate_monthly_analyses >> logs/ai.log 2>&1
+# Docker Compose (container em execução)
+59 23 28-31 * * cd /caminho/finanpy && docker compose exec -T web python manage.py generate_monthly_analyses
+```
+
+`CRON_TZ` é suportado pelo cronie (Fedora, RHEL, Arch); no cron do
+Debian/Ubuntu, deixe o host em `America/Sao_Paulo`
+(`sudo timedatectl set-timezone America/Sao_Paulo`). O `-T` do
+`docker compose exec` desativa o pseudo-TTY, que não existe no cron.

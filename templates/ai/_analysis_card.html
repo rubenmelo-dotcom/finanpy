@@ -1,0 +1,208 @@
+{% comment %}
+  Bloco da análise financeira com IA no dashboard (PRD 14.7).
+  Uso: {% include 'ai/_analysis_card.html' %} dentro de dashboard.html, com
+  o contexto de ai.services.dashboard_analysis_context.
+
+  Estados (14.7.3):
+  - not ai_enabled                  → nada é renderizado;
+  - not ai_user_enabled             → card compacto com "Ativar no perfil";
+  - current_month_state             → aviso do mês corrente (pending,
+    processing, insufficient_data, failed, failed_final; completed = sem aviso);
+  - selected_analysis               → conteúdo da análise (14.7.1);
+    sem análise concluída           → _empty_state "Sua primeira análise".
+  summary/insights/tips/overall_status/generated_at são lidos somente de
+  selected_analysis (as demais instâncias vêm sem o campo content).
+  Todo texto gerado passa pelo autoescape (nunca |safe).
+{% endcomment %}
+{% if ai_enabled %}
+  {% url 'dashboard' as dashboard_url %}
+  {% if not ai_user_enabled %}
+    <section id="analise" class="card mb-6 scroll-mt-20 lg:scroll-mt-6" aria-labelledby="analise-title">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="flex min-w-0 items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
+          </svg>
+          <h2 id="analise-title" class="text-sm font-medium text-ink-muted">A análise com IA está desativada.</h2>
+        </div>
+        <a href="{% url 'profiles:update' %}" class="btn-secondary btn-sm self-start sm:self-auto">Ativar no perfil</a>
+      </div>
+    </section>
+  {% else %}
+    <section id="analise" class="card mb-6 scroll-mt-20 lg:scroll-mt-6" aria-labelledby="analise-title">
+      {# Cabeçalho: título, badge de situação e seletor (14.7.1 e 14.7.2) #}
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 id="analise-title" class="text-lg font-semibold text-ink">Análise de {{ selected_month_label|default:current_month_label }}</h2>
+            {% if selected_analysis %}
+              {% with status=selected_analysis.overall_status %}
+                {% if status == 'healthy' %}
+                  <span class="badge-income"><span class="sr-only">Situação:</span> Saudável</span>
+                {% elif status == 'attention' %}
+                  <span class="badge-warning"><span class="sr-only">Situação:</span> Atenção</span>
+                {% elif status == 'critical' %}
+                  <span class="badge-expense"><span class="sr-only">Situação:</span> Crítica</span>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
+          </div>
+          {% if selected_analysis and not is_latest_selected %}
+            <a href="{{ dashboard_url }}#analise" class="mt-1 inline-flex items-center gap-1 text-sm font-medium text-brand-400 hover:underline rounded-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+              </svg>
+              Voltar para a mais recente
+            </a>
+          {% endif %}
+        </div>
+        {% if show_selector %}
+          <form method="get" action="{{ dashboard_url }}#analise" class="w-full sm:w-72 lg:w-auto lg:min-w-64">
+            <label for="analise-select" class="label">Análise do mês</label>
+            <div class="flex items-center gap-2">
+              <select id="analise-select" name="analise" class="input" onchange="this.form.submit()">
+                {% for option in analysis_options %}
+                  <option value="{{ option.value }}"{% if option.is_selected %} selected{% endif %}>{{ option.label|capfirst }}{% if option.is_latest %} (mais recente){% endif %}</option>
+                {% endfor %}
+              </select>
+              <noscript><button type="submit" class="btn-secondary btn-sm">Ver</button></noscript>
+            </div>
+          </form>
+        {% endif %}
+      </div>
+
+      {# Aviso do mês corrente (14.7.3) #}
+      {% if current_month_state == 'processing' %}
+        <div class="mt-5 rounded-xl border border-line p-4" aria-busy="true">
+          <div class="animate-pulse space-y-3" aria-hidden="true">
+            <div class="h-3 w-3/4 rounded-full bg-surface-2"></div>
+            <div class="h-3 w-full rounded-full bg-surface-2"></div>
+            <div class="h-3 w-2/3 rounded-full bg-surface-2"></div>
+          </div>
+          <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p class="text-sm text-ink-muted" role="status">Estamos gerando sua análise. Isso pode levar alguns segundos.</p>
+            {# Querystring única por renderização: força o recarregamento mesmo com a âncora #analise (só o fragmento não recarrega) e preserva a análise selecionada. #}
+            <a href="{{ dashboard_url }}?{% for option in analysis_options %}{% if option.is_selected and not option.is_latest %}analise={{ option.value }}&amp;{% endif %}{% endfor %}atualizar={% now 'U' %}#analise" class="btn-secondary btn-sm self-start sm:self-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>
+              Atualizar
+            </a>
+          </div>
+        </div>
+      {% elif current_month_state == 'pending' %}
+        <div class="alert-info mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <p>A análise de {{ current_month_label }} será gerada automaticamente em <span class="tabular-nums">{{ next_generation_date|date:'d/m/Y' }}</span>, às 23:59. Se preferir, gere agora.</p>
+          {% if can_generate %}
+            <div class="shrink-0">{% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' only %}</div>
+          {% endif %}
+        </div>
+      {% elif current_month_state == 'insufficient_data' %}
+        <div class="alert-warning mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <p>Ainda não há transações suficientes para gerar a análise de {{ current_month_label }}. Registre pelo menos {{ ai_min_transactions }} transações e tente novamente.</p>
+          <div class="flex shrink-0 flex-wrap gap-3">
+            <a href="{% url 'transactions:create' %}" class="btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              Nova transação
+            </a>
+            {% if can_generate %}
+              {% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' only %}
+            {% endif %}
+          </div>
+        </div>
+      {% elif current_month_state == 'failed' %}
+        <div class="alert-error mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <p>Não foi possível gerar sua análise agora. Tente novamente em alguns minutos.</p>
+          {% if can_generate %}
+            <div class="shrink-0">{% include 'ai/_generate_form.html' with label='Tentar novamente' variant='secondary' only %}</div>
+          {% endif %}
+        </div>
+      {% elif current_month_state == 'failed_final' %}
+        <div class="alert-warning mt-5">
+          <p>Não conseguimos gerar a análise deste mês. Você pode consultar as análises anteriores.</p>
+        </div>
+      {% endif %}
+
+      {% if selected_analysis %}
+        {# Conteúdo da análise selecionada (14.7.1) #}
+        <p class="mt-5 text-sm md:text-base text-ink">{{ selected_analysis.summary }}</p>
+
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="min-w-0">
+            <h3 class="text-sm font-semibold text-ink">Insights</h3>
+            <ul class="mt-3 space-y-4" role="list">
+              {% for insight in selected_analysis.insights %}
+                <li class="flex gap-3">
+                  {% if insight.kind == 'positive' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-0.5 h-5 w-5 shrink-0 text-income" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                  {% elif insight.kind == 'attention' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-0.5 h-5 w-5 shrink-0 text-amber-400" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                    </svg>
+                  {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-0.5 h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                    </svg>
+                  {% endif %}
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                      <p class="text-sm font-medium text-ink break-words">
+                        <span class="sr-only">{% if insight.kind == 'positive' %}Ponto positivo:{% elif insight.kind == 'attention' %}Ponto de atenção:{% else %}Informativo:{% endif %}</span>
+                        {{ insight.title }}
+                      </p>
+                      {% if insight.metric %}
+                        <p class="text-sm font-semibold tabular-nums text-ink whitespace-nowrap">{{ insight.metric }}</p>
+                      {% endif %}
+                    </div>
+                    <p class="mt-1 text-sm text-ink-muted break-words">{{ insight.description }}</p>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="min-w-0">
+            <h3 class="text-sm font-semibold text-ink">Dicas</h3>
+            <ol class="mt-3 space-y-4" role="list">
+              {% for tip in selected_analysis.tips %}
+                <li class="rounded-xl border border-line bg-surface-2/60 p-4">
+                  <div class="flex flex-wrap items-center gap-2">
+                    {% if tip.priority == 'high' %}
+                      <span class="badge-expense">Prioridade alta</span>
+                    {% elif tip.priority == 'medium' %}
+                      <span class="badge-warning">Prioridade média</span>
+                    {% else %}
+                      <span class="badge-neutral">Prioridade baixa</span>
+                    {% endif %}
+                    {% if tip.category %}
+                      <span class="badge-neutral"><span class="sr-only">Categoria:</span> {{ tip.category }}</span>
+                    {% endif %}
+                  </div>
+                  <p class="mt-2 text-sm font-medium text-ink break-words">{{ tip.title }}</p>
+                  <p class="mt-1 text-sm text-ink-muted break-words">{{ tip.description }}</p>
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+      {% else %}
+        {# Nenhuma análise concluída ainda (14.7.3) #}
+        {% include 'components/_empty_state.html' with title='Sua primeira análise' text='Receba insights e dicas personalizadas com base nos seus lançamentos.' heading_level=3 only %}
+      {% endif %}
+
+      {# Rodapé (14.7.1) #}
+      <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-line pt-4">
+        {% if selected_analysis %}
+          <p class="text-xs text-ink-faint">Gerada por IA em <span class="tabular-nums">{{ selected_analysis.generated_at|date:'d/m/Y' }}</span> com base nos seus lançamentos. Não substitui orientação financeira profissional.</p>
+        {% else %}
+          <p class="text-xs text-ink-faint">Análise gerada por IA com base nos seus lançamentos. Não substitui orientação financeira profissional.</p>
+        {% endif %}
+        <a href="{% url 'profiles:update' %}" class="shrink-0 self-start sm:self-auto text-xs font-medium text-brand-400 hover:underline rounded-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500">Desativar análise com IA</a>
+      </div>
+    </section>
+  {% endif %}
+{% endif %}

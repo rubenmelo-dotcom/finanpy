@@ -805,6 +805,7 @@ Todos os botões: `inline-flex items-center justify-center gap-2 rounded-xl px-4
 | `.badge-income` | `bg-income/15 text-income` | Tipo Entrada |
 | `.badge-expense` | `bg-expense/15 text-rose-400` (texto `rose-400` para contraste AA) | Tipo Saída |
 | `.badge-neutral` | `bg-surface-2 text-ink-muted border border-line` | Tipo de conta, status |
+| `.badge-warning` | `bg-amber-500/15 text-amber-400` | Situação "Atenção" e prioridade média da análise com IA (seção 14.7) |
 | Categoria | `.badge` + bolinha `h-2 w-2 rounded-full` com `style="background-color: {{ category.color }}"` | Categoria da transação |
 
 ### 9.9 Alertas (mensagens)
@@ -1846,43 +1847,43 @@ Critérios de aceite:
   - [X] 12.7.4 Somar `usage_metadata` (`input_tokens`, `output_tokens`, `total_tokens`) de todas as `AIMessage` do resultado.
   - [X] 12.7.5 Lançar erro de domínio (`AnalysisGenerationError`) quando `structured_response` estiver ausente.
 
-- [ ] **12.8 Serviço de geração mensal (`ai/services.py`)**
-  - [ ] 12.8.1 Definir em `ai/constants.py` as constantes `AI_MIN_TRANSACTIONS = 5`, `AI_MAX_ATTEMPTS = 3`, `AI_LOOKBACK_MONTHS = 3`, `AI_STALE_AFTER = timedelta(minutes=10)` e `AI_RECURSION_LIMIT = 15` (módulo próprio para evitar import circular entre `models.py`, `agent.py` e `services.py`).
-  - [ ] 12.8.2 Criar `current_reference_month()`, `is_last_day_of_month(day)` e `analysis_period(reference_month, generated_on)` (seção 14.6.2).
-  - [ ] 12.8.3 Criar `generate_monthly_analysis(user, reference_month=None)` seguindo o fluxo da seção 14.6.3.
-  - [ ] 12.8.4 Respeitar a preferência do usuário: com `profile.ai_analysis_enabled` desligado, retornar sem criar registro e sem chamar o LLM; conferir de novo imediatamente antes da chamada.
-  - [ ] 12.8.5 Implementar `get_or_create` do registro tratando `IntegrityError` (outro processo criou o registro ao mesmo tempo).
-  - [ ] 12.8.6 Implementar a reserva atômica com `UPDATE` condicional (`PENDING`, `FAILED` com tentativas, `INSUFFICIENT_DATA` ou `PROCESSING` expirado → `PROCESSING`); se nenhuma linha for atualizada, não gerar.
-  - [ ] 12.8.7 Checar dados mínimos antes de chamar o LLM; sem dados suficientes, gravar `INSUFFICIENT_DATA` sem consumir tentativa.
-  - [ ] 12.8.8 Executar o agente **fora** de `transaction.atomic()` e gravar o resultado (`content`, `schema_version`, `model_name`, tokens, `generated_at`, `COMPLETED`).
-  - [ ] 12.8.9 Capturar exceções da OpenAI, de validação e de limite de passos, gravando `FAILED` e `error_message` interno (seção 14.9); nunca propagar para a view.
-  - [ ] 12.8.10 Registrar no logger `ai` o início, o fim, a duração, o status e os tokens, sem dados financeiros nem e-mail.
-  - [ ] 12.8.11 Criar `dashboard_analysis_context(user, month_param)` com os dados do bloco e do seletor (seção 14.7.2), em no máximo 3 queries.
+- [X] **12.8 Serviço de geração mensal (`ai/services.py`)**
+  - [X] 12.8.1 Definir em `ai/constants.py` as constantes `AI_MIN_TRANSACTIONS = 5`, `AI_MAX_ATTEMPTS = 3`, `AI_LOOKBACK_MONTHS = 3`, `AI_STALE_AFTER = timedelta(minutes=10)` e `AI_RECURSION_LIMIT = 15` (módulo próprio para evitar import circular entre `models.py`, `agent.py` e `services.py`).
+  - [X] 12.8.2 Criar `current_reference_month()`, `is_last_day_of_month(day)` e `analysis_period(reference_month, generated_on)` (seção 14.6.2).
+  - [X] 12.8.3 Criar `generate_monthly_analysis(user, reference_month=None)` seguindo o fluxo da seção 14.6.3.
+  - [X] 12.8.4 Respeitar a preferência do usuário: com `profile.ai_analysis_enabled` desligado, retornar sem criar registro e sem chamar o LLM; conferir de novo imediatamente antes da chamada.
+  - [X] 12.8.5 Implementar `get_or_create` do registro tratando `IntegrityError` (outro processo criou o registro ao mesmo tempo).
+  - [X] 12.8.6 Implementar a reserva atômica com `UPDATE` condicional (`PENDING`, `FAILED` com tentativas, `INSUFFICIENT_DATA` ou `PROCESSING` expirado → `PROCESSING`); se nenhuma linha for atualizada, não gerar.
+  - [X] 12.8.7 Checar dados mínimos antes de chamar o LLM; sem dados suficientes, gravar `INSUFFICIENT_DATA` sem consumir tentativa.
+  - [X] 12.8.8 Executar o agente **fora** de `transaction.atomic()` e gravar o resultado (`content`, `schema_version`, `model_name`, tokens, `generated_at`, `COMPLETED`).
+  - [X] 12.8.9 Capturar exceções da OpenAI, de validação e de limite de passos, gravando `FAILED` e `error_message` interno (seção 14.9); nunca propagar para a view.
+  - [X] 12.8.10 Registrar no logger `ai` o início, o fim, a duração, o status e os tokens, sem dados financeiros nem e-mail.
+  - [X] 12.8.11 Criar `dashboard_analysis_context(user, month_param)` com os dados do bloco e do seletor (seção 14.7.2), em no máximo 3 queries.
 
-- [ ] **12.9 Agendamento (último dia do mês, 23:59)**
-  - [ ] 12.9.1 Criar o comando `generate_monthly_analyses` com as opções `--month YYYY-MM` e `--user EMAIL` (seção 14.6.4).
-  - [ ] 12.9.2 Sem `--month`, gerar para o mês corrente **somente se hoje (fuso `America/Sao_Paulo`) for o último dia do mês**; nos outros dias, apenas informar "Hoje não é o último dia do mês; nada a fazer." e sair com sucesso.
-  - [ ] 12.9.3 Com `--month`, aceitar somente meses já encerrados (preenchimento de histórico e nova tentativa manual), usando o último dia do mês como fim do período.
-  - [ ] 12.9.4 Calcular o mês de referência **uma única vez** no início da execução (a execução das 23:59 pode passar da meia-noite).
-  - [ ] 12.9.5 Iterar somente usuários ativos (`is_active=True`) com `iterator()`, chamando o serviço um a um e exibindo um resumo por status ao final (incluindo "Desativadas pelo usuário").
-  - [ ] 12.9.6 Sair com `CommandError` quando `AI_ANALYSIS_ENABLED` for `False`.
-  - [ ] 12.9.7 Documentar no README o cron `59 23 28-31 * *` (local e com Docker) e a necessidade do fuso `America/Sao_Paulo` no agendador.
+- [X] **12.9 Agendamento (último dia do mês, 23:59)**
+  - [X] 12.9.1 Criar o comando `generate_monthly_analyses` com as opções `--month YYYY-MM` e `--user EMAIL` (seção 14.6.4).
+  - [X] 12.9.2 Sem `--month`, gerar para o mês corrente **somente se hoje (fuso `America/Sao_Paulo`) for o último dia do mês**; nos outros dias, apenas informar "Hoje não é o último dia do mês; nada a fazer." e sair com sucesso.
+  - [X] 12.9.3 Com `--month`, aceitar somente meses já encerrados (preenchimento de histórico e nova tentativa manual), usando o último dia do mês como fim do período.
+  - [X] 12.9.4 Calcular o mês de referência **uma única vez** no início da execução (a execução das 23:59 pode passar da meia-noite).
+  - [X] 12.9.5 Iterar somente usuários ativos (`is_active=True`) com `iterator()`, chamando o serviço um a um e exibindo um resumo por status ao final (incluindo "Desativadas pelo usuário").
+  - [X] 12.9.6 Sair com `CommandError` quando `AI_ANALYSIS_ENABLED` for `False`.
+  - [X] 12.9.7 Documentar no README o cron `59 23 28-31 * *` (local e com Docker) e a necessidade do fuso `America/Sao_Paulo` no agendador.
 
-- [ ] **12.10 Geração sob demanda**
-  - [ ] 12.10.1 Criar `GenerateAnalysisView(LoginRequiredMixin, View)` somente POST, que chama o serviço para `request.user` e o mês corrente, adiciona a mensagem da seção 14.7.4 e redireciona para `dashboard`.
-  - [ ] 12.10.2 Criar `ai/urls.py` (`app_name = 'ai'`, rota `gerar/` → `generate`) e incluir em `core/urls.py` com o prefixo `analises/`.
+- [X] **12.10 Geração sob demanda**
+  - [X] 12.10.1 Criar `GenerateAnalysisView(LoginRequiredMixin, View)` somente POST, que chama o serviço para `request.user` e o mês corrente, adiciona a mensagem da seção 14.7.4 e redireciona para `dashboard`.
+  - [X] 12.10.2 Criar `ai/urls.py` (`app_name = 'ai'`, rota `gerar/` → `generate`) e incluir em `core/urls.py` com o prefixo `analises/`.
 
-- [ ] **12.11 Integração com o dashboard**
-  - [ ] 12.11.1 Em `DashboardView.get_context_data`, adicionar o contexto de `dashboard_analysis_context(request.user, request.GET.get('analise'))`.
-  - [ ] 12.11.2 Adicionar ao design system a classe `.badge-warning` (`bg-amber-500/15 text-amber-400`) em `input.css` e na seção 9.8.
-  - [ ] 12.11.3 Criar o componente `templates/ai/_analysis_card.html` com cabeçalho, seletor de análises, badge de situação, resumo, lista de insights e lista de dicas (seção 14.7.1).
-  - [ ] 12.11.4 Implementar o seletor de análises (seção 14.7.2): `<select>` com as análises concluídas do usuário, form GET para o dashboard com `#analise`, envio automático por JS inline mínimo e botão **Ver** dentro de `<noscript>`.
-  - [ ] 12.11.5 Implementar os estados da seção 14.7.3: desativada pelo sistema, desativada pelo usuário, somente visualização, concluída anterior, sem análise do mês (CTA), dados insuficientes, nenhuma análise ainda, gerando e falha (com e sem nova tentativa).
-  - [ ] 12.11.6 Exibir o botão **Gerar análise** em qualquer dia do mês enquanto não houver análise concluída no mês corrente, e ocultá-lo depois da conclusão (somente visualização).
-  - [ ] 12.11.7 No submit do botão **Gerar análise**, desabilitar o botão e trocar o texto por "Gerando análise…" com JS inline mínimo (RNF16).
-  - [ ] 12.11.8 Incluir o componente em `dashboard.html` logo abaixo dos cards de estatística, em largura total, com `id="analise"`.
-  - [ ] 12.11.9 Exibir o aviso "Gerada por IA em dd/mm/aaaa com base nos seus lançamentos. Não substitui orientação financeira profissional." e o link **Desativar análise com IA** (para `profiles:update`).
-  - [ ] 12.11.10 Validar responsividade (360px a 1440px) e contraste AA do bloco.
+- [X] **12.11 Integração com o dashboard**
+  - [X] 12.11.1 Em `DashboardView.get_context_data`, adicionar o contexto de `dashboard_analysis_context(request.user, request.GET.get('analise'))`.
+  - [X] 12.11.2 Adicionar ao design system a classe `.badge-warning` (`bg-amber-500/15 text-amber-400`) em `input.css` e na seção 9.8.
+  - [X] 12.11.3 Criar o componente `templates/ai/_analysis_card.html` com cabeçalho, seletor de análises, badge de situação, resumo, lista de insights e lista de dicas (seção 14.7.1).
+  - [X] 12.11.4 Implementar o seletor de análises (seção 14.7.2): `<select>` com as análises concluídas do usuário, form GET para o dashboard com `#analise`, envio automático por JS inline mínimo e botão **Ver** dentro de `<noscript>`.
+  - [X] 12.11.5 Implementar os estados da seção 14.7.3: desativada pelo sistema, desativada pelo usuário, somente visualização, concluída anterior, sem análise do mês (CTA), dados insuficientes, nenhuma análise ainda, gerando e falha (com e sem nova tentativa).
+  - [X] 12.11.6 Exibir o botão **Gerar análise** em qualquer dia do mês enquanto não houver análise concluída no mês corrente, e ocultá-lo depois da conclusão (somente visualização).
+  - [X] 12.11.7 No submit do botão **Gerar análise**, desabilitar o botão e trocar o texto por "Gerando análise…" com JS inline mínimo (RNF16).
+  - [X] 12.11.8 Incluir o componente em `dashboard.html` logo abaixo dos cards de estatística, em largura total, com `id="analise"`.
+  - [X] 12.11.9 Exibir o aviso "Gerada por IA em dd/mm/aaaa com base nos seus lançamentos. Não substitui orientação financeira profissional." e o link **Desativar análise com IA** (para `profiles:update`).
+  - [X] 12.11.10 Validar responsividade (360px a 1440px) e contraste AA do bloco.
 
 - [ ] **12.12 Testes automatizados (`ai/tests/` e `profiles/tests.py`)**
   - [ ] 12.12.1 Criar `ai/tests/utils.py` com `FakeToolModel` (subclasse de `GenericFakeChatModel` com `bind_tools` retornando `self`) e helpers para montar respostas de tool call e de saída estruturada.
@@ -2243,6 +2244,7 @@ Os valores de `Literal` ficam em inglês (código) e são traduzidos no template
   - `--month 2026-09` (mês encerrado, preenchimento manual) → período de 01/06/2026 a 30/09/2026.
 - Durante o mês seguinte, enquanto a nova análise não é gerada, o dashboard mostra a do mês anterior (seção 14.7).
 - Dados mínimos: pelo menos `AI_MIN_TRANSACTIONS` (5) transações no período.
+- **Decisão de implementação (`analysis_period`):** `period_end` é a data da geração **limitada ao último dia do mês de referência** (`min(generated_on, último dia do mês)`), o que dá o período correto para meses encerrados (`--month`). Mês de referência no futuro lança `ValueError` (erro de programação: a view sempre usa o mês corrente e o comando valida `--month`).
 
 #### 14.6.3 Fluxo do serviço e controle de concorrência
 
@@ -2271,6 +2273,16 @@ Os valores de `Literal` ficam em inglês (código) e são traduzidos no template
 9. Erro: gravar `status=FAILED` e `error_message` (classe da exceção + mensagem truncada em 500 caracteres) e registrar em log.
 
 O `PROCESSING` expirado (mais de 10 minutos) cobre processos interrompidos no meio da geração (deploy, queda do container).
+
+**Decisões de implementação (divergências e detalhes do fluxo acima):**
+
+- **Retorno `GenerationResult(outcome, analysis)`** em vez de "`None` ou o registro". `outcome` é um `GenerationOutcome` (`StrEnum`): `COMPLETED` (nova), `ALREADY_COMPLETED`, `IN_PROGRESS`, `INSUFFICIENT_DATA`, `FAILED`, `ATTEMPTS_EXHAUSTED`, `USER_DISABLED` e `FEATURE_DISABLED`; `analysis` é `None` quando nenhum registro foi criado (passo 1). A `GenerateAnalysisView` usa o `outcome` para escolher a mensagem (seção 14.7.4) e o comando para o resumo por status (seção 14.6.4).
+- **Funcionalidade ligada/desligada por `is_ai_enabled()`** (`ai/services.py`), que lê `bool(settings.OPENAI_API_KEY)` diretamente, e não `settings.AI_ANALYSIS_ENABLED`. Em produção o resultado é o mesmo; nos testes, `override_settings(OPENAI_API_KEY=...)` basta para ligar ou desligar (sobrescrever só `AI_ANALYSIS_ENABLED` não tem efeito). `dashboard_analysis_context` usa `is_ai_enabled()`, e o comando (12.9) e a view (12.10) devem usá-la também.
+- **Modelo criado pelo serviço:** o serviço chama `ai.llm.get_chat_model()` (pelo módulo, para que `mock.patch('ai.llm.get_chat_model')` funcione) e passa o modelo a `run_analysis(context, model=...)`. Se a chave faltar nesse ponto (`ImproperlyConfigured`), o registro volta para `PENDING` sem consumir tentativa e o resultado é `FEATURE_DISABLED`.
+- **Reserva também atualiza o período:** o `UPDATE` condicional do passo 4 grava, além de `status` e `started_at`, os novos `period_start`/`period_end`.
+- **Só o dono da reserva grava o resultado:** a gravação final (passos 5, 8 e 9) só acontece se o registro ainda estiver em `PROCESSING` com o mesmo `started_at` da reserva. Uma geração que passou de `AI_STALE_AFTER` e foi assumida por outro processo tem o resultado descartado, sem sobrescrever o novo.
+- **Usuário sem `Profile`** é tratado como análise desativada (nada é enviado à OpenAI).
+- **Logs** (logger `ai`): início e fim com ID do usuário, mês, `outcome`/status, duração, tentativas e tokens; nunca e-mail ou valores financeiros. Nível por tipo de erro conforme a seção 14.9.
 
 #### 14.6.4 Comando e agendamento
 
@@ -2309,6 +2321,8 @@ Componente `templates/ai/_analysis_card.html`, incluído em `dashboard.html` log
 - **Rodapé:** legenda (`text-xs text-ink-faint`) "Gerada por IA em dd/mm/aaaa com base nos seus lançamentos. Não substitui orientação financeira profissional." e o link **Desativar análise com IA** (para `profiles:update`).
 - Todo texto gerado é exibido com o autoescape do DTL (nunca `|safe`).
 - Contexto adicionado à `DashboardView` por `dashboard_analysis_context(user, month_param)`: `ai_enabled`, `ai_user_enabled`, `selected_analysis`, `analysis_options`, `current_month_analysis`, `can_generate`, `next_generation_date` (último dia do mês corrente) e `ai_min_transactions`, com no máximo 3 queries extras.
+- **Decisão de implementação (chaves extras do contexto):** além das chaves acima, `dashboard_analysis_context` fornece `current_month`, `current_month_label`, `current_month_state` (`pending`, `processing`, `completed`, `insufficient_data`, `failed`, `failed_final`, usado para escolher o estado da seção 14.7.3), `selected_month_label`, `latest_analysis`, `is_latest_selected` e `show_selector`. Cada item de `analysis_options` tem `value` (`AAAA-MM`), `label` (ex.: "outubro de 2026"), `is_latest` e `is_selected`.
+- As 3 queries são: preferência do usuário; lista das análises (sem o campo `content`, via `defer`); conteúdo da análise selecionada. Com a funcionalidade desligada, nenhuma query é feita. Por isso o template lê `summary`, `insights` e `tips` **somente de `selected_analysis`**: ler o conteúdo de `current_month_analysis` ou de `latest_analysis` custaria uma query a mais.
 
 #### 14.7.2 Seletor de análises
 
@@ -2343,6 +2357,7 @@ Componente `templates/ai/_analysis_card.html`, incluído em `dashboard.html` log
 | `PROCESSING` por outro processo | info — "Sua análise já está sendo gerada. Atualize a página em instantes." |
 | `INSUFFICIENT_DATA` | warning — "Registre pelo menos 5 transações para gerar a análise." |
 | `FAILED` | error — "Não foi possível gerar sua análise agora. Tente novamente em alguns minutos." |
+| Tentativas esgotadas (`FAILED` com `attempts >= 3`) | warning — "O limite de tentativas para gerar a análise deste mês foi atingido. Você pode consultar as análises anteriores." |
 | Desativada pelo usuário | warning — "A análise com IA está desativada no seu perfil." |
 | Funcionalidade desativada | error — "A análise com IA não está disponível no momento." |
 
@@ -2371,11 +2386,13 @@ Constantes de regra de negócio (em `ai/constants.py`, não configuráveis por a
 | Saída fora do schema | Validação do `ToolStrategy` | Erro devolvido ao modelo para correção; se persistir, `FAILED` | Idem |
 | Agente em laço | `GraphRecursionError` (passou de `AI_RECURSION_LIMIT`) | `FAILED` + log `warning` | Idem |
 | Dados insuficientes | Menos de 5 transações no período | `INSUFFICIENT_DATA`, sem chamar o LLM e sem consumir tentativa | Estado "Dados insuficientes" |
-| Tentativas esgotadas | `attempts >= 3` | Sem novas chamadas no mês (o comando das 23:59 também ignora) | Estado "Falha sem nova tentativa" |
+| Tentativas esgotadas | `attempts >= 3` | Sem novas chamadas no mês (o comando das 23:59 também ignora); o botão responde com a mensagem de tentativas esgotadas (seção 14.7.4) | Estado "Falha sem nova tentativa" |
 | Falha na execução das 23:59 | Registro `FAILED` após a virada do mês | Nova tentativa manual com `--month AAAA-MM` | Análise anterior continua exibida |
 | Erro inesperado | Qualquer `Exception` no serviço | `FAILED` + `logger.exception` | Idem; o dashboard nunca retorna 500 |
 
 `error_message` guarda apenas a classe da exceção e a mensagem truncada; nunca a chave, o prompt ou os dados enviados.
+
+**Decisão de implementação:** antes de gravar, `error_message()` remove a chave configurada e qualquer trecho no formato `sk-...`; erros de validação do Pydantic são descritos pela localização do campo e pela mensagem do erro, sem o valor inválido (que poderia conter texto gerado a partir dos dados do usuário).
 
 ### 14.10 Segurança e privacidade
 

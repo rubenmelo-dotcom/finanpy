@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.views.generic import TemplateView
 
 from accounts.models import Account
+from ai.services import dashboard_analysis_context
 from categories.models import Category
 from transactions.models import Transaction
 
@@ -87,4 +88,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 has_accounts and has_categories and has_transactions
             ),
         })
+        context.update(
+            dashboard_analysis_context(user, self.request.GET.get('analise'))
+        )
         return context

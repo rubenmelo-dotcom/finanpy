@@ -34,4 +34,5 @@ urlpatterns = [
     path('contas/', include('accounts.urls')),
     path('categorias/', include('categories.urls')),
     path('transacoes/', include('transactions.urls')),
+    path('analises/', include('ai.urls')),
 ]

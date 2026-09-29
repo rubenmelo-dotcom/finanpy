@@ -157,6 +157,11 @@
       text-xs font-medium whitespace-nowrap;
     @apply border border-line bg-surface-2 text-ink-muted;
   }
+  .badge-warning {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5
+      text-xs font-medium whitespace-nowrap;
+    @apply bg-amber-500/15 text-amber-400;
+  }
 
   /* Alertas (9.9) - variantes independentes de .alert */
   .alert {
