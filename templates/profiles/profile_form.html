@@ -3,7 +3,7 @@
 {% block title %}Editar perfil · Finanpy{% endblock %}
 
 {% block content %}
-  {% include 'components/_page_header.html' with title='Editar perfil' subtitle='Atualize seu nome, telefone e data de nascimento.' only %}
+  {% include 'components/_page_header.html' with title='Editar perfil' subtitle='Atualize seus dados pessoais e preferências de privacidade.' only %}
 
   <form method="post" action="{% url 'profiles:update' %}" class="card max-w-3xl" novalidate>
     {% csrf_token %}
@@ -25,6 +25,13 @@
       </div>
       {% include 'components/_form_field.html' with field=form.phone %}
       {% include 'components/_form_field.html' with field=form.birth_date %}
+    </div>
+
+    <div class="pt-6 mt-6 border-t border-line">
+      <fieldset>
+        <legend class="text-base font-semibold text-ink mb-4">Privacidade</legend>
+        {% include 'components/_form_field.html' with field=form.ai_analysis_enabled %}
+      </fieldset>
     </div>
 
     <div class="flex justify-end gap-3 pt-6 mt-6 border-t border-line">

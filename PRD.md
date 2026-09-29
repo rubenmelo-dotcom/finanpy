@@ -1810,22 +1810,22 @@ Critérios de aceite:
   - [X] 12.2.8 Admin: `list_display = ('user', 'reference_month', 'status', 'model_name', 'total_tokens', 'attempts', 'generated_at')`, `list_filter = ('status', 'reference_month')`, `search_fields = ('user__email',)`, `list_select_related = ('user',)`, `date_hierarchy = 'reference_month'`.
   - [X] 12.2.9 Tornar o admin somente leitura (`has_add_permission` e `has_change_permission` retornando `False`), mantendo a exclusão para suporte.
 
-- [ ] **12.3 Preferência do usuário — desativar a análise (LGPD)**
-  - [ ] 12.3.1 Adicionar `ai_analysis_enabled = models.BooleanField('permitir análise com IA', default=True)` em `profiles.Profile` (seção 14.4.3); `makemigrations profiles` e `migrate`.
-  - [ ] 12.3.2 Incluir o campo no `ProfileForm` com `class='checkbox'` e o help text da seção 14.4.3.
-  - [ ] 12.3.3 Renderizar o checkbox em `profiles/profile_form.html` (bloco "Privacidade") e exibir o status ("Ativada"/"Desativada") em `profiles/profile_detail.html`.
-  - [ ] 12.3.4 Incluir `ai_analysis_enabled` no `list_display` e no `list_filter` do admin de perfis.
-  - [ ] 12.3.5 Atualizar a seção 8.5 do PRD (diagramas e regras de `Profile`) se a implementação divergir.
+- [X] **12.3 Preferência do usuário — desativar a análise (LGPD)**
+  - [X] 12.3.1 Adicionar `ai_analysis_enabled = models.BooleanField('permitir análise com IA', default=True)` em `profiles.Profile` (seção 14.4.3); `makemigrations profiles` e `migrate`.
+  - [X] 12.3.2 Incluir o campo no `ProfileForm` com `class='checkbox'` e o help text da seção 14.4.3.
+  - [X] 12.3.3 Renderizar o checkbox em `profiles/profile_form.html` (bloco "Privacidade") e exibir o status ("Ativada"/"Desativada") em `profiles/profile_detail.html`.
+  - [X] 12.3.4 Incluir `ai_analysis_enabled` no `list_display` e no `list_filter` do admin de perfis.
+  - [X] 12.3.5 Atualizar a seção 8.5 do PRD (diagramas e regras de `Profile`) se a implementação divergir.
 
-- [ ] **12.4 Schema da saída estruturada (`ai/schemas.py`)**
-  - [ ] 12.4.1 Criar os models Pydantic `Insight`, `Tip` e `FinancialAnalysis` exatamente como na seção 14.5.5, com `Field(description=...)` em todos os campos.
-  - [ ] 12.4.2 Definir os limites de tamanho (`max_length`, `min_length` das listas) e `Literal` para `overall_status`, `kind` e `priority`.
-  - [ ] 12.4.3 Definir `SCHEMA_VERSION = 1`, gravado junto com o conteúdo.
+- [X] **12.4 Schema da saída estruturada (`ai/schemas.py`)**
+  - [X] 12.4.1 Criar os models Pydantic `Insight`, `Tip` e `FinancialAnalysis` exatamente como na seção 14.5.5, com `Field(description=...)` em todos os campos.
+  - [X] 12.4.2 Definir os limites de tamanho (`max_length`, `min_length` das listas) e `Literal` para `overall_status`, `kind` e `priority`.
+  - [X] 12.4.3 Definir `SCHEMA_VERSION = 1`, gravado junto com o conteúdo.
 
-- [ ] **12.5 Configuração do LLM (`ai/llm.py`)**
-  - [ ] 12.5.1 Criar `get_chat_model()` retornando `ChatOpenAI(model=settings.OPENAI_MODEL, api_key=settings.OPENAI_API_KEY, timeout=settings.OPENAI_TIMEOUT, max_retries=settings.OPENAI_MAX_RETRIES)`.
-  - [ ] 12.5.2 Lançar `ImproperlyConfigured` quando `OPENAI_API_KEY` estiver vazia (nunca chamar a API sem chave).
-  - [ ] 12.5.3 Garantir que nenhuma chave ou nome de modelo fique hardcoded fora do `settings.py`.
+- [X] **12.5 Configuração do LLM (`ai/llm.py`)**
+  - [X] 12.5.1 Criar `get_chat_model()` retornando `ChatOpenAI(model=settings.OPENAI_MODEL, api_key=settings.OPENAI_API_KEY, timeout=settings.OPENAI_TIMEOUT, max_retries=settings.OPENAI_MAX_RETRIES)`.
+  - [X] 12.5.2 Lançar `ImproperlyConfigured` quando `OPENAI_API_KEY` estiver vazia (nunca chamar a API sem chave).
+  - [X] 12.5.3 Garantir que nenhuma chave ou nome de modelo fique hardcoded fora do `settings.py`.
 
 - [ ] **12.6 Tools somente leitura (`ai/tools.py`)**
   - [ ] 12.6.1 Criar o dataclass `AnalysisContext(user_id, period_start, period_end)` (seção 14.5.4).

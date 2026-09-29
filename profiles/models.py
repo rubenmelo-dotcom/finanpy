@@ -13,6 +13,9 @@ class Profile(models.Model):
     birth_date = models.DateField(
         'data de nascimento', null=True, blank=True
     )
+    ai_analysis_enabled = models.BooleanField(
+        'permitir análise com IA', default=True
+    )
     created_at = models.DateTimeField('criado em', auto_now_add=True)
     updated_at = models.DateTimeField('atualizado em', auto_now=True)
 

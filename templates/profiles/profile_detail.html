@@ -37,6 +37,10 @@
         <dt class="text-sm font-medium text-ink-muted">Membro desde</dt>
         <dd class="mt-1 text-sm md:text-base text-ink tabular-nums">{{ user.date_joined|date:'d/m/Y' }}</dd>
       </div>
+      <div>
+        <dt class="text-sm font-medium text-ink-muted">Análise com IA</dt>
+        <dd class="mt-1 text-sm md:text-base text-ink">{% if profile.ai_analysis_enabled %}Ativada{% else %}Desativada{% endif %}</dd>
+      </div>
     </dl>
 
     <div class="flex flex-wrap justify-end gap-3 pt-6 mt-6 border-t border-line">

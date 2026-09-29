@@ -31,10 +31,18 @@ class UserUpdateForm(StyledFormMixin, forms.ModelForm):
 class ProfileForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('phone', 'birth_date')
+        fields = ('phone', 'birth_date', 'ai_analysis_enabled')
         labels = {
             'phone': 'Telefone',
             'birth_date': 'Data de nascimento',
+            'ai_analysis_enabled': 'Permitir análise com IA',
+        }
+        help_texts = {
+            'ai_analysis_enabled': (
+                'Seus lançamentos dos últimos meses (valores, categorias, '
+                'contas e descrições) são enviados à OpenAI para gerar a '
+                'análise mensal. Nome, e-mail e telefone não são enviados.'
+            ),
         }
         widgets = {
             'phone': forms.TextInput(
@@ -43,6 +51,9 @@ class ProfileForm(StyledFormMixin, forms.ModelForm):
             'birth_date': forms.DateInput(
                 attrs={'class': 'input', 'type': 'date'},
                 format='%Y-%m-%d',
+            ),
+            'ai_analysis_enabled': forms.CheckboxInput(
+                attrs={'class': 'checkbox'}
             ),
         }
 
