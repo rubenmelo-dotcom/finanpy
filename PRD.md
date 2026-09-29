@@ -1799,16 +1799,16 @@ Critérios de aceite:
   - [X] 12.1.6 Em `ai/apps.py`, definir `verbose_name = 'Análises com IA'`; conferir `'ai'` em `INSTALLED_APPS` depois das apps de domínio.
   - [X] 12.1.7 Criar a estrutura de módulos da seção 14.5.2 (`agent.py`, `constants.py`, `llm.py`, `prompts.py`, `schemas.py`, `services.py`, `tools.py`, `urls.py`, `management/commands/`, `tests/`), removendo o `tests.py` gerado pelo `startapp`.
 
-- [ ] **12.2 Model `MonthlyAnalysis` e admin (`ai/models.py`, `ai/admin.py`)**
-  - [ ] 12.2.1 Criar `AnalysisStatus(models.TextChoices)` com `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED` e `INSUFFICIENT_DATA` (rótulos em pt-BR, seção 14.4.2).
-  - [ ] 12.2.2 Criar os campos da seção 14.4.1 com `verbose_name` em pt-BR, incluindo `created_at` e `updated_at`.
-  - [ ] 12.2.3 `Meta`: `ordering = ['-reference_month']`, `UniqueConstraint(fields=['user', 'reference_month'], name='unique_analysis_per_user_month')`, `CheckConstraint(condition=Q(reference_month__day=1), name='analysis_reference_month_first_day')`, `verbose_name = 'análise mensal'`, `verbose_name_plural = 'análises mensais'`.
-  - [ ] 12.2.4 Criar `MonthlyAnalysisQuerySet` com `for_user(user)`, `completed()` e `latest_completed(user)`, exposto como `objects`.
-  - [ ] 12.2.5 Criar os helpers `is_final` (somente `COMPLETED`) e `can_retry` (`FAILED` com `attempts < AI_MAX_ATTEMPTS`) e as propriedades de leitura do `content` usadas no template (`summary`, `insights`, `tips`).
-  - [ ] 12.2.6 `__str__` retornando `f'{self.user} · {self.reference_month:%m/%Y}'`.
-  - [ ] 12.2.7 `python manage.py makemigrations ai` e `migrate`.
-  - [ ] 12.2.8 Admin: `list_display = ('user', 'reference_month', 'status', 'model_name', 'total_tokens', 'attempts', 'generated_at')`, `list_filter = ('status', 'reference_month')`, `search_fields = ('user__email',)`, `list_select_related = ('user',)`, `date_hierarchy = 'reference_month'`.
-  - [ ] 12.2.9 Tornar o admin somente leitura (`has_add_permission` e `has_change_permission` retornando `False`), mantendo a exclusão para suporte.
+- [X] **12.2 Model `MonthlyAnalysis` e admin (`ai/models.py`, `ai/admin.py`)**
+  - [X] 12.2.1 Criar `AnalysisStatus(models.TextChoices)` com `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED` e `INSUFFICIENT_DATA` (rótulos em pt-BR, seção 14.4.2).
+  - [X] 12.2.2 Criar os campos da seção 14.4.1 com `verbose_name` em pt-BR, incluindo `created_at` e `updated_at`.
+  - [X] 12.2.3 `Meta`: `ordering = ['-reference_month']`, `UniqueConstraint(fields=['user', 'reference_month'], name='unique_analysis_per_user_month')`, `CheckConstraint(condition=Q(reference_month__day=1), name='analysis_reference_month_first_day')`, `verbose_name = 'análise mensal'`, `verbose_name_plural = 'análises mensais'`.
+  - [X] 12.2.4 Criar `MonthlyAnalysisQuerySet` com `for_user(user)`, `completed()` e `latest_completed(user)`, exposto como `objects`.
+  - [X] 12.2.5 Criar os helpers `is_final` (somente `COMPLETED`) e `can_retry` (`FAILED` com `attempts < AI_MAX_ATTEMPTS`) e as propriedades de leitura do `content` usadas no template (`summary`, `insights`, `tips`).
+  - [X] 12.2.6 `__str__` retornando `f'{self.user} · {self.reference_month:%m/%Y}'`.
+  - [X] 12.2.7 `python manage.py makemigrations ai` e `migrate`.
+  - [X] 12.2.8 Admin: `list_display = ('user', 'reference_month', 'status', 'model_name', 'total_tokens', 'attempts', 'generated_at')`, `list_filter = ('status', 'reference_month')`, `search_fields = ('user__email',)`, `list_select_related = ('user',)`, `date_hierarchy = 'reference_month'`.
+  - [X] 12.2.9 Tornar o admin somente leitura (`has_add_permission` e `has_change_permission` retornando `False`), mantendo a exclusão para suporte.
 
 - [ ] **12.3 Preferência do usuário — desativar a análise (LGPD)**
   - [ ] 12.3.1 Adicionar `ai_analysis_enabled = models.BooleanField('permitir análise com IA', default=True)` em `profiles.Profile` (seção 14.4.3); `makemigrations profiles` e `migrate`.
