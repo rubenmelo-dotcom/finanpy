@@ -7,17 +7,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Finanpy é um monolito Django full stack de gestão de finanças pessoais
 (contas bancárias, categorias, transações e dashboard).
 
-**Estado atual (todas as sprints do PRD concluídas):** sprints 1 (setup), 2
-(design system e layouts), 3 (usuários, autenticação e site público), 4
-(perfil), 5 (contas), 6 (categorias), 7 (transações), 8 (dashboard), 9
-(refinamentos de UX), 10 (testes automatizados) e 11 (Docker) estão
-implementadas. Todas as apps de domínio têm models, forms, CBVs, rotas, admin
+**Estado atual:** sprints 1 (setup), 2 (design system e layouts), 3
+(usuários, autenticação e site público), 4 (perfil), 5 (contas), 6
+(categorias), 7 (transações), 8 (dashboard), 9 (refinamentos de UX), 10
+(testes automatizados), 11 (Docker) e 12 (análise financeira com IA, app
+`ai`) estão implementadas (na sprint 12 falta a validação, tarefa 12.14).
+Todas as apps de domínio têm models, forms, CBVs, rotas, admin
 e templates; `core/views.py` tem `HomeView` e `DashboardView`. A suíte de
 testes tem um `tests.py` por app (`users`, `profiles`, `accounts`,
-`categories`, `transactions`, `core`), com helpers em `core/test_utils.py`
-(`create_user`, `create_account`, `create_category`, `create_transaction`,
-`DEFAULT_PASSWORD`) e cobertura de ~99% nas apps de domínio. A aplicação roda
-também via Docker Compose (`Dockerfile`, `docker-compose.yml`, `.env.example`).
+`categories`, `transactions`, `core`) e o pacote `ai/tests/`, com helpers em
+`core/test_utils.py` (`create_user`, `create_account`, `create_category`,
+`create_transaction`, `DEFAULT_PASSWORD`) e cobertura de ~99% nas apps de
+domínio. A aplicação roda também via Docker Compose (`Dockerfile`,
+`docker-compose.yml`, `.env.example`).
 Novas funcionalidades fora do PRD original devem seguir os mesmos padrões e
 o checklist de conclusão do fim da seção 13.
 
@@ -47,6 +49,7 @@ Testes (`django.test.TestCase`; configuração do coverage em `.coveragerc`):
 python manage.py test                # suíte completa
 python manage.py test transactions   # uma app
 python manage.py test accounts.tests.AccountBalanceTests  # uma classe
+python manage.py test ai             # pacote ai/tests/
 coverage run manage.py test && coverage report
 ```
 
@@ -55,6 +58,30 @@ duas vezes com o mesmo nome e tipo viola `unique_category_per_user`
 (`IntegrityError`); o mesmo vale para `create_transaction(user)` sem
 categoria. Passe `name` diferente ou reaproveite a categoria.
 
+Testes da app `ai` **nunca acessam a rede nem usam chave real**. Helpers em
+`ai/tests/utils.py`: `FakeToolModel` (`GenericFakeChatModel` com
+`bind_tools` retornando `self`), `fake_model(*messages)`,
+`tool_call_message`, `structured_response_message`, `patch_chat_model()`
+(mock de `ai.llm.get_chat_model`, obrigatório em testes de serviço, view e
+comando), `create_analysis`, `make_context` e `silence_ai_logger`. Ligue a
+funcionalidade com `override_settings(OPENAI_API_KEY='test-key')` (o
+serviço lê a chave via `is_ai_enabled()`, não `AI_ANALYSIS_ENABLED`) e
+simule datas com `mock.patch` de `timezone.localdate`.
+
+Análise com IA (sprint 12; detalhes na seção "Análise financeira com IA"
+do README e na seção 14 do PRD). Sem `OPENAI_API_KEY` a funcionalidade fica
+desligada e o resto do sistema funciona:
+
+```bash
+python manage.py generate_monthly_analyses                  # último dia do mês
+python manage.py generate_monthly_analyses --month 2026-09  # mês encerrado
+python manage.py generate_monthly_analyses --user ana@exemplo.com
+```
+
+O cron roda `59 23 28-31 * *` no fuso `America/Sao_Paulo`; o comando só
+age no último dia do mês. Não existe `--force`: análise `COMPLETED` nunca é
+regenerada.
+
 Tailwind usa o **CLI standalone** (binário em `bin/`, não versionado) — sem
 Node.js. Rode o `--watch` e o `runserver` em terminais separados.
 `bin/` e `static/css/output.css` estão no `.gitignore`.
@@ -62,15 +89,17 @@ Node.js. Rode o `--watch` e o `runserver` em terminais separados.
 Docker (sprint 11; detalhes na seção "Executando com Docker" do README):
 
 ```bash
-cp .env.example .env                 # SECRET_KEY, DEBUG, ALLOWED_HOSTS, SQLITE_PATH
+cp .env.example .env                 # inclui as variáveis OPENAI_*
 docker compose up --build            # http://localhost:8000
 docker compose exec web python manage.py createsuperuser
 docker compose exec web python manage.py test
 ```
 
-`core/settings.py` lê `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` e `SQLITE_PATH`
-de variáveis de ambiente com padrões de desenvolvimento (sem `.env`, o local
-continua funcionando e usa `db.sqlite3` na raiz). O `Dockerfile` é
+`core/settings.py` lê `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `SQLITE_PATH`
+e `OPENAI_API_KEY`/`OPENAI_MODEL`/`OPENAI_TIMEOUT`/`OPENAI_MAX_RETRIES` de
+variáveis de ambiente com padrões de desenvolvimento (sem `.env`, o local
+continua funcionando e usa `db.sqlite3` na raiz); `LANGSMITH_TRACING` fica
+desligado. O `Dockerfile` é
 multi-stage: o primeiro estágio baixa o Tailwind CLI e gera o `output.css`
 minificado; o final instala as dependências, roda `collectstatic`, usa um
 usuário sem privilégios e inicia com `migrate` + `runserver --insecure`. O
@@ -82,8 +111,8 @@ persistem entre `down`/`up`. Nova variável de ambiente → documente no
 
 `.claude/agents` é um symlink para `agents/` (ver `agents/README.md`):
 `django-backend`, `django-templates`, `tailwindcss`, `qa-playwright` (só
-reporta, não altera código), `django-tests` (testes) e `devops-docker`
-(Docker/Compose).
+reporta, não altera código), `django-tests` (testes), `devops-docker`
+(Docker/Compose) e `ai-langchain` (app `ai`).
 
 ## Armadilha crítica: model de usuário customizada (risco R1)
 
@@ -101,11 +130,26 @@ precisar ser recriado, apague `db.sqlite3` e rode `migrate` de novo.
 ## Arquitetura
 
 - **Uma app por domínio:** `users`, `profiles`, `accounts`, `categories`,
-  `transactions`. `core` guarda settings/URLs globais e, conforme o PRD,
-  `core/views.py` terá `HomeView` (site público) e `DashboardView`, por não
-  pertencerem a um domínio.
+  `transactions` e `ai` (análise mensal com IA). `core` guarda
+  settings/URLs globais e `core/views.py` tem `HomeView` (site público) e
+  `DashboardView`, por não pertencerem a um domínio.
 - **Sem camadas extras** (services, repositories). Lógica fica em models,
-  forms e views da própria app.
+  forms e views da própria app. **Única exceção: a app `ai`** (RNF27), com
+  `ai/services.py` e módulos auxiliares, porque a integração com o LLM não
+  cabe em models/forms/views.
+- **App `ai` (seção 14 do PRD):** `models.py` (`MonthlyAnalysis`, uma por
+  usuário/mês, `COMPLETED` é imutável), `constants.py` (`AI_*`), `llm.py`
+  (`get_chat_model()`, única fábrica do `ChatOpenAI`), `prompts.py`,
+  `schemas.py` (`FinancialAnalysis`, `SCHEMA_VERSION`), `tools.py` (tools
+  somente leitura com `ToolRuntime[AnalysisContext]` e guard
+  `read_only_queries()`), `agent.py` (`create_agent` + `ToolStrategy`,
+  `run_analysis`), `services.py` (`generate_monthly_analysis` — único
+  caminho que grava análises e chama o agente — e
+  `dashboard_analysis_context`), comando `generate_monthly_analyses` e
+  `GenerateAnalysisView` (POST em `/analises/gerar/`). O usuário entra nas
+  tools só pelo contexto (nunca como argumento); o agente roda fora de
+  `transaction.atomic()`; `Profile.ai_analysis_enabled` desligado → nada é
+  enviado à OpenAI. Consulte o context7 antes de mexer em código LangChain.
 - **Isolamento por usuário:** toda model de domínio tem FK para `User`. Views
   privadas usam `LoginRequiredMixin`, filtram `get_queryset()` por
   `self.request.user` (ID de outro usuário → 404) e atribuem o usuário em
@@ -147,7 +191,8 @@ precisar ser recriado, apague `db.sqlite3` e rode `migrate` de novo.
 - Evitar N+1 com `select_related`, `aggregate` e `annotate`.
 - Nada além do escopo pedido; não adicionar dependências sem necessidade
   (depois de instalar, `pip freeze > requirements.txt`).
-- Toda funcionalidade nova vem com testes em `<app>/tests.py` e deve manter
+- Toda funcionalidade nova vem com testes em `<app>/tests.py` (na app `ai`,
+  em `ai/tests/test_*.py`) e deve manter
   `python manage.py test` e o build do Docker funcionando.
 
 ## Divergências entre PRD e projeto atual

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from core.test_utils import DEFAULT_PASSWORD, create_user
+from profiles.forms import ProfileForm
 from profiles.models import Profile
 
 NEW_PASSWORD = 'NovaSenhaForte!2026'
@@ -186,3 +187,70 @@ class ProfileLoginRequiredTests(TestCase):
 
                 login_url = reverse('login')
                 self.assertRedirects(response, f'{login_url}?next={url}')
+
+
+class ProfileAiAnalysisPreferenceTests(TestCase):
+    url = reverse('profiles:update')
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = create_user(
+            email='fulano@example.com', first_name='Fulano',
+            last_name='de Tal',
+        )
+
+    def post_data(self, **extra):
+        data = {
+            'first_name': 'Fulano',
+            'last_name': 'de Tal',
+            'phone': '',
+            'birth_date': '',
+        }
+        data.update(extra)
+        return data
+
+    def test_new_users_have_ai_analysis_enabled(self):
+        self.assertTrue(self.user.profile.ai_analysis_enabled)
+
+    def test_form_has_ai_analysis_field_in_ptbr(self):
+        form = ProfileForm(instance=self.user.profile)
+
+        field = form.fields['ai_analysis_enabled']
+        self.assertEqual(field.label, 'Permitir análise com IA')
+        self.assertIn('OpenAI', field.help_text)
+        self.assertTrue(form.initial['ai_analysis_enabled'])
+
+    def test_form_saves_ai_analysis_enabled(self):
+        profile = self.user.profile
+
+        form = ProfileForm(
+            data={'phone': '', 'birth_date': ''}, instance=profile,
+        )
+        self.assertTrue(form.is_valid())
+        form.save()
+        profile.refresh_from_db()
+        self.assertFalse(profile.ai_analysis_enabled)
+
+        form = ProfileForm(
+            data={'ai_analysis_enabled': 'on'}, instance=profile,
+        )
+        self.assertTrue(form.is_valid())
+        form.save()
+        profile.refresh_from_db()
+        self.assertTrue(profile.ai_analysis_enabled)
+
+    def test_update_view_disables_and_enables_ai_analysis(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(self.url, self.post_data())
+
+        self.assertRedirects(response, reverse('profiles:detail'))
+        self.user.profile.refresh_from_db()
+        self.assertFalse(self.user.profile.ai_analysis_enabled)
+
+        self.client.post(
+            self.url, self.post_data(ai_analysis_enabled='on')
+        )
+
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.ai_analysis_enabled)

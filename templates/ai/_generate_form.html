@@ -1,6 +1,6 @@
 {% comment %}
   Botão de geração sob demanda da análise do mês (PRD 14.7.3 e RNF16).
-  Uso: {% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' only %}
+  Uso: {% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' csrf_token=csrf_token only %}
   variant: 'primary' (padrão) ou 'secondary'.
   No submit, o JS inline desabilita o botão e troca o texto por
   "Gerando análise…" para evitar envios duplicados.

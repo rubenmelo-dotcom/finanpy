@@ -94,7 +94,7 @@
         <div class="alert-info mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <p>A análise de {{ current_month_label }} será gerada automaticamente em <span class="tabular-nums">{{ next_generation_date|date:'d/m/Y' }}</span>, às 23:59. Se preferir, gere agora.</p>
           {% if can_generate %}
-            <div class="shrink-0">{% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' only %}</div>
+            <div class="shrink-0">{% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' csrf_token=csrf_token only %}</div>
           {% endif %}
         </div>
       {% elif current_month_state == 'insufficient_data' %}
@@ -108,7 +108,7 @@
               Nova transação
             </a>
             {% if can_generate %}
-              {% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' only %}
+              {% include 'ai/_generate_form.html' with label='Gerar análise' variant='primary' csrf_token=csrf_token only %}
             {% endif %}
           </div>
         </div>
@@ -116,7 +116,7 @@
         <div class="alert-error mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <p>Não foi possível gerar sua análise agora. Tente novamente em alguns minutos.</p>
           {% if can_generate %}
-            <div class="shrink-0">{% include 'ai/_generate_form.html' with label='Tentar novamente' variant='secondary' only %}</div>
+            <div class="shrink-0">{% include 'ai/_generate_form.html' with label='Tentar novamente' variant='secondary' csrf_token=csrf_token only %}</div>
           {% endif %}
         </div>
       {% elif current_month_state == 'failed_final' %}

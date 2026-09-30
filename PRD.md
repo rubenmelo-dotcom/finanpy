@@ -379,12 +379,13 @@ finanpy
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
-├── ai                      # análise financeira mensal com IA (sprint 12, seção 14.5)
+├── ai                      # análise financeira mensal com IA (sprint 12, seção 14.5.2)
 │   ├── management/commands/generate_monthly_analyses.py
 │   ├── migrations/
 │   ├── admin.py  apps.py  models.py  urls.py  views.py
 │   ├── agent.py  constants.py  llm.py  prompts.py  schemas.py  services.py  tools.py
-│   └── tests/
+│   └── tests/                      # utils.py + test_models, test_tools, test_agent,
+│                                   # test_services, test_commands, test_views, test_dashboard
 ├── templates
 │   ├── base.html                   # <html>, <head>, fontes, CSS
 │   ├── layouts
@@ -401,6 +402,9 @@ finanpy
 │   │   ├── _empty_state.html
 │   │   ├── _pagination.html
 │   │   └── _confirm_delete.html
+│   ├── ai
+│   │   ├── _analysis_card.html     # bloco da análise no dashboard (seção 14.7)
+│   │   └── _generate_form.html     # botão "Gerar análise" (POST para ai:generate)
 │   ├── home.html
 │   ├── dashboard.html
 │   ├── users/  profiles/  accounts/  categories/  transactions/
@@ -466,6 +470,7 @@ erDiagram
     USER ||--o{ TRANSACTION : "registra"
     ACCOUNT ||--o{ TRANSACTION : "movimenta"
     CATEGORY ||--o{ TRANSACTION : "classifica"
+    USER ||--o{ MONTHLY_ANALYSIS : "recebe"
 
     USER {
         bigint id PK
@@ -526,6 +531,17 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
+
+    MONTHLY_ANALYSIS {
+        bigint id PK
+        bigint user_id FK "CASCADE"
+        date reference_month "dia 1; UK com user_id (sprint 12)"
+        string status "pending|processing|completed|failed|insufficient_data"
+        json content "FinancialAnalysis"
+        int total_tokens "e demais campos na seção 14.4.1"
+        datetime created_at
+        datetime updated_at
+    }
 ```
 
 #### 8.5.2 Diagrama de classes (models Django)
@@ -583,6 +599,28 @@ classDiagram
         +DateTimeField created_at
         +DateTimeField updated_at
     }
+    class MonthlyAnalysis {
+        +ForeignKey user
+        +DateField reference_month
+        +DateField period_start
+        +DateField period_end
+        +CharField status
+        +JSONField content
+        +PositiveSmallIntegerField schema_version
+        +CharField model_name
+        +PositiveIntegerField input_tokens
+        +PositiveIntegerField output_tokens
+        +PositiveIntegerField total_tokens
+        +PositiveSmallIntegerField attempts
+        +TextField error_message
+        +DateTimeField started_at
+        +DateTimeField generated_at
+        +DateTimeField created_at
+        +DateTimeField updated_at
+        +objects = MonthlyAnalysisQuerySet.as_manager()
+        +is_final bool
+        +can_retry bool
+    }
     AbstractUser <|-- User
     User "1" -- "1" Profile
     User "1" -- "*" Account
@@ -590,6 +628,7 @@ classDiagram
     User "1" -- "*" Transaction
     Account "1" -- "*" Transaction
     Category "1" -- "*" Transaction
+    User "1" -- "*" MonthlyAnalysis
 ```
 
 #### 8.5.3 Regras de dados
@@ -601,6 +640,7 @@ classDiagram
 | `Account` | `account_type` com `TextChoices`: `checking` (Conta corrente), `savings` (Poupança), `wallet` (Carteira), `investment` (Investimento), `other` (Outro). Ordenação por `name`. |
 | `Category` | `category_type` com `TextChoices`: `income` (Entrada), `expense` (Saída). `UniqueConstraint(user, name, category_type)`. Ordenação por `name`. |
 | `Transaction` | `amount > 0` (`MinValueValidator(Decimal('0.01'))`); `category.category_type == transaction_type` (validado no `clean()` do form). Ordenação por `-date`, `-created_at`. Índice em `(user, date)`. |
+| `MonthlyAnalysis` (app `ai`) | `status` com `TextChoices` `AnalysisStatus` (seção 14.4.2). `UniqueConstraint(user, reference_month)` (`unique_analysis_per_user_month`) e `CheckConstraint` de `reference_month` no dia 1 (`analysis_reference_month_first_day`). Ordenação por `-reference_month`. Análise `completed` nunca é alterada. Gravada somente por `ai.services.generate_monthly_analysis()`; admin somente leitura. Detalhes na seção 14.4. |
 
 ---
 
@@ -1885,32 +1925,32 @@ Critérios de aceite:
   - [X] 12.11.9 Exibir o aviso "Gerada por IA em dd/mm/aaaa com base nos seus lançamentos. Não substitui orientação financeira profissional." e o link **Desativar análise com IA** (para `profiles:update`).
   - [X] 12.11.10 Validar responsividade (360px a 1440px) e contraste AA do bloco.
 
-- [ ] **12.12 Testes automatizados (`ai/tests/` e `profiles/tests.py`)**
-  - [ ] 12.12.1 Criar `ai/tests/utils.py` com `FakeToolModel` (subclasse de `GenericFakeChatModel` com `bind_tools` retornando `self`) e helpers para montar respostas de tool call e de saída estruturada.
-  - [ ] 12.12.2 Garantir que nenhum teste acesse a rede: `override_settings(OPENAI_API_KEY='test-key')` e `ai.llm.get_chat_model` substituído por mock em todos os testes do serviço, da view e do comando.
-  - [ ] 12.12.3 Models: constraint de unicidade, `CheckConstraint` do dia 1, `latest_completed` e `can_retry`.
-  - [ ] 12.12.4 Tools: valores corretos de cada tool, validação de `month`, limite de `limit` e bloqueio de escrita pelo `read_only_queries()`.
-  - [ ] 12.12.5 Isolamento: com dados de dois usuários, cada tool retorna apenas os dados do usuário do contexto, mesmo quando o modelo envia `user_id` de outro usuário nos argumentos.
-  - [ ] 12.12.6 Agente: com `FakeToolModel`, o fluxo tool call → saída estruturada produz `FinancialAnalysis` válido e a soma de tokens correta.
-  - [ ] 12.12.7 Serviço: geração bem-sucedida, dados insuficientes sem chamada ao LLM, usuário com a análise desativada (sem registro e sem chamada), análise `COMPLETED` não é regenerada, falha grava `FAILED` e incrementa `attempts`, limite de tentativas, reserva concorrente (segunda chamada não gera) e `PROCESSING` expirado é retomado.
-  - [ ] 12.12.8 Comando: no último dia do mês cria análises para todos os usuários ativos com a análise ativada; nos outros dias não faz nada; ignora inativos e desativados; é idempotente; `--month` recusa o mês corrente e meses futuros; falha sem chave configurada (datas simuladas com `mock.patch` de `timezone.localdate`).
-  - [ ] 12.12.9 View: POST exige login, GET retorna 405, mensagens de cada resultado (inclusive usuário com a análise desativada); POST em qualquer dia do mês gera a análise; com a análise do mês já concluída, o POST não chama o LLM e informa que ela já foi gerada.
-  - [ ] 12.12.10 Dashboard: cada estado do bloco é renderizado com os textos em pt-BR; com a análise do mês concluída o botão não aparece; o seletor lista só as análises concluídas do próprio usuário; `?analise=` de outro usuário, inválido ou inexistente cai na análise mais recente; o bloco de um usuário nunca mostra a análise de outro.
-  - [ ] 12.12.11 Perfil: o form salva `ai_analysis_enabled` e o valor padrão para novos usuários é `True`.
-  - [ ] 12.12.12 `coverage report` com cobertura ≥ 90% na app `ai`, mantendo ≥ 80% nas demais.
+- [X] **12.12 Testes automatizados (`ai/tests/` e `profiles/tests.py`)**
+  - [X] 12.12.1 Criar `ai/tests/utils.py` com `FakeToolModel` (subclasse de `GenericFakeChatModel` com `bind_tools` retornando `self`) e helpers para montar respostas de tool call e de saída estruturada.
+  - [X] 12.12.2 Garantir que nenhum teste acesse a rede: `override_settings(OPENAI_API_KEY='test-key')` e `ai.llm.get_chat_model` substituído por mock em todos os testes do serviço, da view e do comando.
+  - [X] 12.12.3 Models: constraint de unicidade, `CheckConstraint` do dia 1, `latest_completed` e `can_retry`.
+  - [X] 12.12.4 Tools: valores corretos de cada tool, validação de `month`, limite de `limit` e bloqueio de escrita pelo `read_only_queries()`.
+  - [X] 12.12.5 Isolamento: com dados de dois usuários, cada tool retorna apenas os dados do usuário do contexto, mesmo quando o modelo envia `user_id` de outro usuário nos argumentos.
+  - [X] 12.12.6 Agente: com `FakeToolModel`, o fluxo tool call → saída estruturada produz `FinancialAnalysis` válido e a soma de tokens correta.
+  - [X] 12.12.7 Serviço: geração bem-sucedida, dados insuficientes sem chamada ao LLM, usuário com a análise desativada (sem registro e sem chamada), análise `COMPLETED` não é regenerada, falha grava `FAILED` e incrementa `attempts`, limite de tentativas, reserva concorrente (segunda chamada não gera) e `PROCESSING` expirado é retomado.
+  - [X] 12.12.8 Comando: no último dia do mês cria análises para todos os usuários ativos com a análise ativada; nos outros dias não faz nada; ignora inativos e desativados; é idempotente; `--month` recusa o mês corrente e meses futuros; falha sem chave configurada (datas simuladas com `mock.patch` de `timezone.localdate`).
+  - [X] 12.12.9 View: POST exige login, GET retorna 405, mensagens de cada resultado (inclusive usuário com a análise desativada); POST em qualquer dia do mês gera a análise; com a análise do mês já concluída, o POST não chama o LLM e informa que ela já foi gerada.
+  - [X] 12.12.10 Dashboard: cada estado do bloco é renderizado com os textos em pt-BR; com a análise do mês concluída o botão não aparece; o seletor lista só as análises concluídas do próprio usuário; `?analise=` de outro usuário, inválido ou inexistente cai na análise mais recente; o bloco de um usuário nunca mostra a análise de outro.
+  - [X] 12.12.11 Perfil: o form salva `ai_analysis_enabled` e o valor padrão para novos usuários é `True`.
+  - [X] 12.12.12 `coverage report` com cobertura ≥ 90% na app `ai`, mantendo ≥ 80% nas demais.
 
-- [ ] **12.13 Documentação**
-  - [ ] 12.13.1 README: seção "Análise financeira com IA" (variáveis, comando, agendamento às 23:59 do último dia, custo, dados enviados e como desativar).
-  - [ ] 12.13.2 Atualizar `CLAUDE.md` (estado atual, app `ai`, exceção do `services.py`, comandos) e `docs/` (estrutura e visão geral).
-  - [ ] 12.13.3 Revisar as seções 8.2, 8.3, 8.4, 8.5 e 14 do PRD para que reflitam o que foi implementado.
+- [X] **12.13 Documentação**
+  - [X] 12.13.1 README: seção "Análise financeira com IA" (variáveis, comando, agendamento às 23:59 do último dia, custo, dados enviados e como desativar).
+  - [X] 12.13.2 Atualizar `CLAUDE.md` (estado atual, app `ai`, exceção do `services.py`, comandos) e `docs/` (estrutura e visão geral).
+  - [X] 12.13.3 Revisar as seções 8.2, 8.3, 8.4, 8.5 e 14 do PRD para que reflitam o que foi implementado.
 
 - [ ] **12.14 Validação da sprint 12**
-  - [ ] 12.14.1 `python manage.py check`, `flake8` e `python manage.py test` sem erros.
-  - [ ] 12.14.2 Com uma chave real, gerar a análise de um usuário pelo botão do dashboard e conferir no admin status, modelo e tokens.
-  - [ ] 12.14.3 Rodar o comando simulando o último dia do mês duas vezes seguidas e confirmar que não há duplicatas nem novas chamadas ao LLM.
-  - [ ] 12.14.4 Desativar a análise no perfil e confirmar que o comando e o botão não geram nada para esse usuário.
-  - [ ] 12.14.5 Conferir no dashboard todos os estados do bloco (seção 14.7.3) e o seletor de análises em desktop e mobile (`qa-playwright`).
-  - [ ] 12.14.6 Conferir que a imagem Docker continua subindo e que o comando roda com `docker compose exec web`.
+  - [X] 12.14.1 `python manage.py check`, `flake8` e `python manage.py test` sem erros.
+  - [X] 12.14.2 Com uma chave real, gerar a análise de um usuário pelo botão do dashboard e conferir no admin status, modelo e tokens.
+  - [X] 12.14.3 Rodar o comando simulando o último dia do mês duas vezes seguidas e confirmar que não há duplicatas nem novas chamadas ao LLM.
+  - [X] 12.14.4 Desativar a análise no perfil e confirmar que o comando e o botão não geram nada para esse usuário.
+  - [X] 12.14.5 Conferir no dashboard todos os estados do bloco (seção 14.7.3) e o seletor de análises em desktop e mobile (`qa-playwright`).
+  - [X] 12.14.6 Conferir que a imagem Docker continua subindo e que o comando roda com `docker compose exec web`.
   - [ ] 12.14.7 Commit: `feat: ai monthly financial analysis`.
 
 **Critérios de aceite da sprint 12:**
@@ -1995,7 +2035,7 @@ O Finanpy passa a contar com um **agente de IA especialista em finanças pessoai
 | `user` | `ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='monthly_analyses')` | `verbose_name='usuário'` |
 | `reference_month` | `DateField` | Sempre o **dia 1** do mês de referência (ex.: `2026-10-01`). `verbose_name='mês de referência'` |
 | `period_start` | `DateField` | Início do período analisado (seção 14.6.2) |
-| `period_end` | `DateField` | Fim do período analisado (data da geração) |
+| `period_end` | `DateField` | Fim do período analisado (data da geração, limitada ao último dia do mês de referência) |
 | `status` | `CharField(max_length=20, choices=AnalysisStatus.choices, default=PENDING)` | Ver tabela 14.4.2 |
 | `content` | `JSONField(null=True, blank=True)` | `FinancialAnalysis.model_dump(mode='json')` (seção 14.5.5) |
 | `schema_version` | `PositiveSmallIntegerField(default=1)` | Versão do schema do `content` |
@@ -2095,15 +2135,15 @@ stateDiagram-v2
 | `models.py` | `AnalysisStatus`, `MonthlyAnalysisQuerySet` e `MonthlyAnalysis` |
 | `schemas.py` | Models Pydantic da saída estruturada (`FinancialAnalysis`, `Insight`, `Tip`) e `SCHEMA_VERSION` |
 | `llm.py` | `get_chat_model()` — única fábrica do `ChatOpenAI`, lendo o `settings` |
-| `prompts.py` | `SYSTEM_PROMPT` do especialista |
-| `tools.py` | `AnalysisContext`, guard `read_only_queries()`, as cinco tools e `ANALYSIS_TOOLS` |
-| `agent.py` | `build_agent(model=None)` e `run_analysis(context, model=None)` → `(FinancialAnalysis, usage)` |
-| `services.py` | Cálculo do mês e do período, `generate_monthly_analysis(user, reference_month=None)` (preferência, reserva, execução e persistência) e `dashboard_analysis_context(user, month_param)` |
+| `prompts.py` | `SYSTEM_PROMPT` do especialista e `build_user_message(period_start, period_end, reference_month)` (mensagem fixa do usuário, seção 14.5.3) |
+| `tools.py` | `AnalysisContext`, guard `read_only_queries()`, `share_connection_with_tools()` (seção 14.5.4), as cinco tools e `ANALYSIS_TOOLS` |
+| `agent.py` | `build_agent(model=None)`, `run_analysis(context, model=None)` → `(FinancialAnalysis, usage)`, `sum_usage(messages)` e `AnalysisGenerationError` |
+| `services.py` | `is_ai_enabled()`; cálculo do mês e do período (`current_reference_month()`, `is_last_day_of_month(day)`, `analysis_period(reference_month, generated_on)`, `month_label(value)`, `parse_month_param(value)`); `generate_monthly_analysis(user, reference_month=None)` → `GenerationResult(outcome, analysis)` (preferência, reserva, execução e persistência; `GenerationOutcome` na seção 14.6.3); `error_message(exc)`; `current_month_state(analysis)` e `dashboard_analysis_context(user, month_param=None)` |
 | `management/commands/generate_monthly_analyses.py` | Comando agendado para o último dia do mês |
-| `views.py` / `urls.py` | `GenerateAnalysisView` (POST sob demanda) |
-| `admin.py` | Admin somente leitura |
-| `tests/` | `utils.py`, `test_models.py`, `test_tools.py`, `test_agent.py`, `test_services.py`, `test_commands.py`, `test_views.py` |
-| `templates/ai/_analysis_card.html` | Componente do dashboard (fica em `templates/`, na raiz, como os demais) |
+| `views.py` / `urls.py` | `GenerateAnalysisView` (POST sob demanda; `app_name = 'ai'`, rota `gerar/` → `ai:generate`, incluída em `core/urls.py` com o prefixo `analises/`) |
+| `admin.py` | `MonthlyAnalysisAdmin`, somente leitura (sem adicionar/alterar; exclusão mantida para suporte) |
+| `tests/` | `utils.py`, `test_models.py`, `test_tools.py`, `test_agent.py`, `test_services.py`, `test_commands.py`, `test_views.py`, `test_dashboard.py` |
+| `templates/ai/_analysis_card.html` e `templates/ai/_generate_form.html` | Componente do dashboard e form POST do botão **Gerar análise**/**Tentar novamente** (ficam em `templates/`, na raiz, como os demais) |
 
 ```mermaid
 flowchart LR
@@ -2152,7 +2192,7 @@ Regras:
 8. Responda exclusivamente no formato estruturado solicitado.
 ```
 
-A mensagem de usuário enviada na invocação é fixa e não contém dados pessoais: `"Gere a análise financeira do período de {period_start:%d/%m/%Y} a {period_end:%d/%m/%Y}. O mês de referência é {reference_month:%m/%Y}."`.
+A mensagem de usuário enviada na invocação é fixa e não contém dados pessoais: `"Gere a análise financeira do período de {period_start:%d/%m/%Y} a {period_end:%d/%m/%Y}. O mês de referência é {reference_month:%m/%Y}."`. Ela é montada por `build_user_message()` (`ai/prompts.py`); `run_analysis` usa como mês de referência o mês de `period_end`.
 
 #### 14.5.4 Contexto de execução e tools
 
@@ -2172,16 +2212,16 @@ class AnalysisContext:
   - Cada tool roda dentro de `_tool_queries()`, que usa essa conexão compartilhada no lugar da conexão da thread e aplica `read_only_queries()`.
   - Um `threading.Lock` serializa a execução das tools, pois a conexão e seus `execute_wrapper` são compartilhados. O custo é baixo: as consultas são curtas e o tempo total é dominado pelas chamadas ao modelo.
   - Consequência: nenhuma conexão fica aberta nas threads auxiliares, as tools veem os mesmos dados de quem chamou e os testes funcionam com `TestCase` sem ajustes.
-- Retorno sempre em `dict` serializável em JSON; valores monetários como **string com 2 casas** (`'1234.56'`), nunca `float`.
+- Retorno sempre em `dict` serializável em JSON; valores monetários como **string com 2 casas** (`'1234.56'`), nunca `float`. Percentuais (`percent`, `savings_rate_percent`) são números com 1 casa decimal, ou `null` quando o total é zero.
 - Argumento inválido (mês fora do período, formato errado) retorna `{'error': '<mensagem em inglês>'}` em vez de lançar exceção, para o modelo corrigir a chamada.
 
 | Tool | Propósito | Parâmetros (visíveis ao modelo) | Retorno |
 |---|---|---|---|
-| `get_financial_overview` | Visão geral do período: totais por mês e saldo atual | — | `{period_start, period_end, total_balance, months: [{month: 'YYYY-MM', income, expense, result, savings_rate_percent, transaction_count}], totals: {income, expense, result}}` |
+| `get_financial_overview` | Visão geral do período: totais por mês e saldo atual | — | `{period_start, period_end, reference_month: 'YYYY-MM', reference_month_complete, total_balance, months: [{month: 'YYYY-MM', income, expense, result, savings_rate_percent, transaction_count}], totals: {income, expense, result, savings_rate_percent}}` — todos os meses do período aparecem, inclusive os sem transações |
 | `get_category_breakdown` | Totais por categoria em um mês | `month: str` (`YYYY-MM`, dentro do período); `category_type: Literal['income', 'expense'] = 'expense'` | `{month, category_type, total, categories: [{name, total, percent, transaction_count}]}` ordenado por total decrescente |
-| `get_largest_transactions` | Maiores lançamentos de um mês | `month: str`; `transaction_type: Literal['income', 'expense'] = 'expense'`; `limit: int = 5` (1 a 10) | `{month, transactions: [{date, description, amount, category, account}]}` — descrição truncada em 100 caracteres |
-| `get_categories` | Categorias do usuário e uso no período | — | `{categories: [{name, category_type, transaction_count}]}` (inclui categorias sem uso) |
-| `get_account_balances` | Saldo atual das contas ativas | — | `{accounts: [{name, account_type, balance}], total_balance}` — usa `Account.objects.with_balance(user)` |
+| `get_largest_transactions` | Maiores lançamentos de um mês | `month: str`; `transaction_type: Literal['income', 'expense'] = 'expense'`; `limit: int = 5` (1 a 10; fora disso retorna `{'error': ...}`) | `{month, transaction_type, transactions: [{date, description, amount, category, account}]}` — descrição truncada em 100 caracteres |
+| `get_categories` | Categorias do usuário e uso no período | — | `{categories: [{name, category_type, transaction_count}]}` (inclui categorias sem uso; ordenado por tipo e nome) |
+| `get_account_balances` | Saldo atual das contas ativas | — | `{accounts: [{name, account_type, balance}], total_balance}` — `account_type` com o rótulo em pt-BR (ex.: "Conta corrente"), ordenado por nome; usa `Account.objects.with_balance(user)` |
 
 #### 14.5.5 Saída estruturada
 
@@ -2216,6 +2256,8 @@ class FinancialAnalysis(BaseModel):
     insights: list[Insight] = Field(min_length=2, max_length=5)
     tips: list[Tip] = Field(min_length=2, max_length=5)
 ```
+
+O trecho acima omite, por brevidade, as `description` em pt-BR que o código (`ai/schemas.py`) define em **todos** os campos e nos três models (o modelo as lê).
 
 Os valores de `Literal` ficam em inglês (código) e são traduzidos no template: `healthy` → "Saudável" (`.badge-income`), `attention` → "Atenção" (`.badge-warning`), `critical` → "Crítica" (`.badge-expense`); prioridade `high/medium/low` → "Alta/Média/Baixa". O conteúdo é gravado com `model_dump(mode='json')` e `schema_version = 1`; mudanças futuras no schema incrementam a versão e o template trata versões antigas.
 
@@ -2277,7 +2319,7 @@ O `PROCESSING` expirado (mais de 10 minutos) cobre processos interrompidos no me
 **Decisões de implementação (divergências e detalhes do fluxo acima):**
 
 - **Retorno `GenerationResult(outcome, analysis)`** em vez de "`None` ou o registro". `outcome` é um `GenerationOutcome` (`StrEnum`): `COMPLETED` (nova), `ALREADY_COMPLETED`, `IN_PROGRESS`, `INSUFFICIENT_DATA`, `FAILED`, `ATTEMPTS_EXHAUSTED`, `USER_DISABLED` e `FEATURE_DISABLED`; `analysis` é `None` quando nenhum registro foi criado (passo 1). A `GenerateAnalysisView` usa o `outcome` para escolher a mensagem (seção 14.7.4) e o comando para o resumo por status (seção 14.6.4).
-- **Funcionalidade ligada/desligada por `is_ai_enabled()`** (`ai/services.py`), que lê `bool(settings.OPENAI_API_KEY)` diretamente, e não `settings.AI_ANALYSIS_ENABLED`. Em produção o resultado é o mesmo; nos testes, `override_settings(OPENAI_API_KEY=...)` basta para ligar ou desligar (sobrescrever só `AI_ANALYSIS_ENABLED` não tem efeito). `dashboard_analysis_context` usa `is_ai_enabled()`, e o comando (12.9) e a view (12.10) devem usá-la também.
+- **Funcionalidade ligada/desligada por `is_ai_enabled()`** (`ai/services.py`), que lê `bool(settings.OPENAI_API_KEY)` diretamente, e não `settings.AI_ANALYSIS_ENABLED`. Em produção o resultado é o mesmo; nos testes, `override_settings(OPENAI_API_KEY=...)` basta para ligar ou desligar (sobrescrever só `AI_ANALYSIS_ENABLED` não tem efeito). `dashboard_analysis_context` e o comando usam `is_ai_enabled()`; a view recebe `FEATURE_DISABLED` do próprio serviço, que também a consulta.
 - **Modelo criado pelo serviço:** o serviço chama `ai.llm.get_chat_model()` (pelo módulo, para que `mock.patch('ai.llm.get_chat_model')` funcione) e passa o modelo a `run_analysis(context, model=...)`. Se a chave faltar nesse ponto (`ImproperlyConfigured`), o registro volta para `PENDING` sem consumir tentativa e o resultado é `FEATURE_DISABLED`.
 - **Reserva também atualiza o período:** o `UPDATE` condicional do passo 4 grava, além de `status` e `started_at`, os novos `period_start`/`period_end`.
 - **Só o dono da reserva grava o resultado:** a gravação final (passos 5, 8 e 9) só acontece se o registro ainda estiver em `PROCESSING` com o mesmo `started_at` da reserva. Uma geração que passou de `AI_STALE_AFTER` e foi assumida por outro processo tem o resultado descartado, sem sobrescrever o novo.
@@ -2295,7 +2337,8 @@ python manage.py generate_monthly_analyses --user ana@exemplo.com
 - Sem `--month`, o comando confere se **hoje é o último dia do mês** (`timezone.localdate()`, fuso `America/Sao_Paulo`). Nos outros dias, informa "Hoje não é o último dia do mês; nada a fazer." e sai com sucesso. Isso permite agendar nos dias 28 a 31 com uma única linha de cron.
 - `--month` aceita apenas meses encerrados; o mês corrente e meses futuros são recusados com `CommandError`, para não fixar uma análise antes da hora.
 - O mês de referência é calculado **uma única vez** no início da execução; se a execução das 23:59 passar da meia-noite, os usuários restantes continuam no mesmo mês.
-- Saída: resumo por status (ex.: `Concluídas: 12 · Dados insuficientes: 3 · Desativadas pelo usuário: 2 · Falhas: 1 · Já existentes: 40`).
+- `--month` em formato inválido e `--user` sem usuário ativo com o e-mail informado também saem com `CommandError`. As duas opções podem ser combinadas.
+- Saída: resumo por `GenerationOutcome`, mostrando só os contadores diferentes de zero, nesta ordem: Concluídas, Dados insuficientes, Desativadas pelo usuário, Falhas, Tentativas esgotadas, Em andamento, Já existentes e Indisponíveis (ex.: `Concluídas: 12 · Dados insuficientes: 3 · Desativadas pelo usuário: 2 · Falhas: 1 · Já existentes: 40`). Com `-v 2`, também uma linha por usuário (pelo ID, nunca pelo e-mail).
 - Não existe opção `--force`: uma análise concluída nunca é regenerada (RF43). Correções pontuais são feitas pelo admin (excluindo o registro).
 - Agendamento (cron do host, **com fuso `America/Sao_Paulo`**, via `TZ`/`CRON_TZ` ou relógio do host):
 
@@ -2322,7 +2365,7 @@ Componente `templates/ai/_analysis_card.html`, incluído em `dashboard.html` log
 - Todo texto gerado é exibido com o autoescape do DTL (nunca `|safe`).
 - Contexto adicionado à `DashboardView` por `dashboard_analysis_context(user, month_param)`: `ai_enabled`, `ai_user_enabled`, `selected_analysis`, `analysis_options`, `current_month_analysis`, `can_generate`, `next_generation_date` (último dia do mês corrente) e `ai_min_transactions`, com no máximo 3 queries extras.
 - **Decisão de implementação (chaves extras do contexto):** além das chaves acima, `dashboard_analysis_context` fornece `current_month`, `current_month_label`, `current_month_state` (`pending`, `processing`, `completed`, `insufficient_data`, `failed`, `failed_final`, usado para escolher o estado da seção 14.7.3), `selected_month_label`, `latest_analysis`, `is_latest_selected` e `show_selector`. Cada item de `analysis_options` tem `value` (`AAAA-MM`), `label` (ex.: "outubro de 2026"), `is_latest` e `is_selected`.
-- As 3 queries são: preferência do usuário; lista das análises (sem o campo `content`, via `defer`); conteúdo da análise selecionada. Com a funcionalidade desligada, nenhuma query é feita. Por isso o template lê `summary`, `insights` e `tips` **somente de `selected_analysis`**: ler o conteúdo de `current_month_analysis` ou de `latest_analysis` custaria uma query a mais.
+- As 3 queries são: preferência do usuário; lista das análises concluídas mais o registro do mês corrente (sem o campo `content`, via `defer`); conteúdo da análise selecionada. Com a funcionalidade desligada, nenhuma query é feita. Por isso o template lê `summary`, `insights` e `tips` **somente de `selected_analysis`**: ler o conteúdo de `current_month_analysis` ou de `latest_analysis` custaria uma query a mais.
 
 #### 14.7.2 Seletor de análises
 
@@ -2337,7 +2380,7 @@ Componente `templates/ai/_analysis_card.html`, incluído em `dashboard.html` log
 
 | Estado | Condição | Exibição |
 |---|---|---|
-| Desativada pelo sistema | `AI_ANALYSIS_ENABLED` é `False` | Bloco não é renderizado |
+| Desativada pelo sistema | `is_ai_enabled()` é `False` (`OPENAI_API_KEY` vazia, o que também deixa `AI_ANALYSIS_ENABLED = False`) | Bloco não é renderizado |
 | Desativada pelo usuário | `profile.ai_analysis_enabled` é `False` | Card compacto: "A análise com IA está desativada." + link **Ativar no perfil** (`.btn-secondary .btn-sm`) |
 | Somente visualização | Análise do mês corrente `COMPLETED` | Análise completa (14.7.1) com seletor; **sem** botão de geração |
 | Concluída anterior | Mês corrente sem análise concluída, mas existe análise de mês anterior | Análise anterior (14.7.1) com seletor, abaixo do aviso de CTA, gerando ou falha do mês corrente |
@@ -2369,6 +2412,7 @@ Componente `templates/ai/_analysis_card.html`, incluído em `dashboard.html` log
 | `OPENAI_MODEL` | `gpt-6-luna` | Modelo usado pelo `ChatOpenAI` |
 | `OPENAI_TIMEOUT` | `60` | Timeout, em segundos, de cada requisição à OpenAI |
 | `OPENAI_MAX_RETRIES` | `2` | Novas tentativas automáticas do cliente OpenAI (erros de rede, 429, 5xx) |
+| `LANGSMITH_TRACING` | `false` | Não é lida pelo `settings.py`; documentada no `.env.example` para ficar desligada (a lib `langsmith` só envia dados se ela for ligada) |
 
 Constantes de regra de negócio (em `ai/constants.py`, não configuráveis por ambiente): `AI_MIN_TRANSACTIONS = 5`, `AI_MAX_ATTEMPTS = 3`, `AI_LOOKBACK_MONTHS = 3`, `AI_STALE_AFTER = 10 min`, `AI_RECURSION_LIMIT = 15`.
 
@@ -2378,7 +2422,7 @@ Constantes de regra de negócio (em `ai/constants.py`, não configuráveis por a
 
 | Situação | Detecção | Tratamento | O que o usuário vê |
 |---|---|---|---|
-| Chave ausente | `AI_ANALYSIS_ENABLED == False` / `ImproperlyConfigured` | Comando sai com `CommandError`; view responde com mensagem de erro; nada é gravado | Bloco oculto |
+| Chave ausente | `is_ai_enabled() == False` / `ImproperlyConfigured` | Comando sai com `CommandError`; view responde com mensagem de erro; nada é gravado | Bloco oculto |
 | Análise desativada pelo usuário | `profile.ai_analysis_enabled == False` | Serviço retorna sem registro e sem chamar o LLM; comando contabiliza como "Desativadas pelo usuário" | Estado "Desativada pelo usuário" |
 | Timeout / conexão | `openai.APITimeoutError`, `openai.APIConnectionError` | O cliente repete até `OPENAI_MAX_RETRIES`; depois `FAILED` + log `warning` | Estado "Falha com nova tentativa" |
 | Limite de uso / servidor | `openai.RateLimitError`, `openai.InternalServerError` | Idem | Idem |
@@ -2411,14 +2455,14 @@ Todos os testes usam `django.test.TestCase`, os helpers de `core/test_utils.py` 
 | Camada | Arquivo | Como |
 |---|---|---|
 | Modelo falso | `ai/tests/utils.py` | `FakeToolModel(GenericFakeChatModel)` com `bind_tools` retornando `self` (o `GenericFakeChatModel` não implementa `bind_tools`, exigido pelo `create_agent` com tools) e respostas roteirizadas: `AIMessage` com `tool_calls` das tools e, por fim, a chamada do schema `FinancialAnalysis`, com `usage_metadata` |
-| Models | `test_models.py` | Unicidade `(user, reference_month)` (`IntegrityError`), `CheckConstraint` do dia 1, `latest_completed`, `can_retry` |
+| Models e admin | `test_models.py` | Unicidade `(user, reference_month)` (`IntegrityError`), `CheckConstraint` do dia 1, `latest_completed`, `can_retry`, propriedades de leitura do `content` e admin somente leitura |
 | Tools | `test_tools.py` | Invocar cada tool com `ToolRuntime`/contexto de teste; conferir valores, ordenação, strings monetárias, validação de `month` e `limit`; `read_only_queries()` bloqueia um `UPDATE` |
-| Isolamento | `test_tools.py`, `test_views.py` | Dados de dois usuários; cada tool só retorna dados do usuário do contexto, **inclusive quando o modelo falso envia `user_id` do outro usuário nos argumentos**; o schema da tool (`tool_call_schema`) não contém `runtime` nem `user_id`; o dashboard e o seletor nunca exibem a análise de outro usuário |
+| Isolamento | `test_tools.py`, `test_dashboard.py` | Dados de dois usuários; cada tool só retorna dados do usuário do contexto, **inclusive quando o modelo falso envia `user_id` do outro usuário nos argumentos**; o schema da tool (`tool_call_schema`) não contém `runtime` nem `user_id`; o dashboard e o seletor nunca exibem a análise de outro usuário |
 | Agente | `test_agent.py` | `run_analysis` com `FakeToolModel` → `FinancialAnalysis` válido e soma de tokens; ausência de `structured_response` → `AnalysisGenerationError` |
 | Serviço | `test_services.py` | Sucesso; período correto (3 meses anteriores + mês corrente até a data da geração); `INSUFFICIENT_DATA` sem chamar o modelo (mock com `assert_not_called`); usuário com a análise desativada (sem registro e sem chamada); `COMPLETED` não é regenerada; falha → `FAILED` e `attempts + 1`; limite de 3 tentativas; reserva concorrente (registro já `PROCESSING` → não gera); `PROCESSING` expirado é retomado; exceções da OpenAI simuladas com `side_effect` |
 | Comando | `test_commands.py` | Com `timezone.localdate` simulado: no último dia gera para todos os ativos com a análise ativada; em outro dia não faz nada; ignora inativos e desativados; é idempotente; `--month` aceita mês encerrado e recusa o corrente e futuros; `--user`; falha sem chave |
 | View | `test_views.py` | POST exige login; GET retorna 405; mensagens de cada resultado; POST em dia qualquer do mês gera a análise; com a análise do mês concluída, não chama o LLM |
-| Dashboard | `test_views.py` | Cada estado da seção 14.7.3 renderiza os textos em pt-BR; botão ausente com a análise do mês concluída; seletor com as análises concluídas em ordem decrescente; `?analise=` válido, inválido e de outro usuário; sem chave o bloco não aparece |
+| Dashboard | `test_dashboard.py` | Cada estado da seção 14.7.3 renderiza os textos em pt-BR; botão ausente com a análise do mês concluída; seletor com as análises concluídas em ordem decrescente; `?analise=` válido, inválido e de outro usuário; sem chave o bloco não aparece; número de queries de `dashboard_analysis_context` |
 | Perfil | `profiles/tests.py` | O form salva `ai_analysis_enabled`; novos usuários têm `True` por padrão |
 
 Meta: cobertura ≥ 90% na app `ai` e suíte completa sem falhas.
